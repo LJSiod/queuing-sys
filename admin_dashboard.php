@@ -63,9 +63,6 @@ include 'header.php';
     
 </head>
 <body>
-    <div class="alert alert-success d-none" id="notify">
-        <strong>Success!</strong> Indicates a successful or positive action.
-    </div>
     <div class="container-fluid mt-3">
         <div class="br-pagebody">
             <div class="row" id="queuetable">
