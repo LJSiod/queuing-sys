@@ -1,0 +1,133 @@
+2024-12-04 09:24:08 - User logged in: kim
+2024-12-04 09:25:30 - User logged in: Kim Sabalo
+2024-12-04 09:25:50 - User logged in: Mae Demetais
+2024-12-04 01:32:37 - 3507 Served by: Mae Demetais
+2024-12-04 01:33:17 - Cash on Hand Received by: Mae Demetais
+2024-12-04 09:37:54 - User logged in: BANSALAN
+2024-12-04 10:01:36 - User logged in: Kim Sabalo
+2024-12-04 02:07:35 - 3508 Served by: Kim Sabalo
+2024-12-04 02:08:03 - 3508 Served by: Kim Sabalo
+2024-12-04 02:09:33 - 3508 Served by: Kim Sabalo
+2024-12-04 10:37:27 - User logged in: Kim Sabalo
+2024-12-04 10:39:30 - User logged in: BANSALAN
+2024-12-04 10:44:05 - User logged in: Kim Sabalo
+2024-12-04 02:57:31 - 4236 Served by: Kim Sabalo
+2024-12-04 11:16:06 - User logged in: Mae Demetais
+2024-12-04 11:17:21 - User logged in: Kim Sabalo
+2024-12-04 11:59:58 - User logged in: Kim Sabalo
+2024-12-04 13:06:18 - User logged in: Kim Sabalo
+2024-12-04 16:23:00 - User logged in: Mae Demetais
+2024-12-04 16:39:22 - User logged in: MLANG
+2024-12-05 08:08:51 - User logged in: Kim Sabalo
+2024-12-05 08:51:01 - User logged in: Kim Sabalo
+2024-12-05 08:52:47 - User logged in: Kim Sabalo
+2024-12-05 08:53:34 - User logged in: MLANG
+2024-12-05 09:20:59 - User logged in: Kim Sabalo
+2024-12-05 10:26:48 - User logged in: Kim Sabalo
+2024-12-05 10:48:01 - User logged in: Kim Sabalo
+2024-12-05 11:36:07 - User logged in: MLANG
+2024-12-05 11:36:45 - User logged in: Mae Demetais
+2024-12-05 14:35:54 - User logged in: Master Dev
+2024-12-05 15:28:35 - User logged in: Kim Sabalo
+2024-12-05 15:57:29 - User logged in: MLANG
+2024-12-05 16:34:05 - User logged in: BANSALAN
+2024-12-06 09:24:18 - User logged in: MLANG
+2024-12-06 12:48:24 - User logged in: BANSALAN
+2024-12-06 12:48:43 - User logged in: MLANG
+2024-12-06 13:39:21 - User logged in: Kim Sabalo
+2024-12-06 13:40:10 - User logged in: MLANG
+2024-12-06 13:40:48 - User logged in: Kim Sabalo
+2024-12-06 13:59:00 - User logged in: Kim Sabalo
+2024-12-06 14:08:43 - User logged in: PIGCAWAYAN
+2024-12-06 14:12:31 - User logged in: MLANG
+2024-12-06 14:14:05 - User logged in: MLANG
+2024-12-06 14:20:17 - User logged in: MLANG
+2024-12-06 14:22:38 - User logged in: PIGCAWAYAN
+2024-12-06 14:24:09 - User logged in: PIGCAWAYAN
+2024-12-06 14:34:56 - User logged in: PIGCAWAYAN
+2024-12-06 14:58:49 - User logged in: PIGCAWAYAN
+2024-12-06 15:03:40 - User logged in: Kim Sabalo
+2024-12-06 15:06:37 - User logged in: Master Dev
+2024-12-06 15:08:08 - User logged in: KIDAPAWAN
+2024-12-06 15:09:27 - User logged in: Kim Sabalo
+2024-12-06 15:17:14 - 1361 Note Updated by: Kim Sabalo
+2024-12-06 15:17:33 - 1361 Note Updated by: Kim Sabalo
+2024-12-06 15:18:26 - User logged in: MLANG
+2024-12-06 15:22:38 - User logged in: Kim Sabalo
+2024-12-06 15:49:01 - 1362 Note Updated by: Kim Sabalo
+2024-12-06 15:49:15 - 1361 Note Updated by: Kim Sabalo
+2024-12-06 15:49:28 - 1361 Note Updated by: Kim Sabalo
+2024-12-06 16:01:52 - User logged in: MLANG
+2024-12-06 16:09:07 - User logged in: BANSALAN
+2024-12-06 16:12:30 - User logged in: BANSALAN
+2024-12-06 17:15:38 - User logged in: Kim Sabalo
+2024-12-07 08:30:51 - User logged in: Kim Sabalo
+2024-12-09 10:08:07 - User logged in: Kim Sabalo
+2024-12-09 13:07:21 - User logged in: CABANTIAN
+2024-12-09 14:58:03 - User logged in: Kim Sabalo
+2024-12-09 15:56:32 - User logged in: Kim Sabalo
+2024-12-10 09:02:04 - User logged in: Kim Sabalo
+2024-12-10 10:43:45 - User logged in: Kim Sabalo
+2024-12-10 03:24:44 - 4234 Cash on Hand Received by: Kim Sabalo
+2024-12-10 03:27:53 - 4235 Cash on Hand Received by: Kim Sabalo
+2024-12-10 11:28:08 - 4238 Served by: Kim Sabalo
+2024-12-10 03:28:10 - 4238 Cash on Hand Received by: Kim Sabalo
+2024-12-10 11:28:15 - 4237 Served by: Kim Sabalo
+2024-12-10 03:28:17 - 4237 Cash on Hand Received by: Kim Sabalo
+2024-12-10 11:29:08 - 4240 Served by: Kim Sabalo
+2024-12-10 03:29:10 - 4240 Cash on Hand Received by: Kim Sabalo
+2024-12-10 11:29:38 - 4239 Served by: Kim Sabalo
+2024-12-10 03:29:41 - 4239 Cash on Hand Received by: Kim Sabalo
+2024-12-10 11:34:34 - 4241 Served by: Kim Sabalo
+2024-12-10 03:38:00 - 4241 Cash on Hand Received by: Kim Sabalo
+2024-12-10 11:41:04 - 4242 Served by: Kim Sabalo
+2024-12-10 11:41:13 - Cash on Hand Declined by: Kim Sabalo
+2024-12-10 11:42:14 - 4244 Served by: Kim Sabalo
+2024-12-10 12:50:41 - User logged in: Kim Sabalo
+2024-12-10 13:09:59 - User logged in: BANSALAN
+2024-12-10 13:30:45 - User logged in: Kim Sabalo
+2024-12-10 13:40:19 - 4243 Served by: Kim Sabalo
+2024-12-10 13:44:46 - 4245 Served by: Kim Sabalo
+2024-12-10 13:45:42 - 4246 Served by: Kim Sabalo
+2024-12-10 13:54:41 - 4246 Note Updated by: Kim Sabalo
+2024-12-10 13:55:52 - User logged in: BANSALAN
+2024-12-10 14:14:57 - User logged in: Kim Sabalo
+2024-12-10 16:20:20 - User logged in: BANSALAN
+2024-12-10 16:41:50 - User logged in: Kim Sabalo
+2024-12-10 16:42:56 - User logged in: Kim Sabalo
+2024-12-10 16:43:43 - 4251 Served by: Kim Sabalo
+2024-12-10 16:49:24 - 4247 Served by: Kim Sabalo
+2024-12-15 08:08:45 - 4248 Served by: Kim Sabalo
+2024-12-15 09:04:33 - 4252 Served by: Kim Sabalo
+2024-12-15 09:05:52 - 4259 Served by: Kim Sabalo
+2024-12-15 13:58:24 - 4254 Served by: Kim Sabalo
+2024-12-21 10:53:11 - 4285 Served by: Kim Sabalo
+2024-12-21 10:53:57 - 4282 Served by: Kim Sabalo
+2024-12-21 10:58:08 - 4249 Served by: Kim Sabalo
+2024-12-21 11:29:21 - 4284 Served by: Kim Sabalo
+2024-12-21 11:32:01 - 4283 Served by: Kim Sabalo
+2024-12-21 11:32:35 - 4255 Served by: Kim Sabalo
+2024-12-21 16:09:50 - 4250 Served by: Kim Sabalo
+2024-12-21 16:10:05 - 4253 Served by: Kim Sabalo
+2024-12-21 16:10:08 - 4257 Served by: Kim Sabalo
+2024-12-21 16:10:18 - 4256 Served by: Kim Sabalo
+2024-12-27 10:16:02 - User logged in: kim
+2024-12-27 13:23:52 - User logged in: kim
+2024-12-27 14:21:07 - User logged in: kim
+2024-12-27 14:45:45 - User logged in: kim
+2024-12-28 08:56:52 - User logged in: kim
+2024-12-28 08:59:11 - User logged in: kim
+2024-12-28 08:59:32 - User logged in: kim
+2024-12-28 08:59:32 - User logged in: kim
+2024-12-28 08:59:32 - User logged in: kim
+2024-12-28 11:57:44 - User logged in: kim
+2024-12-28 12:48:53 - User logged in: kim
+2024-12-28 15:05:27 - User logged in: neocashbansalan@gmail.com
+2024-12-28 15:21:04 - User logged in: kim
+2024-12-30 07:53:09 - User logged in: kim
+2024-12-30 11:03:02 - User logged in: KIM
+2024-12-30 11:34:56 - User logged in: kim
+2024-12-30 11:39:05 - User logged in: neocashmati@gmail.com
+2024-12-30 11:39:46 - User logged in: kim
+2024-12-30 11:44:13 - User logged in: kim
+2024-12-30 12:56:40 - User logged in: kim
