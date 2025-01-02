@@ -61,7 +61,6 @@ $currentdate = date('Y-m-d');
                 <div class="sticky-top bg-white" style="z-index: 100;">
                     <h6 class="font-weight-bold">Counter 1</h6>
                     <p class="font-weight-bold"> Kim Sabalo </p>
-                    <!-- <i class="fa fa-circle" id="active1" style="font-size:12px;"></i> -->
                         <hr>
                     <p class="small">Now Serving: </p>
                 </div>
@@ -74,7 +73,6 @@ $currentdate = date('Y-m-d');
                 <div class="sticky-top bg-white" style="z-index: 100;">
                         <h6 class="font-weight-bold">Counter 2</h6>
                     <p class="font-weight-bold"> Mae Demetais</p>
-                    <!-- <i class="fa fa-circle" id="active2" style="font-size:12px;"></i> -->
                         <hr>
                     <p class="small">Now Serving: </p>
                 </div>
