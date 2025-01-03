@@ -110,9 +110,11 @@ $currentdate = date('Y-m-d');
         });
 
         $(document).ready(function() {
+        
         $(document).on('contextmenu',function(e) {
             e.preventDefault();
         });
+
         $(document).on('contextmenu', '#notes tbody tr', function(e) {
             e.preventDefault();
             $('#actiondropdown').remove();
@@ -132,6 +134,7 @@ $currentdate = date('Y-m-d');
                 menu.remove();
             });
         });
+        
         loadRecords()
         function loadRecords() {
             var filterdate = $('#filterdate').val();

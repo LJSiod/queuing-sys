@@ -177,7 +177,6 @@ $(document).ready(function() {
     }
 });
 
-
     function loadoveralltotal() {
       $.ajax({
         url: 'dailyrunningcollection.php',
@@ -189,7 +188,6 @@ $(document).ready(function() {
         }
       });
     }
-
 
     $('#editprofileform').submit(function(event) {
       event.preventDefault(); 

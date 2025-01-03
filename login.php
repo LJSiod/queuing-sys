@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($result) == 1) {
-        $logger->log('User logged in: ' . $username);
         $user = mysqli_fetch_assoc($result);
+        $logger->log('User logged in: ' . $user['fullname']);
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['branch_id'] = $user['branchid'];
         $_SESSION['username'] = $user['username'];

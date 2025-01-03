@@ -191,6 +191,7 @@ include 'header.php';
             console.log(rowData);
             var id = rowData[0]; 
             var served = rowData[1];
+            var branchid = rowData[2];
             var menu = $('<div class="dropdown-menu small removedrop" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + (served == '<?php echo $_SESSION['user_id']; ?>' ? '<a class="dropdown-item small" href="#" id="receive"><i class="fa fa-check-circle text-success" aria-hidden="true"></i> <span>Accomplished: Received</span></a>' : '<a class="dropdown-item small disabled" href="#" id="receive"><i class="fa fa-lock text-secondary dont" aria-hidden="true"></i> <span class="ml-2">Restricted</span></a>')
                         + (served == '<?php echo $_SESSION['user_id']; ?>' ? '<a class="dropdown-item small" href="#" id="decline"><i class="fa fa-times-circle text-danger" aria-hidden="true"></i> Accomplished: Declined</a>' : '')
@@ -222,7 +223,7 @@ include 'header.php';
                   $.ajax({
                     url: 'receive.php',
                     method: 'POST',
-                    data: {id: id, note: note},
+                    data: {id: id, note: note, branchid: branchid},
                     success: function() {
                       swal({
                         title: "Received",
