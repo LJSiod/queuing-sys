@@ -22,9 +22,7 @@ $total2 = $rowsum2['total2'];
 $total2 = number_format($total2, 2);
 $overalltotal = $rowsum1['total1'] + $rowsum2['total2'];
 $overalltotal = number_format($overalltotal, 2);
-?>
 
-<?php 
 header("Content-Type: application/json");
 echo json_encode([
     'overalltotal' => $overalltotal,

@@ -266,7 +266,7 @@ $branch_id = $_SESSION['branch_id'];
              var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
              var diffMonths = diffMonths - 1;
              var accinterest = (loanamount * 0.06) * diffMonths;
-             $('#accinterest').val(accinterest.toFixed(2));
+             $('#accinterest').val(accinterest.toLocaleString('en-US', {minimumFractionDigits: 2}));
              if (accinterest == "NaN") {
                  $('#accinterest').val("0.00"); 
              }
@@ -276,7 +276,7 @@ $branch_id = $_SESSION['branch_id'];
             var remainingbalance = parseFloat($('#remainingbalance').val());
             var accinterest = parseFloat($('#accinterest').val());
             var totalbalance = remainingbalance + accinterest;
-            $('#totalbalance').val(totalbalance.toFixed(2));
+            $('#totalbalance').val(totalbalance.toLocaleString('en-US', {minimumFractionDigits: 2}));
         });
 
         $('#queueform').submit(function(e) {

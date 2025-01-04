@@ -252,6 +252,8 @@ $(document).ready(function() {
         setTimeout(updateTimer, 1000);
     };
     updateTimer();
+
+    
   </script>
 </body>
 </html>
