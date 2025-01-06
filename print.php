@@ -135,11 +135,7 @@ $row = mysqli_fetch_assoc($result);
             <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="<?php echo $row['attachname']; ?>" alt="File Thumbnail">
             <div class="text-right">
                 <button class="btn btn-sm btn-primary d-print-none" onclick="window.print();">Print</button>
-                <?php if ($branch_id == 8) { ?>
-                <a href="admin_dashboard.php" class="btn btn-sm btn-danger d-print-none">Close</a>
-                <?php } else { ?>
-                <a href="branch_dashboard.php" class="btn btn-sm btn-danger d-print-none">Close</a>
-                <?php } ?>
+                <a href="dashboard.php" class="btn btn-sm btn-danger d-print-none">Close</a>
             </div>
         </div>
     </div>

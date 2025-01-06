@@ -140,11 +140,7 @@ $branch_id = $_SESSION['branch_id'];
             </div>
             <div class="text-right">
                 <button type="submit" id="queuesubmit" class="btn btn-sm btn-primary mt-1">Add Queue</button>
-                <?php if ($branch_id == 8) { ?>
-                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.location.href = 'admin_dashboard.php';">Close</button>
-                <?php } else { ?>
-                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.location.href = 'branch_dashboard.php';">Close</button>
-                <?php } ?>
+                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.location.href = 'dashboard.php';">Close</button>
             </div>
         </form>
         </div>

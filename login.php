@@ -31,12 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $counters[] = array('userid' => $row['userid'], 'fullname' => $row['fullname']);
         }
         $_SESSION['counterid'] = $counters;
-
-        if ($user['role'] == 'ADMINISTRATOR') {
-            header("Location: admin_dashboard.php");
-        } else {
-            header("Location: branch_dashboard.php");
-        }
+        header("Location: dashboard.php");
         exit();
     } else {
         $error = "Invalid Credentials.";

@@ -16,7 +16,7 @@ $ql = $_POST['id'];
 $query = "UPDATE queueinfo SET status = 'IN QUEUE', servedby = '$id' WHERE id = $ql";
 
 if (mysqli_query($conn, $query)) {
-    header("Location: admin_dashboard.php");
+    header("Location: dashboard.php");
     $logger->log($ql . ' Returned to Queue by: ' . $fullname);
     exit();
 } else {

@@ -18,7 +18,7 @@ $query = "UPDATE queueinfo SET cashonhandstatus = 'RECEIVED', status = 'DONE', n
 
 if (mysqli_query($conn, $query)) {
     $logger->log($branchid);
-    header("Location: admin_dashboard.php");
+    header("Location: dashboard.php");
     exit();
 } else {
     echo "Error Serving: " . mysqli_error($conn);

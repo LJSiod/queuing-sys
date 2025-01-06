@@ -15,7 +15,7 @@ $username = $_POST['username'];
 $query = "UPDATE users SET username = '$username' WHERE id = $id";
 
 if (mysqli_query($conn, $query)) {
-    header("Location: admin_dashboard.php");
+    header("Location: dashboard.php");
     $logger->log('Username Updated to ' . $username . ' by: ' . $fullname);
     exit();
 } else {

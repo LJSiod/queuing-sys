@@ -15,7 +15,7 @@ $password = $_POST['password'];
 $query = "UPDATE users SET password = '$password' WHERE id = $id";
 
 if (mysqli_query($conn, $query)) {
-    header("Location: admin_dashboard.php");
+    header("Location: dashboard.php");
     $logger->log('Password Updated to ' . $password . ' by: ' . $fullname);
     exit();
 } else {
