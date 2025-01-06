@@ -9,6 +9,7 @@ if (!isset($_SESSION['branch_id'])) {
     exit();
 }
 
+$available_counters = $_SESSION['counterid'];
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
@@ -55,32 +56,32 @@ $currentdate = date('Y-m-d');
 <body>
     <div class="container-fluid mt-3">
         <div class="br-pagebody">
-            <div class="row" id="queuetable">
-            <div class="col-md-6">
-            <div class="br-section-wrapper counter mt-3">
-                <div class="sticky-top bg-white" style="z-index: 100;">
-                    <h6 class="font-weight-bold">Counter 1</h6>
-                    <p class="font-weight-bold"> Kim Sabalo </p>
-                        <hr>
-                    <p class="small">Now Serving: </p>
-                </div>
-                <table class="table table-hover table-sm mt-3" id="queue-table1"> 
-                </table>
-            </div>
-            </div>
-            <div class="col-md-6">
-            <div class="br-section-wrapper counter mt-3">
-                <div class="sticky-top bg-white" style="z-index: 100;">
-                        <h6 class="font-weight-bold">Counter 2</h6>
-                    <p class="font-weight-bold"> Mae Demetais</p>
-                        <hr>
-                    <p class="small">Now Serving: </p>
-                </div>
-                <table class="table table-hover table-sm mt-3" id="queue-table2"> 
-                </table>
-            </div>
-            </div>
-            </div>
+                <?php
+                echo '<div class="row" id="queuetable">';
+                foreach ($available_counters as $counter) {
+                    $id = $counter['userid'];
+                    $fullname = $counter['fullname'];
+                    $colClass = (count($available_counters) === 1) ? 'col-md' : 'col-md-4';
+                    echo '<div class="' . $colClass . '" id="c' . $id . '">
+                        <div class="br-section-wrapper counter mt-3" id="counter' . $id . '">
+                            <div class="sticky-top bg-white" style="z-index: 100;">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="font-weight-bold">Counter ' . $id . '</h6>
+                                    <span class="small">Running Collection: <strong><span id="c' . $id . 'running"></span></strong></span>
+                                </div>
+                                <p class="font-weight-bold"></i> ' . $fullname . '</p>
+                                <hr>
+                                <p class="small">Now Serving: </p>
+                            </div>
+                            <table class="table table-hover table-sm mt-3" id="queue-table' . $id . '"> 
+                            </table>
+                        </div>
+                    </div>';
+                }
+
+                echo '</div>';
+            ?>
+
         <div class="br-section-wrapper queue mt-3">
         <h6><strong>Queues</strong></h6>
         <table id="ticket-table" class="table table-hover table-sm mt-3" style="width: 100%;">

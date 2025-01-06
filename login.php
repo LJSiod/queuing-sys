@@ -5,12 +5,10 @@ include 'logger.php';
 date_default_timezone_set('Asia/Manila');
 $_SESSION['version'] = '2.0.4';
 
-// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Protect against SQL injection by using prepared statements
     $query = "SELECT * FROM users WHERE username=? AND password=?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, 'ss', $username, $password);
@@ -26,7 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['role'] = $user['role'];
         $_SESSION['fullname'] = $user['fullname'];
 
-        // Redirect to the appropriate dashboard
+        $checkcounter = "SELECT DISTINCT b.userid, u.fullname FROM branch b LEFT JOIN users u ON b.userid = u.id WHERE b.userid IS NOT NULL";
+        $result = mysqli_query($conn, $checkcounter);
+        $counters = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+            $counters[] = array('userid' => $row['userid'], 'fullname' => $row['fullname']);
+        }
+        $_SESSION['counterid'] = $counters;
+
         if ($user['role'] == 'ADMINISTRATOR') {
             header("Location: admin_dashboard.php");
         } else {
