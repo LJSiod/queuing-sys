@@ -8,6 +8,7 @@ if (!isset($_SESSION['branch_id'])) {
     exit();
 }
 
+$available_counters = $_SESSION['counterid'];
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');

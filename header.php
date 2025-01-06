@@ -40,7 +40,7 @@ $overalltotal = $_SESSION['overalltotal'];
 </head>
 <body>
   <nav class="navbar navbar-expand-lg sticky-top bg-light navbar-light d-print-none">
-    <a class="navbar-brand small" href="<?php echo ($branchid == 8) ? 'admin_dashboard.php' : 'branch_dashboard.php'; ?>">
+    <a class="navbar-brand small" href="dashboard.php">
     <img src="image/Neologo.png" width="30" height="30" class="d-inline-block align-top" alt="">
     <strong>NEOCASH</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -185,6 +185,8 @@ $(document).ready(function() {
           $('#profiletotal').html("₱" + data.overalltotal);
           $('#c1running').html(data.total1);
           $('#c2running').html(data.total2);
+          $('#c3running').html(data.total3);
+          $('#c4running').html(data.total4);
         }
       });
     }

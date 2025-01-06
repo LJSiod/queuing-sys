@@ -42,11 +42,13 @@ $currentdate = date('Y-m-d');
 
         .queue {
             max-width: 100%;
-            max-height: 540px;
+            height: 450px;
+            max-height: 530px;
             overflow: auto;
         }
 
         .counter {
+            height: 295px;
             max-height: 295px;
             overflow: auto;
         }
@@ -62,13 +64,14 @@ $currentdate = date('Y-m-d');
                 foreach ($available_counters as $counter) {
                     $id = $counter['userid'];
                     $fullname = $counter['fullname'];
-                    $colClass = (count($available_counters) === 1) ? 'col-md' : 'col-md-4';
+                    $colClass = 'col-md';
+
                     echo '<div class="' . $colClass . '" id="c' . $id . '">
                         <div class="br-section-wrapper counter mt-3" id="counter' . $id . '">
                             <div class="sticky-top bg-white" style="z-index: 100;">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="font-weight-bold">Counter ' . $id . '</h6>
-                                    <span class="small">Running Collection: <strong><span id="c' . $id . 'running"></span></strong></span>
+                                    ' . ($branchid == 8 ? '<span class="small">Running Collection: <strong><span id="c' . $id . 'running"></span></strong></span>' : '') . '
                                 </div>
                                 <p class="font-weight-bold"></i> ' . $fullname . '</p>
                                 <hr>

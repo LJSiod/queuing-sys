@@ -1,29 +1,26 @@
 <script>
 $(document).ready(function() {
         loadTickets();
-        loadQ1();
-        loadQ2();
-        setInterval(function() { loadTickets(); loadQ1(); loadQ2(); }, 5000);
-
-        function loadQ1() {
+        <?php foreach ($available_counters as $counter) { ?>
+        loadQ<?php echo $counter['userid']; ?>();
+        <?php } ?>
+        setInterval(function() { 
+          loadTickets();
+          <?php foreach ($available_counters as $counter) { ?>
+          loadQ<?php echo $counter['userid']; ?>();
+          <?php } ?>
+        }, 5000);
+        <?php foreach ($available_counters as $counter) { ?>
+        function loadQ<?php echo $counter['userid']; ?>() {
             $.ajax({
-                url: 'queue1.php',
+                url: 'counter' + <?php echo $counter['userid']; ?> + '.php',
                 method: 'GET',
                 success: function(data) {
-                    $('#queue-table1').html(data);
+                    $('#queue-table' + <?php echo $counter['userid']; ?>).html(data);
                 }
             });
         }
-
-        function loadQ2() {
-            $.ajax({
-                url: 'queue2.php',
-                method: 'GET',
-                success: function(data) {
-                    $('#queue-table2').html(data);
-                }
-            });
-        } 
+        <?php } ?>
 
         function loadTickets() {
             $.ajax({
@@ -152,6 +149,8 @@ $(document).ready(function() {
                         loadTickets(); 
                         loadQ1();
                         loadQ2();
+                        loadQ3();
+                        loadQ4();
                     }
                 });
             });
@@ -194,6 +193,8 @@ $(document).ready(function() {
                         loadTickets(); 
                         loadQ1();
                         loadQ2();
+                        loadQ3();
+                        loadQ4();
                     }
                 });
                 menu.remove();

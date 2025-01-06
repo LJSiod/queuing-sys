@@ -254,26 +254,26 @@ $branch_id = $_SESSION['branch_id'];
 
       //END NEW DRAG AND DROP
 
-         $('#loanamount, #maturitydate').change(function(){
-             var loanamount = $('#loanamount').val();
-             var maturitydate = $('#maturitydate').val();
-             var today = new Date();
-             var diffTime = Math.abs(today - new Date(maturitydate));
-             var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
-             var diffMonths = diffMonths - 1;
-             var accinterest = (loanamount * 0.06) * diffMonths;
-             $('#accinterest').val(accinterest.toLocaleString('en-US', {minimumFractionDigits: 2}));
-             if (accinterest == "NaN") {
-                 $('#accinterest').val("0.00"); 
-             }
-         });
+      $('#loanamount, #maturitydate').change(function(){
+          var loanamount = parseFloat($('#loanamount').val());
+          var maturitydate = $('#maturitydate').val();
+          var today = new Date();
+          var diffTime = Math.abs(today - new Date(maturitydate));
+          var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
+          var diffMonths = diffMonths - 1;
+          var accinterest = (loanamount * 0.06) * diffMonths;
+          $('#accinterest').val(accinterest.toLocaleString('en-US', {minimumFractionDigits: 2}));
+          if (isNaN(accinterest)) {
+              $('#accinterest').val("0.00"); 
+          }
+      });
 
-        $('#remainingbalance, #maturitydate').change(function(){
-            var remainingbalance = parseFloat($('#remainingbalance').val());
-            var accinterest = parseFloat($('#accinterest').val());
-            var totalbalance = remainingbalance + accinterest;
-            $('#totalbalance').val(totalbalance.toLocaleString('en-US', {minimumFractionDigits: 2}));
-        });
+      $('#remainingbalance, #maturitydate').change(function(){
+          var remainingbalance = parseFloat($('#remainingbalance').val().replace(/,/g, ''));
+          var accinterest = parseFloat($('#accinterest').val().replace(/,/g, ''));
+          var totalbalance = remainingbalance + accinterest;
+          $('#totalbalance').val(totalbalance.toLocaleString('en-US', {minimumFractionDigits: 2}));
+      });
 
         $('#queueform').submit(function(e) {
           if ($('#file').val() == '') {
@@ -288,8 +288,6 @@ $branch_id = $_SESSION['branch_id'];
           e.preventDefault();
           var formData = new FormData(this);
           var branchId = <?php echo $branch_id; ?>;
-          var adminDashboardUrl = "admin_dashboard.php";
-          var branchDashboardUrl = "branch_dashboard.php";
           $.ajax({
             type: 'POST',
             url: 'upload.php',
@@ -313,11 +311,7 @@ $branch_id = $_SESSION['branch_id'];
                 buttons: false,
                 timer: 1500
               }).then(function() {
-                if (branchId == 8) {
-                  window.location.href = adminDashboardUrl;
-                } else {
-                  window.location.href = branchDashboardUrl;
-                }
+                window.location.href = "dashboard.php";
               });
             },
             error: function(xhr, status, error) {
