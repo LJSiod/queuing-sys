@@ -18,22 +18,21 @@ $resultdaily = mysqli_query($conn, $querydaily);
 $rowdaily = mysqli_fetch_assoc($resultdaily);
 ?>
 
-  <tbody>
-    <tr>
-        <td class="font-weight-bold small">Amount Overall</td>
-        <td class="font-weight-bold text-right small"><?php echo number_format($row['total'], 2); ?></td>
-    </tr>
-    <tr>
-        <td class="font-weight-bold small">Amount Daily</td>
-        <td class="font-weight-bold text-right small"><?php echo number_format($rowdaily['total'], 2); ?></td>
-    </tr>
-    <tr>
-        <td class="font-weight-bold small">Paid Overall</td>
-        <td class="font-weight-bold text-right small"><?php echo $row['paid']; ?></td>
-    </tr>
-
-    <tr>
-        <td class="font-weight-bold small">Paid Daily</td>
-        <td class="font-weight-bold text-right small"><?php echo $rowdaily['paid']; ?></td>
-    </tr>
-  </tbody>
+<tbody>
+  <tr>
+      <td class="font-weight-bold small">Amount Overall <span class="small text-info"><i><u>(From November 10, 2024)</u></i></span></td>
+      <td class="font-weight-bold text-right small"><?php echo number_format($row['total'], 2); ?></td>
+  </tr>
+  <tr>
+      <td class="font-weight-bold small">Amount Daily</td>
+      <td class="font-weight-bold text-right small"><?php echo number_format($rowdaily['total'], 2); ?></td>
+  </tr>
+  <tr>
+      <td class="font-weight-bold small">Paid Overall</td>
+      <td class="font-weight-bold text-right small"><?php echo $row['paid']; ?></td>
+  </tr>
+  <tr>
+      <td class="font-weight-bold small">Paid Daily</td>
+      <td class="font-weight-bold text-right small"><?php echo $rowdaily['paid']; ?></td>
+  </tr>
+</tbody>

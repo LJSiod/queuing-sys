@@ -145,7 +145,7 @@ $maturitydate = date('Y-m-d', strtotime($row['maturitydate']));
             </div>
             <div class="text-right">
                 <button type="submit" id="queuesubmit" class="btn btn-sm btn-primary mt-1">Save Changes</button>
-                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.location.href = 'branch_dashboard.php';">Close</button>
+                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.location.href = 'dashboard.php';">Close</button>
             </div>
         </form>
         </div>
@@ -332,7 +332,7 @@ $maturitydate = date('Y-m-d', strtotime($row['maturitydate']));
                 buttons: false,
                 timer: 1500
               }).then(function() {
-                window.location.href = "branch_dashboard.php";
+                window.location.href = "dashboard.php";
               });
             },
             error: function(xhr, status, error) {

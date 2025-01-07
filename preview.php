@@ -227,7 +227,6 @@ if (mysqli_num_rows($result) > 0) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
-    
     <script>
             var imageModal = document.getElementById('modalImage');
             imageModal.addEventListener("wheel", function(e) {
@@ -339,7 +338,7 @@ if (mysqli_num_rows($result) > 0) {
                         buttons: false,
                         timer: 1500
                     }).then(function() {
-                        window.location.href = 'admin_dashboard.php';
+                        window.location.href = 'dashboard.php';
                     });
                 }
             });
@@ -360,7 +359,7 @@ if (mysqli_num_rows($result) > 0) {
                         buttons: false,
                         timer: 1500
                     }).then(function() {
-                        window.location.href = 'admin_dashboard.php';
+                        window.location.href = 'dashboard.php';
                     });
                 }
             });

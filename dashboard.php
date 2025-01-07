@@ -60,6 +60,7 @@ $currentdate = date('Y-m-d');
     <div class="container-fluid mt-3">
         <div class="br-pagebody">
             <?php
+            $counternumber = 1;
                 echo '<div class="row" id="queuetable">';
                 foreach ($available_counters as $counter) {
                     $id = $counter['userid'];
@@ -70,7 +71,7 @@ $currentdate = date('Y-m-d');
                         <div class="br-section-wrapper counter mt-3" id="counter' . $id . '">
                             <div class="sticky-top bg-white" style="z-index: 100;">
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="font-weight-bold">Counter ' . $id . '</h6>
+                                    <h6 class="font-weight-bold">Counter ' . $counternumber . '</h6>
                                     ' . ($branchid == 8 ? '<span class="small">Running Collection: <strong><span id="c' . $id . 'running"></span></strong></span>' : '') . '
                                 </div>
                                 <p class="font-weight-bold"></i> ' . $fullname . '</p>
@@ -81,8 +82,9 @@ $currentdate = date('Y-m-d');
                             </table>
                         </div>
                     </div>';
+                $counternumber++;
                 }
-
+                
                 echo '</div>';
             ?>
             <div class="br-section-wrapper queue mt-3"

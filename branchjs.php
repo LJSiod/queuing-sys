@@ -62,7 +62,7 @@ $(document).ready(function() {
             }).get();
             console.log(rowData);
             var id = rowData[0]; 
-            var branchid = rowData[1];
+            var branchid = rowData[2];
             var menu = $('<div class="dropdown-menu small removedrop" style="display:block; position:absolute; z-index:1000;">'
                         + (branchid == '<?php echo $_SESSION['branch_id']; ?>' ? '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>' : '<a class="dropdown-item small disabled" href="#" id="receive"><i class="fa fa-lock text-secondary" aria-hidden="true"></i> <span class="ml-2">Restricted</span></a>')
                         // + (branchid == '<?php echo $_SESSION['branch_id']; ?>' ? '<a class="dropdown-item small" href="edit.php?id=' + id + '" id="edit"><i class="fa fa-edit text-primary" aria-hidden="true"></i> Edit</a>' : '')

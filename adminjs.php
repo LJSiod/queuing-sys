@@ -168,7 +168,7 @@ $(document).ready(function() {
             }).get();
             console.log(rowData);
             var id = rowData[0]; 
-            var queueno = rowData[2];
+            var queueno = rowData[3];
             var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<span class="dropdown-item small">No.: <b class="small">' + queueno + '</b></span>'
                         + '<div class="dropdown-divider"></div>'
