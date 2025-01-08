@@ -10,7 +10,7 @@ if (!isset($_SESSION['branch_id'])) {
 }
 
 $date = $_GET['date'];
-$query = "SELECT qi.clientname, qi.cashonhand, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE date = '$date' AND cashonhandstatus = 'RECEIVED' ORDER BY qi.id DESC";
+$query = "SELECT qi.id, qi.clientname, qi.cashonhand, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE date = '$date' AND cashonhandstatus = 'RECEIVED' ORDER BY qi.id DESC";
 $querytotal = "SELECT SUM(cashonhand) as total FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' AND date = '$date'";
 $resulttotal = mysqli_query($conn, $querytotal);
 $rowtotal = mysqli_fetch_assoc($resulttotal);
@@ -42,19 +42,11 @@ $result = mysqli_query($conn, $query);
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.21);
         }
 
-        .queue {
+        .list {
             max-width: 100%;
-            max-height: 540px;
+            height: 88vh;
+            max-height: 88vh;
             overflow: auto;
-        }
-
-        .counter {
-            max-height: 295px;
-            overflow: auto;
-        }
-
-        .dont {
-            cursor: not-allowed;
         }
 
         p {
@@ -67,11 +59,11 @@ $result = mysqli_query($conn, $query);
 <body>
 
 <div class="br-pagebody">
-    <div class="br-section-wrapper">
+    <div class="br-section-wrapper list">
         <div class="d-flex justify-content-between">
             <h5 class="font-weight-bold"><?php echo date('F j, Y', strtotime($date)); ?></h5>
         </div>
-            <table class="table table-sm display responsive nowrap small">
+            <table class="table table-hover table-sm display responsive nowrap small">
                 <thead>
                     <tr>
                         <th>Branch</th>
@@ -85,23 +77,45 @@ $result = mysqli_query($conn, $query);
                     while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                         <tr>
+                            <td class="d-none"><?php echo $row['id']; ?></td>
                             <td><p class="label">Branch: </p><?php echo strtoupper($row['branchname']); ?></td>
                             <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
                             <td class="text-right"><p class="label">Amount: </p><?php echo number_format($row['cashonhand'], 2); ?></td>
                         </tr>
                     <?php } ?>
-                    <tr>
+                    <tr style="pointer-events: none;">
                         <td class="font-weight-bold">Total</td>
                         <td class="text-right font-weight-bold" colspan="2"><?php echo number_format($rowtotal['total'], 2); ?></td>
                     </tr>
                 </tbody>
             </table>
     </div>
+    <div class="d-flex mt-1 justify-content-end">
+        <button type="button" class="btn btn-sm btn-danger mt-1" onclick="window.history.back();">Close</button>
+    </div>
 </div>
 <script>
+    $(document).ready(function() {
+    $(document).on('click',function(e) {
+        $('.removedrop').remove();
+    });
     $(document).on('contextmenu',function(e) {
         e.preventDefault();
     });
+    $(document).on('contextmenu', 'tr', function(e) {
+        e.preventDefault();
+        $('.removedrop').remove();
+        var rowData = $(this).children('td').map(function() {
+            return $(this).text();
+        }).get();
+        console.log(rowData);
+        var id = rowData[0];
+        var menu = $('<div class="dropdown-menu removedrop" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
+                    + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
+                    + '</div>').appendTo('body');
+        menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
+    });
+});
 </script>
 </body>
 </html>

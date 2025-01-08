@@ -46,6 +46,10 @@ $currentdate = date('Y-m-d');
             overflow: auto;
         }
 
+        .top {
+            top: -25px;
+        }
+
     </style>
     
 </head>
@@ -70,7 +74,7 @@ $currentdate = date('Y-m-d');
                 </div>
                 </div>
                 <table id="notes" class="table table-hover table-sm mt-3" style="width: 100%;">
-                    <thead class="sticky-top">
+                    <thead class="sticky-top top">
                         <tr>
                             <th>No.</th>
                             <th>Branch</th>

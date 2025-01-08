@@ -55,6 +55,10 @@ $totaldemand = $rowtotal['sumcashonhand'];
             max-height: 90vh;
             overflow: auto;
         }
+
+        .top {
+            top: -25px;
+        }
     </style>
     
 </head>
@@ -79,7 +83,7 @@ $totaldemand = $rowtotal['sumcashonhand'];
                 </div>
                 </div>
                 <table id="records" class="table table-hover table-sm mt-3" style="width: 100%;">
-                    <thead class="sticky-top">
+                    <thead class="sticky-top top">
                         <tr>
                             <th>Queue no.</th>
                             <th>Branch</th>

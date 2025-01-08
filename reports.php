@@ -39,7 +39,7 @@ if (!isset($_SESSION['branch_id'])) {
             margin-top: 10px;
             margin-left: auto;
             margin-right: auto;
-            max-width: 1700px;
+            max-width: 1800px;
 
         }
 

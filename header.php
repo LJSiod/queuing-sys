@@ -60,7 +60,7 @@ $overalltotal = $_SESSION['overalltotal'];
         </li>
         <?php if ($role == 'ADMINISTRATOR') { ?>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="reports.php"><i class="fa fa-bar-chart text-danger" aria-hidden="true"></i> <strong>Reports</strong></a>
+          <a class="nav-link text-dark" href="reports.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
         </li>
         <?php } ?>
       </ul>
