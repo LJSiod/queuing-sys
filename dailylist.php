@@ -87,8 +87,8 @@ $branchname = mysqli_fetch_assoc($result)['branchname'];
                     while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                         <tr>
-                            <td><?php echo strtoupper($row['clientname']); ?></td>
-                            <td class="text-right"><?php echo number_format($row['cashonhand'], 2); ?></td>
+                            <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
+                            <td class="text-right"><p class="label">Amount: </p><?php echo number_format($row['cashonhand'], 2); ?></td>
                         </tr>
                     <?php } ?>
                     <tr>

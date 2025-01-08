@@ -30,8 +30,6 @@ $currentdate = date('Y-m-d');
             margin-left: auto;
             margin-right: auto;
             max-width: 1500px;
-            max-height: 87vh;
-            overflow: auto;
         }
 
         .br-section-wrapper {
@@ -41,13 +39,20 @@ $currentdate = date('Y-m-d');
             margin-right: 0px;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.21);
         }
+
+        .notediv {
+            height: 90vh;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
     </style>
     
 </head>
 <body>
     <div class="container-fluid mt-3">
         <div class="br-pagebody">
-            <div class="br-section-wrapper">
+            <div class="br-section-wrapper notediv">
                 <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-4">
                 <div style="display: flex; align-items: center;">
                     <div>
@@ -97,7 +102,6 @@ $currentdate = date('Y-m-d');
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/js/font-awesome.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>

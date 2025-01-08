@@ -9,13 +9,12 @@ if (!isset($_SESSION['branch_id'])) {
     exit();
 }
 
-$branchid = $_GET['branch'];
-$query = "SELECT qi.clientname, qi.cashonhand, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.branchid = $branchid AND cashonhandstatus = 'RECEIVED' ORDER BY qi.id DESC";
-$querytotal = "SELECT SUM(cashonhand) as total FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' AND branchid = '$branchid'";
+$date = $_GET['date'];
+$query = "SELECT qi.clientname, qi.cashonhand, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE date = '$date' AND cashonhandstatus = 'RECEIVED' ORDER BY qi.id DESC";
+$querytotal = "SELECT SUM(cashonhand) as total FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' AND date = '$date'";
 $resulttotal = mysqli_query($conn, $querytotal);
 $rowtotal = mysqli_fetch_assoc($resulttotal);
 $result = mysqli_query($conn, $query);
-$branchname = mysqli_fetch_assoc($result)['branchname'];
 ?>
 
 <!DOCTYPE html>
@@ -70,15 +69,14 @@ $branchname = mysqli_fetch_assoc($result)['branchname'];
 <div class="br-pagebody">
     <div class="br-section-wrapper">
         <div class="d-flex justify-content-between">
-            <h5 class="font-weight-bold">List Preview</h5>
-            <h5 class="font-weight-bold"><?php echo $branchname; ?> Branch</h5>
+            <h5 class="font-weight-bold"><?php echo date('F j, Y', strtotime($date)); ?></h5>
         </div>
             <table class="table table-sm display responsive nowrap small">
                 <thead>
                     <tr>
+                        <th>Branch</th>
                         <th>Client Name</th>
-                        <th>Date Paid</th>
-                        <th>Amount</th>   
+                        <th>Amount</th>
                     <tr>
                 </thead>
                 <tbody>
@@ -87,14 +85,14 @@ $branchname = mysqli_fetch_assoc($result)['branchname'];
                     while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                         <tr>
+                            <td><p class="label">Branch: </p><?php echo strtoupper($row['branchname']); ?></td>
                             <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
-                            <td class="text-right"><p class="label">Date Paid: </p><?php echo date('Y-m-d', strtotime($row['date'])); ?></td>
                             <td class="text-right"><p class="label">Amount: </p><?php echo number_format($row['cashonhand'], 2); ?></td>
                         </tr>
                     <?php } ?>
                     <tr>
-                        <td colspan="2" class="font-weight-bold">Total</td>
-                        <td class="text-right font-weight-bold"><?php echo number_format($rowtotal['total'], 2); ?></td>
+                        <td class="font-weight-bold">Total</td>
+                        <td class="text-right font-weight-bold" colspan="2"><?php echo number_format($rowtotal['total'], 2); ?></td>
                     </tr>
                 </tbody>
             </table>

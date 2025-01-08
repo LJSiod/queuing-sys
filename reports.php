@@ -108,7 +108,6 @@ if (!isset($_SESSION['branch_id'])) {
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
@@ -162,6 +161,21 @@ if (!isset($_SESSION['branch_id'])) {
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 
+        });
+
+        $('#history').on('contextmenu', 'tr', function(e) {
+            e.preventDefault();
+            $('.removedrop').remove();
+            var rowData = $(this).children('td').map(function() {
+                return $(this).text();
+            }).get();
+            var date = rowData[0];
+            console.log(date);
+            var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
+                        + '<a class="dropdown-item small" href="history.php?&date=' + date + '" id="list"><i class="fa fa-list text-info" aria-hidden="true"></i> Preview List</a>'
+                        + '</div>').appendTo('body');
+            menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
+            
         });
 
             function loaddaily() {

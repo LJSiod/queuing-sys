@@ -10,11 +10,9 @@ if (!isset($_SESSION['branch_id'])) {
 
 $available_counters = $_SESSION['counterid'];
 $id = $_SESSION['user_id'];
-$branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
 $query = "SELECT qi.id, qi.queueno, qi.servedby, qi.branchid, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE servedby = 4 AND status = 'SERVING' AND cashonhandstatus = 'PENDING'";
 $result = mysqli_query($conn, $query);
-
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)): ?>
         <thead>
@@ -31,6 +29,6 @@ if (mysqli_num_rows($result) > 0) {
         </tbody>
     <?php endwhile;
 } else {
-    echo '';
+    echo '<tr style="pointer-events: none;"><td colspan="9" class="text-center font-weight-bold"><h5>Counter Available</h5></td></tr>';
 }
 

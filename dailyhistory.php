@@ -31,9 +31,10 @@ $result = mysqli_query($conn, $query);
         
 <?php while($row = mysqli_fetch_assoc($result)) { ?>
     <tr class="<?php if ($row['date'] == $currentdate) { echo 'today'; } ?>">
-        <td class="small"><?php if ($row['date'] == $currentdate) { echo 'Today'; } else { echo date('M d, Y', strtotime($row['date'])); } ?></td>
-        <td class="text-right small"><?php echo number_format($row['totalperday'], 2); ?></td>
-        <td class="text-right small"><?php echo $row['paidperday']; ?></td>
+        <td class="d-none"><?php echo $row['date']; ?></td>
+        <td class="small"><p class="label">Date: </p><?php if ($row['date'] == $currentdate) { echo 'Today'; } else { echo date('M d, Y', strtotime($row['date'])); } ?></td>
+        <td class="text-right small"><p class="label">Amount: </p><?php echo number_format($row['totalperday'], 2); ?></td>
+        <td class="text-right small"><p class="label">Paid: </p><?php echo $row['paidperday']; ?></td>
     </tr>
 <?php } ?>
 </tbody>

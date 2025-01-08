@@ -29,9 +29,9 @@ $query = "SELECT b.id AS branchid, b.branchname, COALESCE(SUM(qi.cashonhand), 0)
       ?>
           <tr class="small">
               <td class="d-none"><?php echo $row['branchid']; ?></td>
-              <td><?php echo $row['branchname']; ?></td>
-              <td class="text-right"><?php echo number_format($row['total'], 2); ?></td>
-              <td class="text-right"><?php echo $row['paid']; ?></td>
+              <td><p class="label">Branch: </p><?php echo $row['branchname']; ?></td>
+              <td class="text-right"><p class="label">Amount: </p><?php echo number_format($row['total'], 2); ?></td>
+              <td class="text-right"><p class="label">Paid: </p><?php echo $row['paid']; ?></td>
           </tr>
       <?php endwhile; ?>
   </tbody>

@@ -19,7 +19,7 @@ if ($role == 'ADMINISTRATOR') {
 
 
 $result = mysqli_query($conn, $query);
-
+if (mysqli_num_rows($result) > 0) {
 while ($row = mysqli_fetch_assoc($result)): ?>
     <?php
     $date = date('Y-m-d', strtotime($row['date']));
@@ -43,5 +43,7 @@ while ($row = mysqli_fetch_assoc($result)): ?>
         <td><p class="label">Active Number: </p><?php echo $row['activenumber']; ?></td>
         <td><p class="label">Date: </p><?php echo date('F j, Y', strtotime($row['date'])); ?></td>  
     </tr>
-<?php endwhile; ?>
-
+<?php endwhile;
+} else { 
+    echo '<tr style="pointer-events: none;"><td colspan="9" class="text-center font-weight-bold"><h5>No Queues</h5></td></tr>'; 
+} ?>

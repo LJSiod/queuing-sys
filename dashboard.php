@@ -76,8 +76,8 @@ $currentdate = date('Y-m-d');
                                 </div>
                                 <p class="font-weight-bold"></i> ' . $fullname . '</p>
                                 <hr>
-                                <p class="small">Now Serving: </p>
                             </div>
+                            <p class="small">Now Serving: </p>
                             <table class="table table-hover table-sm mt-3" id="queue-table' . $id . '"> 
                             </table>
                         </div>
@@ -129,7 +129,6 @@ $currentdate = date('Y-m-d');
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <?php if ($branch_id == 8) {
     include 'adminjs.php';
     } else {

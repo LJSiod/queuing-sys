@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+$role = $_SESSION['role'];
 $name = $_SESSION['fullname'];
 $branchid = $_SESSION['branch_id'];
 $overalltotal = $_SESSION['overalltotal'];
@@ -57,11 +58,11 @@ $overalltotal = $_SESSION['overalltotal'];
         <li class="nav-item">
           <a class="nav-link text-dark" href="noterecords.php"><i class="fa fa-clipboard text-success" aria-hidden="true"></i> <strong>Notes</strong></a>
         </li>
-        <!-- <?php if ($branchid == 8) { ?>
+        <?php if ($role == 'ADMINISTRATOR') { ?>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="reports.php"><i class="fa fa-pie-chart text-danger" aria-hidden="true"></i> <strong>Reports</strong></a>
+          <a class="nav-link text-dark" href="reports.php"><i class="fa fa-bar-chart text-danger" aria-hidden="true"></i> <strong>Reports</strong></a>
         </li>
-        <?php } ?> -->
+        <?php } ?>
       </ul>
       <div class="d-flex align-items-center">
         <h6 class="mr-2 small"><b><?php echo date('l, F j, Y'); ?></b></h6>
@@ -152,6 +153,7 @@ $overalltotal = $_SESSION['overalltotal'];
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
   <script>
 
