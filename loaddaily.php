@@ -18,8 +18,8 @@ $query = "SELECT b.id AS branchid, b.branchname, COALESCE(SUM(qi.cashonhand), 0)
   <thead>
       <tr>
           <th>Branch</th>
-          <th>Amount</th>
-          <th>Paid</th>
+          <th>Amount Collected</th>
+          <th>No. of Accounts Settled</th>
       </tr>
   </thead>
   <tbody title="Right-Click to view list">

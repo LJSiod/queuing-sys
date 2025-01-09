@@ -76,13 +76,13 @@ $currentdate = date('Y-m-d');
                 <table id="notes" class="table table-hover table-sm mt-3" style="width: 100%;">
                     <thead class="sticky-top top">
                         <tr>
-                            <th>No.</th>
-                            <th>Branch</th>
-                            <th style="width: 200px;">Client Name</th>
-                            <th>Remarks</th>
-                            <th style="width: 300px;">Note</th>
-                            <th>Status</th>
-                            <th style="width: 80px;">Date</th>
+                            <th style="width: 5%;">No.</th>
+                            <th style="width: 5%;">Branch</th>
+                            <th style="width: 10%;">Client Name</th>
+                            <th style="width: 35%;">Remarks</th>
+                            <th style="width: 30%;">Note</th>
+                            <th style="width: 10%;">Status</th>
+                            <th style="width: 10%;">Date</th>
                         </tr>
                     </thead>
                     <tbody class="small" id="notetable">
@@ -134,7 +134,6 @@ $currentdate = date('Y-m-d');
             var id = rowData[0]; 
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
-                        + '<a class="dropdown-item small" href="#" onclick="location.reload();"><i class="fa fa-refresh text-success" aria-hidden="true"></i> Refresh</a>'
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 
@@ -142,36 +141,9 @@ $currentdate = date('Y-m-d');
                 menu.remove();
             });
         });
-        
-        loadRecords()
-        function loadRecords() {
-            var filterdate = $('#filterdate').val();
-            $.ajax({
-                url: 'loadnoterecords.php',
-                method: 'GET',
-                data: {filterdate: filterdate},
-                success: function(data) {
-                    $('#notetable').html(data);
-                }
-            });
-        }
 
-
-        $('#selectalldate').on('click', function() {
-                if ($(this).is(':checked')) {
-                    $('#filterdate').prop('disabled', true);
-                $.ajax({
-                    url: 'loadnoterecords.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#notetable').html(data);
-                    }
-                })
-                } else {
-                    $('#filterdate').prop('disabled', false);
-                    loadRecords();
-                    $('#filterdate').on('change', function() {
-                var filterdate = $(this).val();
+        function loadRecords(filterdate) {
+            if (filterdate) {
                 $.ajax({
                     url: 'loadnoterecords.php',
                     method: 'GET',
@@ -180,9 +152,44 @@ $currentdate = date('Y-m-d');
                         $('#notetable').html(data);
                     }
                 });
-            });
-        };
-    });
+            } else {
+                $.ajax({
+                    url: 'loadnoterecords.php',
+                    method: 'GET',
+                    success: function(data) {
+                        $('#notetable').html(data);
+                    }
+                });
+            }
+        }
+        
+        $('#selectalldate').on('click', function() {
+            if ($(this).is(':checked')) {
+                $('#filterdate').prop('disabled', true);
+                loadRecords();
+            } else {
+                $('#filterdate').prop('disabled', false);
+                var currentDate = $('#filterdate').val();
+                loadRecords(currentDate);
+            }
+        });
+        
+        $('#filterdate').on('change', function() {
+            var filterdate = $(this).val();
+            loadRecords(filterdate);
+        });
+        
+        var currentDate = $('#filterdate').val();
+        loadRecords(currentDate);
+        
+        setInterval(function() {
+            var filterdate = $('#filterdate').val();
+            if ($('#selectalldate').is(':checked')) {
+                loadRecords();
+            } else {
+                loadRecords(filterdate);
+            }
+        }, 10000);
 });
 
 </script>

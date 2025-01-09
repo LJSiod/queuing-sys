@@ -73,7 +73,7 @@ $branchname = mysqli_fetch_assoc($result)['branchname'];
                 <thead>
                     <tr>
                         <th>Client Name</th>
-                        <th>Date Paid</th>
+                        <th>Date Settled</th>
                         <th>Amount</th>   
                     <tr>
                 </thead>
@@ -85,7 +85,7 @@ $branchname = mysqli_fetch_assoc($result)['branchname'];
                         <tr>
                             <td class="d-none"><?php echo $row['id']; ?></td>
                             <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
-                            <td class="text-right"><p class="label">Date Paid: </p><?php echo date('Y-m-d', strtotime($row['date'])); ?></td>
+                            <td class="text-right"><p class="label">Date Settled: </p><?php echo date('Y-m-d', strtotime($row['date'])); ?></td>
                             <td class="text-right"><p class="label">Amount: </p><?php echo number_format($row['cashonhand'], 2); ?></td>
                         </tr>
                     <?php } ?>

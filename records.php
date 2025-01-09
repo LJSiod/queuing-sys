@@ -163,7 +163,6 @@ $totaldemand = $rowtotal['sumcashonhand'];
             var id = rowData[0]; 
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
-                        + '<a class="dropdown-item small" href="#" onclick="location.reload();"><i class="fa fa-refresh text-success" aria-hidden="true"></i> Refresh</a>'
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 
@@ -171,45 +170,54 @@ $totaldemand = $rowtotal['sumcashonhand'];
                 menu.remove();
             });
         });
-        loadRecords()
-        function loadRecords() {
-            $.ajax({
-                url: 'loadrecords.php',
-                method: 'GET',
-                success: function(data) {
-                    $('#recordtable').html(data);
-                }
-            });
-        }
 
-            $('#selectalldate').on('click', function() {
-                if ($(this).is(':checked')) {
-                    loadRecords();
-                    $('#filterdate').prop('disabled', true);
-                } else {
-                    $('#filterdate').prop('disabled', false);
-                    var filterdatetoday = $('#filterdate').val();
-                    $.ajax({
-                        url: 'loadrecords.php',
-                        method: 'GET',
-                        data: {filterdate: filterdatetoday},
-                        success: function(data) {
-                            $('#recordtable').html(data);
-                        }
-                    });                    
-                    $('#filterdate').on('change', function() {
-                    var filterdate = $(this).val();
-                    $.ajax({
-                        url: 'loadrecords.php',
-                        method: 'GET',
-                        data: {filterdate: filterdate},
-                        success: function(data) {
-                            $('#recordtable').html(data);
-                        }
-                    });
+            function loadRecords(filterdate) {
+            if (filterdate) {
+                $.ajax({
+                    url: 'loadrecords.php',
+                    method: 'GET',
+                    data: {filterdate: filterdate},
+                    success: function(data) {
+                        $('#recordtable').html(data);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: 'loadrecords.php',
+                    method: 'GET',
+                    success: function(data) {
+                        $('#recordtable').html(data);
+                    }
                 });
             }
+        }
+        
+        $('#selectalldate').on('click', function() {
+            if ($(this).is(':checked')) {
+                $('#filterdate').prop('disabled', true);
+                loadRecords();
+            } else {
+                $('#filterdate').prop('disabled', false);
+                var currentDate = $('#filterdate').val();
+                loadRecords(currentDate);
+            }
         });
+        
+        $('#filterdate').on('change', function() {
+            var filterdate = $(this).val();
+            loadRecords(filterdate);
+        });
+        
+        loadRecords(); // Load all dates by default
+        
+        setInterval(function() {
+            if ($('#selectalldate').is(':checked')) {
+                loadRecords();
+            } else {
+                var filterdate = $('#filterdate').val();
+                loadRecords(filterdate);
+            }
+        }, 10000); 
 
     });
 

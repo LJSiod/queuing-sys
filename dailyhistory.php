@@ -23,8 +23,8 @@ $result = mysqli_query($conn, $query);
     <thead>
         <tr>
             <th class="font-weight-bold small">Date</th>
-            <th class="font-weight-bold text-right small">Amount</th>
-            <th class="font-weight-bold text-right small">Paid</th>
+            <th class="font-weight-bold text-right small">Amount Collected</th>
+            <th class="font-weight-bold text-right small">No. of Accounts Settled</th>
         </tr>
     </thead>
     <tbody>

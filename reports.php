@@ -93,11 +93,14 @@ if (!isset($_SESSION['branch_id'])) {
                 <div class="br-section-wrapper" id="max">
                     <h5 class="font-weight-bold">Daily History</h5>
                     <table class="table table-hover table-sm" id="history"> 
-                        <?php include 'amounthistory.php' ?>
+                        <?php include 'dailyhistory.php' ?>
                     </table>
                 </div>
                 <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Totals</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="font-weight-bold">Totals</h5>
+                        <span class="small text-primary"><i><u>Overall from December 10, 2024</u></i></span>
+                    </div>
                     <table class="table table-hover table-sm" id="totals"> 
                         <?php include 'loadtotals.php' ?>
                     </table>
