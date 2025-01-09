@@ -53,7 +53,7 @@ if (mysqli_num_rows($result) > 0) {
     <?php endwhile;
     
 } else {
-    echo '<h4 class="text-left">No records found.</h4>';
+    echo '<tr style="pointer-events: none;"><td colspan="8" class="text-left">No records found.</td></tr>';
 }
 ?>
 

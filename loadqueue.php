@@ -45,5 +45,5 @@ while ($row = mysqli_fetch_assoc($result)): ?>
     </tr>
 <?php endwhile;
 } else { 
-    echo '<tr style="pointer-events: none;"><td colspan="9" class="text-center font-weight-bold"><h5>No Queues</h5></td></tr>'; 
+    echo '<tr style="pointer-events: none;"><td colspan="9" class="font-weight-bold">No Queues.</td></tr>'; 
 } ?>

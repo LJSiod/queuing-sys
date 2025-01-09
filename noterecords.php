@@ -79,10 +79,10 @@ $currentdate = date('Y-m-d');
                             <th style="width: 5%;">No.</th>
                             <th style="width: 5%;">Branch</th>
                             <th style="width: 10%;">Client Name</th>
-                            <th style="width: 35%;">Remarks</th>
-                            <th style="width: 30%;">Note</th>
+                            <th style="width: 30%;">Remarks</th>
+                            <th style="width: 28%;">Note</th>
                             <th style="width: 10%;">Status</th>
-                            <th style="width: 10%;">Date</th>
+                            <th style="width: 12%;">Date</th>
                         </tr>
                     </thead>
                     <tbody class="small" id="notetable">
@@ -105,6 +105,7 @@ $currentdate = date('Y-m-d');
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/js/font-awesome.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -118,7 +119,6 @@ $currentdate = date('Y-m-d');
         });
 
         $(document).ready(function() {
-        
         $(document).on('contextmenu',function(e) {
             e.preventDefault();
         });

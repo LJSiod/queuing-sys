@@ -38,11 +38,11 @@ if (mysqli_num_rows($result) > 0) {
             <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
             <td><p class="label">Remarks: </p><?php echo $row['remarks']; ?></td>
             <td><p class="label">Note: </p><?php echo $row['note']; ?></td>
-            <td class="<?php echo ($row['cashonhandstatus'] === 'RECEIVED') ? 'text-success' : (($row['cashonhandstatus'] === 'DECLINED') ? 'text-danger' : ''); ?>"><p class="label">Status: </p><?php echo $row['status'] . ' - ' . $row['cashonhandstatus']; ?></td>
+            <td class="<?php echo ($row['cashonhandstatus'] === 'RECEIVED') ? 'text-success' : (($row['cashonhandstatus'] === 'DECLINED') ? 'text-danger' : ''); ?>"><p class="label">Status: </p><?php echo $row['cashonhandstatus']; ?></td>
             <td><p class="label">Date: </p><?php echo date('Y-m-d', strtotime($row['date'])); ?></td>
         </tr>
     <?php endwhile;
 } else {
-    echo '<h4 class="text-left">No records found.</h4>';
+    echo '<tr style="pointer-events: none;"><td colspan="8" class="text-left">No records found.</td></tr>';
 }
 ?>

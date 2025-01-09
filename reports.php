@@ -75,7 +75,7 @@ if (!isset($_SESSION['branch_id'])) {
         <div class="row">
             <div class="col-sm">
                 <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Daily Branch Collection</h5>
+                    <h5 class="font-weight-bold">Daily Summary</h5>
                     <table class="table table-hover table-sm" id="queue-table1"> 
                         <?php include 'loaddaily.php' ?>
                     </table>
@@ -83,7 +83,7 @@ if (!isset($_SESSION['branch_id'])) {
             </div>
             <div class="col-sm">
                 <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Overall Branch Collection</h5>
+                    <h5 class="font-weight-bold">Overall Summary</h5>
                     <table class="table table-hover table-sm" id="queue-table2"> 
                         <?php include 'loadoverall.php' ?>
                     </table>
