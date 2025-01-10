@@ -31,7 +31,7 @@ if (!isset($_SESSION['branch_id'])) {
 
         #max {
             max-height: 66.5vh;
-            height: 66.5vh;
+            height: 60vh;
             overflow: auto;
         }
 
@@ -68,28 +68,34 @@ if (!isset($_SESSION['branch_id'])) {
             cursor: move;
         }
 
+        @media (max-width: 768px) {
+            .text-right {
+                text-align: left !important;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="br-pagebody">
         <div class="row">
-            <div class="col-sm">
+            <!-- <div class="col-sm">
                 <div class="br-section-wrapper">
                     <h5 class="font-weight-bold">Daily Summary</h5>
                     <table class="table table-hover table-sm" id="queue-table1"> 
                         <?php include 'loaddaily.php' ?>
                     </table>
                 </div>
-            </div>
-            <div class="col-sm">
+            </div> -->
+            <div class="col-sm-8">
                 <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Overall Summary</h5>
+                    <h5 class="font-weight-bold">Real Time Summary</h5>
                     <table class="table table-hover table-sm" id="queue-table2"> 
                         <?php include 'loadoverall.php' ?>
                     </table>
                 </div>
             </div>
-            <div class="col-sm">
+            <div class="col-sm-4">
                 <div class="br-section-wrapper" id="max">
                     <h5 class="font-weight-bold">Daily History</h5>
                     <table class="table table-hover table-sm" id="history"> 
@@ -101,7 +107,7 @@ if (!isset($_SESSION['branch_id'])) {
                         <h5 class="font-weight-bold">Totals</h5>
                         <span class="small text-primary"><i><u>Overall from December 10, 2024</u></i></span>
                     </div>
-                    <table class="table table-hover table-sm" id="totals"> 
+                    <table class="table table-sm" id="totals"> 
                         <?php include 'loadtotals.php' ?>
                     </table>
                 </div>
@@ -123,32 +129,15 @@ if (!isset($_SESSION['branch_id'])) {
         });
 
         $(document).ready(function() {
-            loaddaily();
             loadoverall();
             loadtotals();
             loadhistory();
             setInterval(() => {
-                loaddaily(); 
                 loadoverall();
                 loadtotals();
                 loadhistory();
             }, 5000);
 
-        $('#queue-table1').on('contextmenu', 'tr', function(e) {
-            e.preventDefault();
-            $('.removedrop').remove();
-            var rowData = $(this).children('td').map(function() {
-                return $(this).text();
-            }).get();
-            var branchid = rowData[0];
-            var paid = rowData[2];
-            console.log(branchid, paid);
-            var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
-                        + (paid != 0 ? '<a class="dropdown-item small" href="dailylist.php?branch=' + branchid + '" id="list"><i class="fa fa-list text-info" aria-hidden="true"></i> Preview List</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
-                        + '</div>').appendTo('body');
-            menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
-
-        });
 
         $('#queue-table2').on('contextmenu', 'tr', function(e) {
             e.preventDefault();
@@ -160,7 +149,8 @@ if (!isset($_SESSION['branch_id'])) {
             var paid = rowData[2];
             console.log(branchid, paid);
             var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
-                        + (paid != 0 ? '<a class="dropdown-item small" href="overalllist.php?branch=' + branchid + '" id="list"><i class="fa fa-list text-info" aria-hidden="true"></i> Preview List</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
+                        + (paid != 0 ? '<a class="dropdown-item small" href="overalllist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar text-info" aria-hidden="true"></i> Preview Overall</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
+                        + (paid != 0 ? '<a class="dropdown-item small" href="dailylist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar-check-o text-info" aria-hidden="true"></i> Preview Daily</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 
@@ -180,16 +170,6 @@ if (!isset($_SESSION['branch_id'])) {
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
             
         });
-
-            function loaddaily() {
-                $.ajax({
-                    url: 'loaddaily.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#queue-table1').html(data);
-                    }
-                });
-            }
 
             function loadoverall() {
                 $.ajax({
