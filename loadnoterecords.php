@@ -43,6 +43,6 @@ if (mysqli_num_rows($result) > 0) {
         </tr>
     <?php endwhile;
 } else {
-    echo '<tr style="pointer-events: none;"><td colspan="8" class="text-left">No records found.</td></tr>';
+    echo '<tr style="pointer-events: none;"><td colspan="7" class="text-left">No records found.</td></tr>';
 }
 ?>

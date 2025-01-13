@@ -29,6 +29,10 @@ if (!isset($_SESSION['branch_id'])) {
             background-color:rgb(152, 251, 152);
         }
 
+        .highlight {
+            color:rgb(93, 127, 251); 
+        }
+
         #max {
             max-height: 66.5vh;
             height: 60vh;
@@ -89,7 +93,21 @@ if (!isset($_SESSION['branch_id'])) {
             </div> -->
             <div class="col-sm-8">
                 <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Real Time Summary</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="font-weight-bold">Summary</h5>
+                        <div class="form-group form-inline">
+                            <span class="small font-weight-bold mr-1">Sort by:</span>
+                            <select class="form-control form-control-sm" id="sortby">
+                                <option value="branchname">Branch</option>
+                                <option value="totaltoday">Amount Collected (Daily)</option>
+                                <option value="paidtoday">No. of Accounts Settled (Daily)</option>
+                                <option value="totalaccountstoday">Total Accounts (Daily)</option>
+                                <option value="total">Amount Collected (Overall)</option>
+                                <option value="paid">No. of Accounts Settled (Overall)</option>
+                                <option value="totalaccounts">Total Accounts (Overall)</option>
+                            </select>
+                        </div>
+                    </div>
                     <table class="table table-hover table-sm" id="queue-table2"> 
                         <?php include 'loadoverall.php' ?>
                     </table>
@@ -129,15 +147,32 @@ if (!isset($_SESSION['branch_id'])) {
         });
 
         $(document).ready(function() {
-            loadoverall();
+            //loadoverall();
             loadtotals();
             loadhistory();
             setInterval(() => {
-                loadoverall();
+                //loadoverall();
                 loadtotals();
                 loadhistory();
             }, 5000);
 
+            $('#sortby').on('change', function() {
+                var value = $(this).val();
+                loadoverall(value);
+            });
+
+            function loadoverall(sortby) {
+                $.ajax({
+                    url: 'loadoverall.php',
+                    method: 'POST',
+                    data: {
+                        sortby: sortby
+                    },
+                    success: function(response) {
+                        $('#queue-table2').html(response);
+                    }
+                });
+            }
 
         $('#queue-table2').on('contextmenu', 'tr', function(e) {
             e.preventDefault();
@@ -171,15 +206,15 @@ if (!isset($_SESSION['branch_id'])) {
             
         });
 
-            function loadoverall() {
-                $.ajax({
-                    url: 'loadoverall.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#queue-table2').html(data);
-                    }
-                });
-            }
+            // function loadoverall() {
+            //     $.ajax({
+            //         url: 'loadoverall.php',
+            //         method: 'GET',
+            //         success: function(data) {
+            //             $('#queue-table2').html(data);
+            //         }
+            //     });
+            // }
 
             function loadtotals() {
                 $.ajax({
