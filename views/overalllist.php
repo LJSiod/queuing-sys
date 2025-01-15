@@ -5,7 +5,7 @@ include '../config/db.php';
 include '../includes/header.php';
 
 if (!isset($_SESSION['branch_id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 

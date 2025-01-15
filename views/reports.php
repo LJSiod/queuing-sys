@@ -30,7 +30,7 @@ if (!isset($_SESSION['branch_id'])) {
         }
 
         .highlight {
-            color:rgb(93, 127, 251); 
+            color:rgb(0, 54, 249); 
         }
 
         #max {
