@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php'; 
+include 'config/db.php'; 
 include 'logger.php';
 date_default_timezone_set('Asia/Manila');
 $_SESSION['version'] = '2.0.4';
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $counters[] = array('userid' => $row['userid'], 'fullname' => $row['fullname']);
         }
         $_SESSION['counterid'] = $counters;
-        header("Location: dashboard.php");
+        header("Location: views/dashboard.php");
         exit();
     } else {
         $error = "Invalid Credentials.";
@@ -49,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="icon" type="image/x-icon" href="image\neocash.ico">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
     <style media="screen">
       *,
 *:before,
