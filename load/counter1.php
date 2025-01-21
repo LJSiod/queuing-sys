@@ -11,7 +11,7 @@ if (!isset($_SESSION['branch_id'])) {
 $available_counters = $_SESSION['counterid'];
 $id = $_SESSION['user_id'];
 $currentdate = date('Y-m-d');
-$query = "SELECT qi.id, qi.queueno, qi.servedby, qi.branchid, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE servedby = 1 AND status = 'SERVING' AND cashonhandstatus = 'PENDING'";
+$query = "SELECT qi.id, qi.queueno, qi.servedby, qi.clientname, qi.branchid, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE servedby = 1 AND status = 'SERVING' AND cashonhandstatus = 'PENDING'";
 $result = mysqli_query($conn, $query);
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)): ?>
@@ -24,6 +24,7 @@ if (mysqli_num_rows($result) > 0) {
                 <td class="d-none"><?php echo $row['servedby']; ?></td>
                 <td class="d-none"><?php echo $row['branchid']; ?></td>
                 <td class="strong"><?php echo $row['queueno']; ?></td>
+                <td class="strong text-center"><?php echo strtoupper($row['clientname']); ?></td>
                 <td class="text-right strong"><?php echo $row['branchname']; ?></td>
             </tr>
         </tbody>

@@ -3,7 +3,7 @@ session_start();
 include 'config/db.php'; 
 include 'logger.php';
 date_default_timezone_set('Asia/Manila');
-$_SESSION['version'] = '2.0.4';
+$_SESSION['version'] = '2.1.2';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -191,7 +191,7 @@ button:hover{
         <button>Log In</button>
         <div class="d-flex justify-content-between">
             <span class="small">Version <?php echo $_SESSION['version']; ?></span>
-            <span class="small">&copy; 2024 Queueing System</span>
+            <span class="small">&copy; 2025 Queueing System</span>
         </div>
     </form>
     

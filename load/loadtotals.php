@@ -39,19 +39,19 @@ $rowdaily = mysqli_fetch_assoc($resultdaily);
   <tr>
     <td class="font-weight-bold" rowspan="2">No. of Accounts Settled</td>
     <td class="font-weight-bold small">Overall</td>
-    <td class="font-weight-bold text-right small"><?php echo $row['paid']; ?></td>
+    <td class="font-weight-bold text-right small"><?php echo number_format($row['paid'], 0); ?></td>
   </tr>
   <tr>
     <td class="font-weight-bold small">Daily</td>
-    <td class="font-weight-bold text-right small"><?php echo $rowdaily['paid']; ?></td>
+    <td class="font-weight-bold text-right small"><?php echo number_format($rowdaily['paid'], 0); ?></td>
   </tr>
   <tr>
     <td class="font-weight-bold" rowspan="2">Total Accounts</td>
     <td class="font-weight-bold small">Overall</td>
-    <td class="font-weight-bold text-right small"><?php echo $row['totalaccounts']; ?></td>
+    <td class="font-weight-bold text-right small"><?php echo number_format($row['totalaccounts'], 0); ?></td>
   </tr>
   <tr>
     <td class="font-weight-bold small">Daily</td>
-    <td class="font-weight-bold text-right small"><?php echo $rowdaily['totalaccounts']; ?></td>
+    <td class="font-weight-bold text-right small"><?php echo number_format($rowdaily['totalaccounts'], 0); ?></td>
   </tr>
 </tbody>

@@ -36,6 +36,20 @@ $overalltotal = $_SESSION['overalltotal'];
     .white {
       color: white;
     }
+
+    .dropdown1:hover .dropdownreport {
+      display: block;
+    }  
+
+    .dropdownreport {
+      display: none;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      position: absolute;
+      background-color: white;
+      min-width: 120px;
+      z-index: 1;
+    }
     
   </style>
 </head>
@@ -59,21 +73,24 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="nav-link text-dark" href="noterecords.php"><i class="fa fa-clipboard text-success" aria-hidden="true"></i> <strong>Notes</strong></a>
         </li>
         <?php if ($role == 'ADMINISTRATOR') { ?>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="reports.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
+        <li class="nav-item dropdown1">
+          <a class="nav-link text-dark dropdown-toggle" id="reportsdrop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
+          <div class="dropdownreport">
+          <a class="dropdown-item small font-weight-bold" href="summary.php"><i class="fa fa-file-text-o" aria-hidden="true"></i>  Summary</a>
+          <a class="dropdown-item small font-weight-bold" href="detailed.php"><i class="fa fa-list" aria-hidden="true"></i>  Detailed</a>
+        </div>
         </li>
         <?php } ?>
       </ul>
       <div class="d-flex align-items-center">
         <h6 class="mr-2 small"><b><?php echo date('l, F j, Y'); ?></b></h6>
         <h6 class="mr-2 small" id="time"></h6>
-        
       </div>
       <h6 class="mr-2 small">Current User: <b><?php echo htmlspecialchars($name); ?></b></h6>
         <img src="../assets/image/profile.png" style="width: 40px; height: 40px;" name="profile" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="z-index: 1000;">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <img src="../assets/image/Neologo.png" class="rounded-circle mt-3" alt="User Image" style="width: 70px; height: 70px;">
+            <img src="<?php if ($name == 'Master Dev') { echo "../assets/image/anon.png"; } else { echo "../assets/image/Neologo.png"; } ?>" class="rounded-circle mt-3" alt="User Image" style="width: 70px; height: 70px;">
           </div>
           <h6 class="dropdown-item font-weight-bold text-center"><?php echo htmlspecialchars($name); ?></h6>
           <?php if ($branchid == 8) { ?>
@@ -164,7 +181,6 @@ $(document).ready(function() {
     loadoveralltotal();
     setInterval(function() { loadoveralltotal(); }, 5000);
     let idleTime = 0;
-    
     const idleInterval = setInterval(timerIncrement, 60000); 
 
     $(this).mousemove(resetIdleTime);
@@ -172,8 +188,8 @@ $(document).ready(function() {
 
     function timerIncrement() {
         idleTime++;
-        if (idleTime >= 25) { 
-            location.reload();
+        if (idleTime >= 10) { 
+            window.location.href = '../views/dashboard.php';
         }
     }
 

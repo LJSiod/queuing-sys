@@ -22,7 +22,7 @@ $row = mysqli_fetch_assoc($result);
 <head>
     <title>Print</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <style>
@@ -93,12 +93,15 @@ $row = mysqli_fetch_assoc($result);
                     <span><b>Name:</b> <?= $row['clientname'] ?></span>
                 </div>
                 <div class="col">
-                    <span><b>Loan Amount:</b> <?= number_format($row['loanamount'], 2, '.', ',') ?></span>
-                    <input type="hidden" id="loanamount" value="<?= $row['loanamount'] ?>">
+                    <span><b>Type:</b> <?= $row['type'] ?></span>
                 </div>
             </div>
 
             <div class="row">
+                <div class="col">
+                    <span><b>Loan Amount:</b> <?= number_format($row['loanamount'], 2, '.', ',') ?></span>
+                    <input type="hidden" id="loanamount" value="<?= $row['loanamount'] ?>">
+                </div>
                 <div class="col">
                     <span><b>Date Released:</b> <?= date('F j, Y', strtotime($row['datereleased'])) ?></span>
                 </div>
@@ -106,17 +109,17 @@ $row = mysqli_fetch_assoc($result);
                     <span><b>Maturity Date:</b> <?= date('F j, Y', strtotime($row['maturitydate'])) ?></span>
                     <input type="hidden" id="maturitydate" value="<?= $row['maturitydate'] ?>">
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col text-primary font-weight-bold">
                     <span><b>Overall Balance:</b> </span><span class="text-dark"><?= number_format($row['totalbalance'], 2, '.', ',') ?></span>
                     <input type="hidden" id="remainingbalance" value="<?= $row['totalbalance'] ?>">
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-4">
+                <div class="col">
                     <span><b>On-hand Cash:</b> <?= number_format($row['cashonhand'], 2, '.', ',') ?></span>
                 </div>
-                <div class="col-4">
+                <div class="col">
                     <span><b>Contact No:</b> <?= $row['activenumber'] ?></span>
                 </div>
             </div>
@@ -135,7 +138,7 @@ $row = mysqli_fetch_assoc($result);
             <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?php echo $row['attachname']; ?>" alt="File Thumbnail">
             <div class="text-right">
                 <button class="btn btn-sm btn-primary d-print-none" onclick="window.print();">Print</button>
-                <button type="button" class="btn btn-sm btn-danger" onclick="window.history.back();">Close</button>
+                <button type="button" class="btn btn-sm btn-danger d-print-none" onclick="window.history.back();">Close</button>
             </div>
         </div>
     </div>

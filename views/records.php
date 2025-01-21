@@ -130,10 +130,10 @@ $totaldemand = $rowtotal['sumcashonhand'];
         
         $(document).on('ajaxStart', function () {
             $('#totalonhandcash').text('Total Running Collection: ' + '₱' + totalOnHandCash());
-            $('#loading').show();
+            $('#loading').fadeIn();
         }).on('ajaxStop', function () {
             $('#totalonhandcash').text('Total Running Collection: ' + '₱' + totalOnHandCash());
-            $('#loading').hide();
+            $('#loading').fadeOut();
         });
         
         function totalOnHandCash() {
@@ -208,7 +208,7 @@ $totaldemand = $rowtotal['sumcashonhand'];
             loadRecords(filterdate);
         });
         
-        loadRecords(); // Load all dates by default
+        loadRecords(); 
         
         setInterval(function() {
             if ($('#selectalldate').is(':checked')) {

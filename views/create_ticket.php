@@ -71,8 +71,9 @@ $branch_id = $_SESSION['branch_id'];
             <div class="col-3">
                 <label class="small" for="type">Type</label>
                 <select class="form-control form-control-sm" id="type" name="type">
-                    <option>New</option>
-                    <option>Transferred</option>
+                    <option>DL</option>
+                    <option>PN</option>
+                    <option>BS</option>
                 </select>
             </div>
             <div class="col-6">

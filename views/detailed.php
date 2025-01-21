@@ -1,0 +1,145 @@
+<?php
+session_start();
+date_default_timezone_set('Asia/Manila');
+include '../config/db.php';
+include '../includes/header.php';
+
+if (!isset($_SESSION['branch_id'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Nunito+Sans">
+    <link href="../assets/css/styles.css" rel="stylesheet">
+    <style>
+
+        .mt1 {
+            margin-top: 50px;
+        }
+
+        .today {
+            background-color:rgb(152, 251, 152);
+        }
+
+        .highlight {
+            color:rgb(0, 54, 249); 
+        }
+
+        #max {
+            max-height: 66.5vh;
+            height: 60vh;
+            overflow: auto;
+        }
+
+        .br-pagebody {
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1800px;
+        }
+
+        .br-section-wrapper {
+            background-color: #fff;
+            padding: 20px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-bottom: 10px;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.21);
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .fileThumbnail {
+          width: 100%;
+          height: 100%;
+          max-width: 70%;
+          max-height: 350px;
+          margin-bottom: 10px;
+          border: 1px solid #e5e5e5;
+        }
+        
+        .dragover {
+            background-color: #ccc;
+            cursor: move;
+        } 
+
+        @media (max-width: 768px) {
+            .text-right {
+                text-align: left !important;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+            <div class="d-flex justify-content-between">
+                <h5 class="font-weight-bold" id="title">Overall</h5>
+                <div class="form-group form-inline">
+                    <span class="small font-weight-bold mr-1">View Mode:</span>
+                    <select class="form-control form-control-sm" id="view">
+                        <option>Overall</option>
+                        <option>Daily</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table table-hover table-sm" id="queue-table2"> 
+                <?php include '../load/loaddetailed.php' ?>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+
+        $(document).on('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        $(document).on('click', function(e) {
+            $('.removedrop').remove();
+        });
+
+        $(document).ready(function() {
+            $('#view').on('change', function() {
+                var value = $(this).val();
+                $('#title').html(value);
+                loadoverall(value);
+            });
+
+            function loadoverall(view) {
+                $.ajax({
+                    url: '../load/loaddetailed.php',
+                    method: 'POST',
+                    data: {
+                        view: view
+                    },
+                    success: function(response) {
+                        $('#queue-table2').html(response);
+                    }
+                });
+            }
+
+        $('#queue-table2').on('contextmenu', 'tr', function(e) {
+            e.preventDefault();
+        });
+    })
+    </script>
+    </body>
+</html>
+
+
+
+
+

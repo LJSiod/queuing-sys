@@ -15,7 +15,7 @@ $row1 = mysqli_fetch_assoc($result1);
 
 $query = "SELECT DATE(date) AS date, SUM(cashonhand) AS totalperday, COUNT(cashonhand) AS paidperday 
 FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' 
-GROUP BY DATE(date) ORDER BY DATE(date) DESC";
+GROUP BY DATE(date) ORDER BY DATE(date) DESC LIMIT 30";
 $result = mysqli_query($conn, $query);
 
 ?>

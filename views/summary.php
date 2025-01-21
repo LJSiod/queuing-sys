@@ -44,7 +44,6 @@ if (!isset($_SESSION['branch_id'])) {
             margin-left: auto;
             margin-right: auto;
             max-width: 1800px;
-
         }
 
         .br-section-wrapper {
@@ -70,7 +69,7 @@ if (!isset($_SESSION['branch_id'])) {
         .dragover {
             background-color: #ccc;
             cursor: move;
-        }
+        } 
 
         @media (max-width: 768px) {
             .text-right {
@@ -83,14 +82,6 @@ if (!isset($_SESSION['branch_id'])) {
 <body>
     <div class="br-pagebody">
         <div class="row">
-            <!-- <div class="col-sm">
-                <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Daily Summary</h5>
-                    <table class="table table-hover table-sm" id="queue-table1"> 
-                        <?php include 'loaddaily.php' ?>
-                    </table>
-                </div>
-            </div> -->
             <div class="col-sm-8">
                 <div class="br-section-wrapper">
                     <div class="d-flex justify-content-between">
@@ -107,9 +98,16 @@ if (!isset($_SESSION['branch_id'])) {
                                 <option value="totalaccounts">Total Accounts (Overall)</option>
                             </select>
                         </div>
+                        <!-- <div class="form-group form-inline">
+                            <span class="small font-weight-bold mr-1">View Mode:</span>
+                            <select class="form-control form-control-sm" id="view">
+                                <option>Overall</option>
+                                <option>Daily</option>
+                            </select>
+                        </div> -->
                     </div>
                     <table class="table table-hover table-sm" id="queue-table2"> 
-                        <?php include '../load/loadoverall.php' ?>
+                        <?php include '../load/loadsummary.php' ?>
                     </table>
                 </div>
             </div>
@@ -156,6 +154,7 @@ if (!isset($_SESSION['branch_id'])) {
                 loadhistory();
             }, 5000);
 
+
             $('#sortby').on('change', function() {
                 var value = $(this).val();
                 loadoverall(value);
@@ -163,7 +162,7 @@ if (!isset($_SESSION['branch_id'])) {
 
             function loadoverall(sortby) {
                 $.ajax({
-                    url: '../load/loadoverall.php',
+                    url: '../load/loadsummary.php',
                     method: 'POST',
                     data: {
                         sortby: sortby
@@ -173,6 +172,25 @@ if (!isset($_SESSION['branch_id'])) {
                     }
                 });
             }
+
+            // $('#view').on('change', function() {
+            //     var value = $(this).val();
+            //     $('#title').html(value);
+            //     loadoverall(value);
+            // });
+
+            // function loadoverall(view) {
+            //     $.ajax({
+            //         url: '../load/loaddetailed.php',
+            //         method: 'POST',
+            //         data: {
+            //             view: view
+            //         },
+            //         success: function(response) {
+            //             $('#queue-table2').html(response);
+            //         }
+            //     });
+            // }
 
         $('#queue-table2').on('contextmenu', 'tr', function(e) {
             e.preventDefault();

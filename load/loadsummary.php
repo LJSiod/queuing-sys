@@ -15,10 +15,10 @@ $query = "
         b.id AS branchid, 
         b.branchname,
         SUM(IF(qi.date = '$currentdate' AND qi.cashonhandstatus = 'RECEIVED', qi.cashonhand, 0)) AS totaltoday,
-        SUM(IF(qi.cashonhandstatus = 'RECEIVED', qi.cashonhand, 0)) AS total,
         COUNT(IF(qi.date = '$currentdate' AND qi.cashonhandstatus = 'RECEIVED', qi.id, NULL)) AS paidtoday,
-        COUNT(IF(qi.cashonhandstatus = 'RECEIVED', qi.id, NULL)) AS paid,
         COUNT(IF(qi.date = '$currentdate', qi.id, NULL)) AS totalaccountstoday,
+        SUM(IF(qi.cashonhandstatus = 'RECEIVED', qi.cashonhand, 0)) AS total,
+        COUNT(IF(qi.cashonhandstatus = 'RECEIVED', qi.id, NULL)) AS paid,
         COUNT(qi.id) AS totalaccounts
     FROM branch b
     LEFT JOIN queueinfo qi ON qi.branchid = b.id
