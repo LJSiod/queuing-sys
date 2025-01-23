@@ -27,19 +27,19 @@ $query = "
 ";
 ?>
 
-  <thead>
-      <tr style="pointer-events: none;" class="text-center">
-          <th rowspan="2" id="branchname" class="<?php echo $sort == 'branchname' ? 'highlight' : ''; ?>">Branch</th>
+  <thead title="Click to Sort">
+      <tr class="text-center">
+          <th rowspan="2" id="branchname" class="hover" onclick="loadoverall('branchname')">Branch</th>
           <th colspan="3">Daily</th>
           <th colspan="3">Overall</th>
       </tr>
-      <tr style="pointer-events: none;">
-          <th id="totaltoday" class="<?php echo $sort == 'totaltoday' ? 'highlight' : ''; ?>">Amount Collected</th>
-          <th id="paidtoday" class="<?php echo $sort == 'paidtoday' ? 'highlight' : ''; ?>">No. of Accounts Settled</th>
-          <th id="totalaccountstoday" class="<?php echo $sort == 'totalaccountstoday' ? 'highlight' : ''; ?>">Total Accounts</th>
-          <th id="total" class="<?php echo $sort == 'total' ? 'highlight' : ''; ?>">Amount Collected</th>
-          <th id="paid" class="<?php echo $sort == 'paid' ? 'highlight' : ''; ?>">No. of Accounts Settled</th>
-          <th id="totalaccounts" class="<?php echo $sort == 'totalaccounts' ? 'highlight' : ''; ?>">Total Accounts</th>
+      <tr>
+          <th id="totaltoday" class="hover" onclick="loadoverall('totaltoday')">Amount Collected</th>
+          <th id="paidtoday" class="hover" onclick="loadoverall('paidtoday')">No. of Accounts Settled</th>
+          <th id="totalaccountstoday" class="hover" onclick="loadoverall('totalaccountstoday')">Total Accounts</th>
+          <th id="total" class="hover" onclick="loadoverall('total')">Amount Collected</th>
+          <th id="paid" class="hover" onclick="loadoverall('paid')">No. of Accounts Settled</th>
+          <th id="totalaccounts" class="hover" onclick="loadoverall('totalaccounts')">Total Accounts</th>
       </tr>
   </thead>
   <tbody title="Right-Click to view list">
@@ -49,13 +49,13 @@ $query = "
       ?>
           <tr class="small">
               <td class="d-none"><?php echo $row['branchid']; ?></td>
-              <td class="strong <?php echo $sort == 'branchname' ? 'highlight' : ''; ?>"><p class="label">Branch: </p><?php echo $row['branchname']; ?></td>
-              <td class="text-right <?php echo $sort == 'totaltoday' ? 'highlight' : ''; ?>"><p class="label">Amount Collected(Daily): </p><?php echo number_format($row['totaltoday'], 2); ?></td>
-              <td class="text-right <?php echo $sort == 'paidtoday' ? 'highlight' : ''; ?>"><p class="label">No. of Accounts Settled(Daily): </p><?php echo $row['paidtoday']; ?></td>
-              <td class="text-right <?php echo $sort == 'totalaccountstoday' ? 'highlight' : ''; ?>"><p class="label">Total Accounts(Daily): </p><?php echo $row['totalaccountstoday']; ?></td>
-              <td class="text-right <?php echo $sort == 'total' ? 'highlight' : ''; ?>"><p class="label">Amount Collected(Overall): </p><?php echo number_format($row['total'], 2); ?></td>
-              <td class="text-right <?php echo $sort == 'paid' ? 'highlight' : ''; ?>"><p class="label">No. of Accounts Settled(Overall): </p><?php echo $row['paid']; ?></td>
-              <td class="text-right <?php echo $sort == 'totalaccounts' ? 'highlight' : ''; ?>"><p class="label">Total Accounts(Overall): </p><?php echo $row['totalaccounts']; ?></td>
+              <td class="strong <?php echo $sort == 'branchname' ? 'text-primary' : ''; ?>"><p class="label">Branch: </p><?php echo $row['branchname']; ?></td>
+              <td class="text-right <?php echo $sort == 'totaltoday' ? 'text-primary' : ''; ?>"><p class="label">Amount Collected(Daily): </p><?php echo number_format($row['totaltoday'], 2); ?></td>
+              <td class="text-right <?php echo $sort == 'paidtoday' ? 'text-primary' : ''; ?>"><p class="label">No. of Accounts Settled(Daily): </p><?php echo $row['paidtoday']; ?></td>
+              <td class="text-right <?php echo $sort == 'totalaccountstoday' ? 'text-primary' : ''; ?>"><p class="label">Total Accounts(Daily): </p><?php echo $row['totalaccountstoday']; ?></td>
+              <td class="text-right <?php echo $sort == 'total' ? 'text-primary' : ''; ?>"><p class="label">Amount Collected(Overall): </p><?php echo number_format($row['total'], 2); ?></td>
+              <td class="text-right <?php echo $sort == 'paid' ? 'text-primary' : ''; ?>"><p class="label">No. of Accounts Settled(Overall): </p><?php echo $row['paid']; ?></td>
+              <td class="text-right <?php echo $sort == 'totalaccounts' ? 'text-primary' : ''; ?>"><p class="label">Total Accounts(Overall): </p><?php echo $row['totalaccounts']; ?></td>
           </tr>
       <?php endwhile; ?>
   </tbody>

@@ -9,6 +9,7 @@ if (!isset($_SESSION['branch_id'])) {
     exit();
 }
 
+$currentdate = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,14 +84,31 @@ if (!isset($_SESSION['branch_id'])) {
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <div class="d-flex justify-content-between">
-                <h5 class="font-weight-bold" id="title">Overall</h5>
-                <div class="form-group form-inline">
+                <h5 class="font-weight-bold" id="title">Detailed View</h5>
+                <div style="display: flex; align-items: center;" class="mb-2">
+                    <div class="form-group form-inline mr-2">
+                        <div class="form-check">
+                            <label class="form-check-label small font-weight-bold mr-1" for="selectall">Select All</label>
+                            <input class="form-check-input" type="checkbox" id="selectall" checked>
+                        </div>
+                    </div>
+                    <div class="form-group form-inline mr-2">
+                        <label class="small font-weight-bold mr-1" for="startDate">Start Date:</label>
+                        <input type="date" class="form-control form-control-sm" id="startdate" disabled>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="small font-weight-bold mr-1" for="endDate">End Date:</label>
+                        <input type="date" class="form-control form-control-sm" id="enddate" disabled>
+                    </div>
+                </div>
+                <!-- <div class="form-group form-inline">
                     <span class="small font-weight-bold mr-1">View Mode:</span>
                     <select class="form-control form-control-sm" id="view">
                         <option>Overall</option>
                         <option>Daily</option>
+                        <option>Monthly</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <table class="table table-hover table-sm" id="queue-table2"> 
                 <?php include '../load/loaddetailed.php' ?>
@@ -107,34 +125,45 @@ if (!isset($_SESSION['branch_id'])) {
             e.preventDefault();
         });
 
-        $(document).on('click', function(e) {
-            $('.removedrop').remove();
-        });
-
-        $(document).ready(function() {
-            $('#view').on('change', function() {
-                var value = $(this).val();
-                $('#title').html(value);
-                loadoverall(value);
-            });
-
-            function loadoverall(view) {
-                $.ajax({
-                    url: '../load/loaddetailed.php',
-                    method: 'POST',
-                    data: {
-                        view: view
-                    },
-                    success: function(response) {
-                        $('#queue-table2').html(response);
-                    }
-                });
+        $('#selectall').on('click', function() {
+            if ($(this).is(':checked')) {
+                $('#startdate').prop('disabled', true);
+                $('#startdate').val(null);
+                $('#enddate').prop('disabled', true);
+                $('#enddate').val(null);
+                loadoverall();
+            } else {
+                $('#startdate').prop('disabled', false);
+                $('#startdate').val('2024-12-10');
+                $('#enddate').prop('disabled', false);
+                $('#enddate').val('<?php echo $currentdate; ?>');
             }
-
-        $('#queue-table2').on('contextmenu', 'tr', function(e) {
-            e.preventDefault();
         });
-    })
+
+        $('#startdate, #enddate').on('change', function() {
+            var startdate = $('#startdate').val();
+            var enddate = $('#enddate').val();
+            var betweenquery = "BETWEEN '" + startdate + "' AND '" + enddate + "'";
+            loadoverall(betweenquery);
+        });
+
+        loadoverall();
+        $(document).on('contextmenu', 'tr', function (e) {
+            e.preventDefault();
+        })
+        
+        function loadoverall(betweenquery) {
+            $.ajax({
+                url: '../load/loaddetailed.php',
+                method: 'POST',
+                data: {
+                    betweenquery: betweenquery
+                },
+                success: function(response) {
+                    $('#queue-table2').html(response);
+                }
+            });
+        }
     </script>
     </body>
 </html>
@@ -143,3 +172,21 @@ if (!isset($_SESSION['branch_id'])) {
 
 
 
+    <!-- $('#view').on('change', function() {
+        var value = $(this).val();
+        $('#title').html(value);
+        loadoverall(value);
+    });
+
+    function loadoverall(view) {
+        $.ajax({
+            url: '../load/loaddetailed.php',
+            method: 'POST',
+            data: {
+                view: view
+            },
+            success: function(response) {
+                $('#queue-table2').html(response);
+            }
+        });
+    } -->

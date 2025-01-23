@@ -29,10 +29,6 @@ if (!isset($_SESSION['branch_id'])) {
             background-color:rgb(152, 251, 152);
         }
 
-        .highlight {
-            color:rgb(0, 54, 249); 
-        }
-
         #max {
             max-height: 66.5vh;
             height: 60vh;
@@ -69,7 +65,25 @@ if (!isset($_SESSION['branch_id'])) {
         .dragover {
             background-color: #ccc;
             cursor: move;
-        } 
+        }
+
+        .hover {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+        }
+
+        .hover:hover {
+            text-shadow: 0px 0px 10px rgba(0, 225, 255, 0.78);
+            user-select: none;
+        }
+
+        .hover:active {
+            text-shadow: 0px 0px 20px rgb(0, 55, 255);
+        }
+
+        .hover:not(:hover) {
+            color: black;
+        }
 
         @media (max-width: 768px) {
             .text-right {
@@ -84,9 +98,9 @@ if (!isset($_SESSION['branch_id'])) {
         <div class="row">
             <div class="col-sm-8">
                 <div class="br-section-wrapper">
-                    <div class="d-flex justify-content-between">
+                    <!-- <div class="d-flex justify-content-between"> -->
                         <h5 class="font-weight-bold">Summary</h5>
-                        <div class="form-group form-inline">
+                        <!-- <div class="form-group form-inline">
                             <span class="small font-weight-bold mr-1">Sort by:</span>
                             <select class="form-control form-control-sm" id="sortby">
                                 <option value="branchname">Branch</option>
@@ -97,7 +111,7 @@ if (!isset($_SESSION['branch_id'])) {
                                 <option value="paid">No. of Accounts Settled (Overall)</option>
                                 <option value="totalaccounts">Total Accounts (Overall)</option>
                             </select>
-                        </div>
+                        </div> -->
                         <!-- <div class="form-group form-inline">
                             <span class="small font-weight-bold mr-1">View Mode:</span>
                             <select class="form-control form-control-sm" id="view">
@@ -105,7 +119,7 @@ if (!isset($_SESSION['branch_id'])) {
                                 <option>Daily</option>
                             </select>
                         </div> -->
-                    </div>
+                    <!-- </div> -->
                     <table class="table table-hover table-sm" id="queue-table2"> 
                         <?php include '../load/loadsummary.php' ?>
                     </table>
@@ -144,18 +158,7 @@ if (!isset($_SESSION['branch_id'])) {
             $('.removedrop').remove();
         });
 
-        $(document).ready(function() {
-            //loadoverall();
-            loadtotals();
-            loadhistory();
-            setInterval(() => {
-                //loadoverall();
-                loadtotals();
-                loadhistory();
-            }, 5000);
-
-
-            $('#sortby').on('change', function() {
+        $('#sortby').on('change', function() {
                 var value = $(this).val();
                 loadoverall(value);
             });
@@ -172,6 +175,16 @@ if (!isset($_SESSION['branch_id'])) {
                     }
                 });
             }
+
+        $(document).ready(function() {
+            //loadoverall();
+            loadtotals();
+            loadhistory();
+            setInterval(() => {
+                //loadoverall();
+                loadtotals();
+                loadhistory();
+            }, 5000);
 
             // $('#view').on('change', function() {
             //     var value = $(this).val();
@@ -192,7 +205,7 @@ if (!isset($_SESSION['branch_id'])) {
             //     });
             // }
 
-        $('#queue-table2').on('contextmenu', 'tr', function(e) {
+        $('#queue-table2').on('contextmenu', 'tbody tr', function(e) {
             e.preventDefault();
             $('.removedrop').remove();
             var rowData = $(this).children('td').map(function() {

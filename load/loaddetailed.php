@@ -8,35 +8,35 @@ if (!isset($_SESSION['branch_id'])) {
     exit();
 }
 
-$view = $_POST['view'] ?? 'Overall';
-$sort = $_POST['sortby'] ?? 'branchname';
 $currentdate = date('Y-m-d');
+$betweenquery = $_POST['betweenquery'] ?? 'BETWEEN "2024-12-10" AND "' . $currentdate . '"';
 
 $query = "
 SELECT 
   b.id AS branchid, 
   b.branchname,
-    SUM(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'BS' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.cashonhand ELSE 0 END) AS ac_bs,
-    COUNT(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'BS' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.id ELSE NULL END) AS noa_bs,
-    COUNT(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'BS' THEN qi.id ELSE NULL END) AS tas_bs,
-    SUM(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'DL' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.cashonhand ELSE 0 END) AS ac_dl,
-    COUNT(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'DL' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.id ELSE NULL END) AS noa_dl,
-    COUNT(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'DL' THEN qi.id ELSE NULL END) AS tas_dl,
-    SUM(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'PN' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.cashonhand ELSE 0 END) AS ac_pn,
-    COUNT(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'PN' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.id ELSE NULL END) AS noa_pn,
-    COUNT(CASE WHEN " . ($view == 'Overall' ? "" : "qi.date = '$currentdate' AND ") . "qi.type = 'PN' THEN qi.id ELSE NULL END) AS tas_pn
+    SUM(CASE WHEN qi.type = 'BS' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.cashonhand ELSE 0 END) AS ac_bs,
+    COUNT(CASE WHEN qi.type = 'BS' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.id ELSE NULL END) AS noa_bs,
+    COUNT(CASE WHEN qi.type = 'BS' THEN qi.id ELSE NULL END) AS tas_bs,
+    SUM(CASE WHEN qi.type = 'DL' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.cashonhand ELSE 0 END) AS ac_dl,
+    COUNT(CASE WHEN qi.type = 'DL' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.id ELSE NULL END) AS noa_dl,
+    COUNT(CASE WHEN qi.type = 'DL' THEN qi.id ELSE NULL END) AS tas_dl,
+    SUM(CASE WHEN qi.type = 'PN' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.cashonhand ELSE 0 END) AS ac_pn,
+    COUNT(CASE WHEN qi.type = 'PN' AND qi.cashonhandstatus = 'RECEIVED' THEN qi.id ELSE NULL END) AS noa_pn,
+    COUNT(CASE WHEN qi.type = 'PN' THEN qi.id ELSE NULL END) AS tas_pn
 
 FROM 
   branch b
   LEFT JOIN queueinfo qi ON qi.branchid = b.id
+WHERE qi.date " . $betweenquery . "
 GROUP BY 
   b.id, b.branchname
 ORDER BY 
-  $sort " . ($sort == 'branchname' ? "ASC" : "DESC") . "
+  branchname ASC
 ";
 ?>
 
-  <thead>
+<thead>
     <tr style="pointer-events: none;" class="text-center">
       <th rowspan="3"id="branchname" class="<?php echo $sort == 'branchname' ? 'highlight' : ''; ?>">Branch</th>
     </tr>
@@ -98,3 +98,4 @@ ORDER BY
         <td class="text-right font-weight-bold"></td>
       </tr>
   </tbody>
+  
