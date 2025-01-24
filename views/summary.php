@@ -199,7 +199,7 @@ if (!isset($_SESSION['branch_id'])) {
             //         data: {
             //             view: view
             //         },
-            //         success: function(response) {
+            //         success: function(response) {gti
             //             $('#queue-table2').html(response);
             //         }
             //     });
@@ -213,7 +213,6 @@ if (!isset($_SESSION['branch_id'])) {
             }).get();
             var branchid = rowData[0];
             var paid = rowData[2];
-            console.log(branchid, paid);
             var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
                         + (paid != 0 ? '<a class="dropdown-item small" href="overalllist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar text-info" aria-hidden="true"></i> Preview Overall</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
                         + (paid != 0 ? '<a class="dropdown-item small" href="dailylist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar-check-o text-info" aria-hidden="true"></i> Preview Daily</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
@@ -229,7 +228,6 @@ if (!isset($_SESSION['branch_id'])) {
                 return $(this).text();
             }).get();
             var date = rowData[0];
-            console.log(date);
             var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="history.php?&date=' + date + '" id="list"><i class="fa fa-list text-info" aria-hidden="true"></i> Preview List</a>'
                         + '</div>').appendTo('body');

@@ -70,7 +70,25 @@ $currentdate = date('Y-m-d');
         .dragover {
             background-color: #ccc;
             cursor: move;
-        } 
+        }
+
+        .hover {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+        }
+
+        .hover:hover {
+            text-shadow: 0px 0px 10px rgba(0, 225, 255, 0.78);
+            user-select: none;
+        }
+
+        .hover:active {
+            text-shadow: 0px 0px 20px rgb(0, 55, 255);
+        }
+
+        .hover:not(:hover) {
+            color: black;
+        }
 
         @media (max-width: 768px) {
             .text-right {
@@ -151,13 +169,25 @@ $currentdate = date('Y-m-d');
         $(document).on('contextmenu', 'tr', function (e) {
             e.preventDefault();
         })
-        
-        function loadoverall(betweenquery) {
+
+        $(document).on('click', '#queue-table2 thead th', function(e) {
+            e.preventDefault();
+            $('#actiondropdown').remove();
+
+            var thvalue = $(this).attr('id');
+            var startdate = $('#startdate').val();
+            var enddate = $('#enddate').val();
+            var betweenquery = (startdate && enddate) ? "BETWEEN '" + startdate + "' AND '" + enddate + "'" : null;
+            loadoverall(betweenquery, thvalue);
+        });
+
+        function loadoverall(betweenquery, sortby) {
             $.ajax({
                 url: '../load/loaddetailed.php',
                 method: 'POST',
                 data: {
-                    betweenquery: betweenquery
+                    betweenquery: betweenquery, 
+                    sortby: sortby
                 },
                 success: function(response) {
                     $('#queue-table2').html(response);

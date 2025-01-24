@@ -12,15 +12,6 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
-if ($branch_id == 8) {
-    $querytotal = "SELECT SUM(cashonhand) as sumcashonhand FROM queueinfo WHERE cashonhandstatus = 'RECEIVED'";
-} else {
-    $querytotal = "SELECT SUM(cashonhand) as sumcashonhand FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' AND branchid = '$branch_id'";
-}
-
-$resulttotal = mysqli_query($conn, $querytotal);
-$rowtotal = mysqli_fetch_assoc($resulttotal);
-$totaldemand = $rowtotal['sumcashonhand'];
 ?>
 
 <!DOCTYPE html>
@@ -59,6 +50,24 @@ $totaldemand = $rowtotal['sumcashonhand'];
         .top {
             top: -25px;
         }
+
+        .hover {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+        }
+
+        .hover:hover {
+            text-shadow: 0px 0px 10px rgba(0, 225, 255, 0.78);
+            user-select: none;
+        }
+
+        .hover:active {
+            text-shadow: 0px 0px 20px rgb(0, 55, 255);
+        }
+
+        .hover:not(:hover) {
+            color: black;
+        }
     </style>
     
 </head>
@@ -73,9 +82,9 @@ $totaldemand = $rowtotal['sumcashonhand'];
                     </div>
                 </div>
                 <div>
-                    <input type="date" class="form-control form-control-sm" id="filterdate" name="filterdate" value="<?php echo $currentdate; ?>" disabled>
+                    <input type="date" class="form-control form-control-sm" id="filterdate" name="filterdate" value="<?php echo $currentdate; ?>">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="selectalldate" checked>
+                        <input class="form-check-input" type="checkbox" id="selectalldate">
                         <label class="form-check-label small" for="selectalldate">
                             Select All Date
                         </label>
@@ -84,22 +93,21 @@ $totaldemand = $rowtotal['sumcashonhand'];
                 </div>
                 <table id="records" class="table table-hover table-sm mt-3" style="width: 100%;">
                     <thead class="sticky-top top">
-                        <tr>
-                            <th>Queue no.</th>
-                            <th>Branch</th>
-                            <th>Type</th>
-                            <th>Client Name</th>
-                            <th>Loan Amount</th>
-                            <th>Total Balance</th>
-                            <th>On-Hand Cash</th>
-                            <th>COH Status</th>
-                            <th>Active Number</th>
-                            <th>Status</th>
-                            <th>Date</th>
+                        <tr title="Click to sort">
+                            <th class="hover" id="qi.queueno DESC">Queue no.</th>
+                            <th class="hover" id="b.branchname ASC">Branch</th>
+                            <th class="hover" id="qi.type ASC">Type</th>
+                            <th class="hover" id="qi.clientname ASC">Client Name</th>
+                            <th class="hover" id="qi.loanamount DESC">Loan Amount</th>
+                            <th class="hover" id="qi.totalbalance DESC">Total Balance</th>
+                            <th class="hover" id="qi.cashonhand DESC">On-Hand Cash</th>
+                            <th class="hover" id="qi.cashonhandstatus DESC">COH Status</th>
+                            <th class="hover" id="qi.activenumber ASC">Active Number</th>
+                            <th class="hover" id="qi.status ASC">Status</th>
+                            <th class="hover" id="qi.date DESC">Date</th>
                         </tr>
                     </thead>
                     <tbody class="small" id="recordtable">
-                        <?php include '../load/loadrecords.php'; ?>
                     </tbody>
                 </table>
                 <div id="loading" class="loader mx-auto">
@@ -159,7 +167,6 @@ $totaldemand = $rowtotal['sumcashonhand'];
             var rowData = $(this).children('td').map(function() {
                 return $(this).text();
             }).get();
-            console.log(rowData);
             var id = rowData[0]; 
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
@@ -170,52 +177,54 @@ $totaldemand = $rowtotal['sumcashonhand'];
                 menu.remove();
             });
         });
+        
+        var sortby;
+        $('#records thead th').on('click', function(e) {
+            e.preventDefault();
+            $('#actiondropdown').remove();  
+            var thvalue = $(this).attr('id');
+            var currentdate = $('#filterdate').val();
+            sortby = thvalue;
+            loadRecords(currentdate, sortby);
 
-            function loadRecords(filterdate) {
-            if (filterdate) {
-                $.ajax({
-                    url: '../load/loadrecords.php',
-                    method: 'GET',
-                    data: {filterdate: filterdate},
-                    success: function(data) {
-                        $('#recordtable').html(data);
-                    }
-                });
-            } else {
-                $.ajax({
-                    url: '../load/loadrecords.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#recordtable').html(data);
-                    }
-                });
-            }
+        });
+
+        function loadRecords(filterdate, sortby) {
+            $.ajax({
+                url: '../load/loadrecords.php',
+                method: 'POST',
+                data: {filterdate: filterdate, sortby: sortby},
+                success: function(response) {
+                    $('#recordtable').html(response);
+                }
+            });
         }
         
         $('#selectalldate').on('click', function() {
             if ($(this).is(':checked')) {
                 $('#filterdate').prop('disabled', true);
-                loadRecords();
+                loadRecords(null, sortby);
             } else {
                 $('#filterdate').prop('disabled', false);
                 var currentDate = $('#filterdate').val();
-                loadRecords(currentDate);
+                loadRecords(currentDate, sortby);
             }
         });
         
         $('#filterdate').on('change', function() {
             var filterdate = $(this).val();
-            loadRecords(filterdate);
+            loadRecords(filterdate, sortby);
         });
-        
-        loadRecords(); 
+
+        var currentDate = $('#filterdate').val();
+        loadRecords(currentDate, sortby); 
         
         setInterval(function() {
             if ($('#selectalldate').is(':checked')) {
-                loadRecords();
+                loadRecords(null, sortby);
             } else {
                 var filterdate = $('#filterdate').val();
-                loadRecords(filterdate);
+                loadRecords(filterdate, sortby);
             }
         }, 10000); 
 

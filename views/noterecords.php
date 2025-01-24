@@ -50,6 +50,23 @@ $currentdate = date('Y-m-d');
             top: -25px;
         }
 
+        .hover {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+        }
+
+        .hover:hover {
+            text-shadow: 0px 0px 10px rgba(0, 225, 255, 0.78);
+            user-select: none;
+        }
+
+        .hover:active {
+            text-shadow: 0px 0px 20px rgb(0, 55, 255);
+        }
+
+        .hover:not(:hover) {
+            color: black;
+        }
     </style>
     
 </head>
@@ -76,13 +93,13 @@ $currentdate = date('Y-m-d');
                 <table id="notes" class="table table-hover table-sm mt-3" style="width: 100%;">
                     <thead class="sticky-top top">
                         <tr>
-                            <th style="width: 5%;">No.</th>
-                            <th style="width: 5%;">Branch</th>
-                            <th style="width: 10%;">Client Name</th>
-                            <th style="width: 30%;">Remarks</th>
-                            <th style="width: 28%;">Note</th>
-                            <th style="width: 10%;">Status</th>
-                            <th style="width: 12%;">Date</th>
+                            <th class="hover" id="qi.queueno DESC" style="width: 5%;">No.</th>
+                            <th class="hover" id="b.branchname ASC" style="width: 5%;">Branch</th>
+                            <th class="hover" id="qi.clientname ASC" style="width: 10%;">Client Name</th>
+                            <th class="hover" id="qi.remarks ASC" style="width: 30%;">Remarks</th>
+                            <th class="hover" id="qi.note ASC" style="width: 28%;">Note</th>
+                            <th class="hover" id="qi.cashonhandstatus ASC" style="width: 10%;">Status</th>
+                            <th class="hover" id="qi.date DESC" style="width: 12%;">Date</th>
                         </tr>
                     </thead>
                     <tbody class="small" id="notetable">
@@ -130,7 +147,6 @@ $currentdate = date('Y-m-d');
             var rowData = $(this).children('td').map(function() {
                 return $(this).text();
             }).get();
-            console.log(rowData);
             var id = rowData[0]; 
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
@@ -142,52 +158,52 @@ $currentdate = date('Y-m-d');
             });
         });
 
-        function loadRecords(filterdate) {
-            if (filterdate) {
+        var sortby;
+        $('#notes thead th').on('click', function(e) {
+            e.preventDefault();
+            $('#actiondropdown').remove();  
+            var thvalue = $(this).attr('id');
+            var currentdate = $('#filterdate').val();
+            sortby = thvalue;
+            loadRecords(currentdate, sortby);
+            
+        })
+        function loadRecords(filterdate, sortby) {
                 $.ajax({
                     url: '../load/loadnoterecords.php',
-                    method: 'GET',
-                    data: {filterdate: filterdate},
-                    success: function(data) {
-                        $('#notetable').html(data);
-                    }
-                });
-            } else {
-                $.ajax({
-                    url: '../load/loadnoterecords.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#notetable').html(data);
+                    method: 'POST',
+                    data: {filterdate: filterdate, sortby: sortby},
+                    success: function(response) {
+                        $('#notetable').html(response);
                     }
                 });
             }
-        }
         
         $('#selectalldate').on('click', function() {
             if ($(this).is(':checked')) {
                 $('#filterdate').prop('disabled', true);
-                loadRecords();
+                loadRecords(null, sortby);
             } else {
                 $('#filterdate').prop('disabled', false);
                 var currentDate = $('#filterdate').val();
-                loadRecords(currentDate);
+                loadRecords(currentDate, sortby);
             }
         });
         
         $('#filterdate').on('change', function() {
             var filterdate = $(this).val();
-            loadRecords(filterdate);
+            loadRecords(filterdate, sortby);
         });
         
         var currentDate = $('#filterdate').val();
-        loadRecords(currentDate);
+        loadRecords(currentDate, sortby);
         
         setInterval(function() {
             var filterdate = $('#filterdate').val();
             if ($('#selectalldate').is(':checked')) {
-                loadRecords();
+                loadRecords(null, sortby);
             } else {
-                loadRecords(filterdate);
+                loadRecords(filterdate, sortby);
             }
         }, 10000);
 });

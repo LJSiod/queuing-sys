@@ -11,24 +11,32 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
-$filterdate = "";
-$query = "";
-if (isset($_GET['filterdate'])) {
-    $filterdate = $_GET['filterdate'];
-        if ($branch_id == 8) {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.activenumber, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.date = '$filterdate' ORDER BY qi.id DESC";
-    } else {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.activenumber, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.branchid = '$branch_id' AND qi.date = '$filterdate' ORDER BY qi.id DESC";
-    }
-} else {
-    if ($branch_id == 8) {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.activenumber, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id ORDER BY qi.id DESC";
-    } else {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.activenumber, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.branchid = '$branch_id' ORDER BY qi.id DESC";
-    }
-}
-
-
+$sort = $_POST['sortby'] ?? 'qi.id DESC';
+$filterdate = $_POST['filterdate'] ?? '';
+$queryfilter = $filterdate ? "AND qi.date = '$filterdate'" : '';
+$query = "
+    SELECT 
+        qi.id, 
+        qi.queueno, 
+        qi.branchid, 
+        qi.type, 
+        qi.clientname, 
+        qi.loanamount, 
+        qi.totalbalance, 
+        qi.cashonhand, 
+        qi.cashonhandstatus, 
+        qi.activenumber, 
+        qi.status, 
+        qi.date, 
+        b.branchname 
+    FROM 
+        queueinfo qi 
+        LEFT JOIN branch b ON qi.branchid = b.id 
+    WHERE 
+        qi.stat = 'ACTIVE' " . 
+        ($branch_id == 8 ? "" : "AND qi.branchid = '$branch_id' ") . 
+        "$queryfilter 
+    ORDER BY $sort";
 $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
@@ -56,5 +64,4 @@ if (mysqli_num_rows($result) > 0) {
     echo '<tr style="pointer-events: none;"><td colspan="11" class="text-left">No records found.</td></tr>';
 }
 ?>
-
 

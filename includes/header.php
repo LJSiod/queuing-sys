@@ -179,7 +179,7 @@ $overalltotal = $_SESSION['overalltotal'];
 
 $(document).ready(function() {
     loadoveralltotal();
-    setInterval(function() { loadoveralltotal(); }, 5000);
+    setInterval(function() { loadoveralltotal(); }, 10000);
     let idleTime = 0;
     const idleInterval = setInterval(timerIncrement, 60000); 
 

@@ -8,13 +8,14 @@ if (!isset($_SESSION['branch_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+$branchid = $_SESSION['branch_id'];
 $tmpName = $_FILES['file']['tmp_name'];
 $fileName = $_FILES['file']['name'];
 $fileType = $_FILES['file']['type'];
 $fileSize = $_FILES['file']['size'];
 $uploadDir = 'ledger/';
 $currentDate = date('Y-m-d');
-$uploadFile = $uploadDir . $fileName;
+$uploadFile = $uploadDir . $branchid . "_" . $fileName;
 
 function getNextQueueNo($conn) {
         $currentDate = date('Y-m-d');

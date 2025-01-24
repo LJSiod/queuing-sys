@@ -11,22 +11,25 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
-$filterdate = "";
-$query = "";
-if (isset($_GET['filterdate'])) {
-    $filterdate = $_GET['filterdate'];
-    if ($branch_id == 8) {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.clientname, qi.remarks, qi.note, qi.cashonhandstatus, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE note IS NOT NULL and date = '$filterdate' ORDER BY qi.id DESC";
-    } else {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.clientname, qi.remarks, qi.note, qi.cashonhandstatus, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.branchid = '$branch_id' AND note IS NOT NULL and date = '$filterdate' ORDER BY qi.id DESC";
-    }
-} else {
-    if ($branch_id == 8) {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.clientname, qi.remarks, qi.note, qi.cashonhandstatus, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE note IS NOT NULL ORDER BY qi.id DESC";
-    } else {
-        $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.clientname, qi.remarks, qi.note, qi.cashonhandstatus, qi.status, qi.date, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.branchid = '$branch_id' AND note IS NOT NULL ORDER BY qi.id DESC";
-    }
-}
+$sort = $_POST['sortby'] ?? 'qi.queueno DESC';
+$filterdate = $_POST['filterdate'] ?? '';
+$queryfilter = $filterdate ? "AND qi.date = '$filterdate'" : '';
+$query = "
+    SELECT 
+    qi.id, 
+    qi.queueno, 
+    qi.branchid, 
+    qi.clientname, 
+    qi.remarks, 
+    qi.note, 
+    qi.cashonhandstatus, 
+    qi.status, 
+    qi.date, 
+    b.branchname 
+    FROM queueinfo qi 
+    LEFT JOIN branch b ON qi.branchid = b.id 
+    WHERE note IS NOT NULL AND (qi.branchid = '$branch_id' OR '$branch_id' = 8) $queryfilter 
+    ORDER BY $sort";
 $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
