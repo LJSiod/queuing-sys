@@ -98,12 +98,12 @@ $branch_id = $_SESSION['branch_id'];
                     <label class="small" for="remainingbalance">Overall Remaining Balance</label>
                     <input type="number" class="form-control form-control-sm" id="remainingbalance" name="remainingbalance" required>
                 </div>
+                <div class="col">
+                    <label class="small" for="onhand">Client's On-Hand Cash</label>
+                    <input type="number" class="form-control form-control-sm" id="onhand" name="onhand" rows="1" required></input>
+                </div>
             </div>
             <div class="row">
-            <div class="col">
-                <label class="small" for="onhand">Client's On-Hand Cash</label>
-                <input type="number" class="form-control form-control-sm" id="onhand" name="onhand" rows="1" required></input>
-            </div>
             <div class="col">
                 <label class="small" for="contactno">Branch Active Contact No.</label>
                 <input type="number" class="form-control form-control-sm" id="contactno" name="contactno" rows="1" required></input>
@@ -111,6 +111,10 @@ $branch_id = $_SESSION['branch_id'];
             <div class="col">
                 <label class="small" for="accinterest">Accrued Interest</label>
                 <input type="text" class="form-control form-control-sm" id="accinterest" name="accinterest" rows="1" readonly></input>
+            </div>
+            <div class="col">
+                <label class="small" for="accpenalty">Accrued Penalty</label>
+                <input type="text" class="form-control form-control-sm" id="accpenalty" name="accpenalty" rows="1" readonly></input>
             </div>
             <div class="col">
                 <label class="small" for="totalbalance">Total Balance</label>
@@ -262,17 +266,26 @@ $branch_id = $_SESSION['branch_id'];
           var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
           var diffMonths = diffMonths - 1;
           var accinterest = (loanamount * 0.06) * diffMonths;
+          var accpenalty = (loanamount * 0.02) * diffMonths;
           $('#accinterest').val(accinterest.toLocaleString('en-US', {minimumFractionDigits: 2}));
+          $('#accpenalty').val(accpenalty.toLocaleString('en-US', {minimumFractionDigits: 2}));
           if (isNaN(accinterest)) {
-              $('#accinterest').val("0.00"); 
+            $('#accinterest').val("0.00");  
+          }
+          if (isNaN(accpenalty)) {
+            $('#accpenalty').val("0.00");  
           }
       });
 
       $('#remainingbalance, #maturitydate').change(function(){
           var remainingbalance = parseFloat($('#remainingbalance').val().replace(/,/g, ''));
           var accinterest = parseFloat($('#accinterest').val().replace(/,/g, ''));
-          var totalbalance = remainingbalance + accinterest;
+          var accpenalty = parseFloat($('#accpenalty').val().replace(/,/g, ''));
+          var totalbalance = remainingbalance + accinterest + accpenalty;
           $('#totalbalance').val(totalbalance.toLocaleString('en-US', {minimumFractionDigits: 2}));
+          if (isNaN(totalbalance)) {
+            $('#totalbalance').val("0.00");
+          }
       });
 
         $('#queueform').submit(function(e) {

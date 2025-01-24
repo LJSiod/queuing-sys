@@ -125,11 +125,14 @@ $row = mysqli_fetch_assoc($result);
             </div>
 
             <div class="row">
-                <div class="col-4 text-danger font-weight-bold">
+                <div class="col text-danger font-weight-bold">
                     <span><b>Accrued Interest:</b> </span><span class="text-dark" id="accinterest"></span>
                 </div>
-                <div class="col-6 text-danger font-weight-bold">
-                    <span><b>Total Balance w/ Accrued Interest:</b> </span><span class="text-dark" id="totalbalance"></span>
+                <div class="col text-danger font-weight-bold">
+                    <span><b>Accrued Penalty:</b> </span><span class="text-dark" id="accpenalty"></span>
+                </div>
+                <div class="col text-danger font-weight-bold">
+                    <span><b>Total Balance:</b> </span><span class="text-dark" id="totalbalance"></span>
                 </div>
             </div>
 
@@ -158,11 +161,20 @@ $row = mysqli_fetch_assoc($result);
         var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
         var diffMonths = diffMonths - 1;
         var accinterest = (loanamount * 0.06) * diffMonths;
+        var accpenalty = (loanamount * 0.02) * diffMonths;
         var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
-        var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accinterest);
+        var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
+        var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);
         var totalbalanceformatted = parseFloat(totalbalance).toLocaleString('en-US',{minimumFractionDigits: 2});
         $('#totalbalance').text(totalbalanceformatted);
+        if (totalbalance == "NaN") {
+            $('#totalbalance').text("0.00");
+        }
         $('#accinterest').text(accinterestformatted);
+        if (accinterest == "NaN") {
+            $('#accinterest').text("0.00");
+        }
+        $('#accpenalty').text(accpenaltyformatted);
         if (accinterest == "NaN") {
             $('#accinterest').text("0.00"); 
         }

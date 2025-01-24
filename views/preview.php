@@ -121,8 +121,6 @@ if (mysqli_num_rows($result) > 0) {
                     <label class="small text-primary font-weight-bold" for="remainingbalance">Overall Remaining Balance</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold" id="remainingbalance" value="<?php echo $totalbalance; ?>" name="remainingbalance" readonly>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md">
                     <label class="small" for="onhand">Client's On-Hand Cash</label>
                     <?php if ($branch_id != 8) { ?>
@@ -135,6 +133,8 @@ if (mysqli_num_rows($result) > 0) {
                         <input type="text" class="form-control form-control-sm" id="onhand" value="<?php echo $onhand; ?>" name="onhand" rows="1"></input>
                     <?php } ?>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md">
                     <label class="small" for="contactno">Branch Active Contact No.</label>
                     <input type="text" class="form-control form-control-sm" id="contactno" value="<?php echo $activenumber; ?>" name="contactno" rows="1" readonly></input>
@@ -142,6 +142,10 @@ if (mysqli_num_rows($result) > 0) {
                 <div class="col-md">
                     <label class="small font-weight-bold text-danger" for="accinterest">Accrued Interest</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="accinterest" name="accinterest" rows="1" readonly></input>
+                </div>
+                <div class="col-md">
+                    <label class="small font-weight-bold text-danger" for="accpenalty">Accrued Penalty</label>
+                    <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="accpenalty" name="accpenalty" rows="1" readonly></input>
                 </div>
                 <div class="col-md">
                     <label class="small font-weight-bold text-danger" for="totalbalance">Total Balance</label>
@@ -309,10 +313,19 @@ if (mysqli_num_rows($result) > 0) {
             var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
             var diffMonths = diffMonths - 1;
             var accinterest = (loanamount * 0.06) * diffMonths;
+            var accpenalty = (loanamount * 0.02) * diffMonths;
             var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
-            var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accinterest);
+            var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
+            var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);
             var totalbalanceformatted = parseFloat(totalbalance).toLocaleString('en-US',{minimumFractionDigits: 2});
             $('#totalbalance').val(totalbalanceformatted);
+            if (totalbalance == "NaN") {
+                $('#totalbalance').val("0.00");
+            }
+            $('#accpenalty').val(accpenaltyformatted);
+            if (accpenalty == "NaN") {
+                $('#accpenalty').val("0.00");
+            }
             $('#accinterest').val(accinterestformatted);
             if (accinterest == "NaN") {
                 $('#accinterest').val("0.00"); 
