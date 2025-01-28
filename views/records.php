@@ -102,7 +102,7 @@ $currentdate = date('Y-m-d');
                             <th class="hover" id="qi.totalbalance DESC">Total Balance</th>
                             <th class="hover" id="qi.cashonhand DESC">On-Hand Cash</th>
                             <th class="hover" id="qi.cashonhandstatus DESC">COH Status</th>
-                            <th class="hover" id="qi.activenumber ASC">Active Number</th>
+                            <th class="hover" id="qi.datereceived DESC">Date Letter Received</th>
                             <th class="hover" id="qi.status ASC">Status</th>
                             <th class="hover" id="qi.date DESC">Date</th>
                         </tr>

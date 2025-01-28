@@ -12,9 +12,9 @@ $role = $_SESSION['role'];
 $id = $_SESSION['user_id'];
 $currentdate = date('Y-m-d');
 if ($role == 'ADMINISTRATOR') {
-    $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.activenumber, qi.date, b.branchname, b.userid FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE status ='IN QUEUE' AND b.userid = '$id'  ORDER BY qi.id ASC";
+    $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.datereceived, qi.date, b.branchname, b.userid FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE status ='IN QUEUE' AND b.userid = '$id'  ORDER BY qi.id ASC";
 } else {
-    $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.activenumber, qi.date, b.branchname, b.userid FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE status ='IN QUEUE' ORDER BY qi.id ASC";
+    $query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.datereceived, qi.date, b.branchname, b.userid FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE status ='IN QUEUE' ORDER BY qi.id ASC";
 }
 
 
@@ -40,7 +40,7 @@ while ($row = mysqli_fetch_assoc($result)): ?>
         <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
         <td><p class="label">Loan Amount: </p><?php echo number_format($row['loanamount'], 2, '.', ','); ?></td>
         <td><p class="label">Total Balance: </p><?php echo number_format($row['totalbalance'], 2, '.', ','); ?></td>
-        <td><p class="label">Active Number: </p><?php echo $row['activenumber']; ?></td>
+        <td><p class="label">Date Letter Received: </p><?php echo date('F j, Y', strtotime($row['datereceived'])); ?></td>
         <td><p class="label">Date: </p><?php echo date('F j, Y', strtotime($row['date'])); ?></td>  
     </tr>
 <?php endwhile;

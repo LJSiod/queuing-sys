@@ -25,7 +25,7 @@ $query = "
         qi.totalbalance, 
         qi.cashonhand, 
         qi.cashonhandstatus, 
-        qi.activenumber, 
+        qi.datereceived, 
         qi.status, 
         qi.date, 
         b.branchname 
@@ -54,7 +54,7 @@ if (mysqli_num_rows($result) > 0) {
             <td class="<?php echo ($row['cashonhandstatus'] === 'RECEIVED') ? 'text-success' : (($row['cashonhandstatus'] === 'DECLINED') ? 'text-danger' : ''); ?>">
                 <p class="label">Cash on Hand Status: </p><?php echo $row['cashonhandstatus']; ?>
             </td>
-            <td><p class="label">Active Number: </p><?php echo $row['activenumber']; ?></td>
+            <td><p class="label">Date Letter Received: </p><?php echo date('Y-m-d', strtotime($row['datereceived'])); ?></td>
             <td><p class="label">Status: </p><?php echo $row['status']; ?></td>
             <td><p class="label">Date: </p><?php echo date('Y-m-d', strtotime($row['date'])); ?></td>
         </tr> 

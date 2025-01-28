@@ -42,14 +42,14 @@ $datereleased = mysqli_real_escape_string($conn, $_POST['datereleased']);
 $maturitydate = mysqli_real_escape_string($conn, $_POST['maturitydate']);
 $remainingbalance = mysqli_real_escape_string($conn, $_POST['remainingbalance']);
 $onhand = mysqli_real_escape_string($conn, $_POST['onhand']);
-$contactno = mysqli_real_escape_string($conn, $_POST['contactno']);
+$daterec = mysqli_real_escape_string($conn, $_POST['daterec']);
 $accinterest = mysqli_real_escape_string($conn, $_POST['accinterest']);
 $totalbalance = mysqli_real_escape_string($conn, $_POST['totalbalance']);
 $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
 
 if (move_uploaded_file($tmpName, $uploadFile)) {
-    $query = "INSERT INTO queueinfo (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, activenumber, attachname, remarks, date, status, stat, cashonhandstatus) 
-    VALUES ('$branch_id', '$queueno', '$type', '$clientname', '$loanamount', '$datereleased', '$maturitydate', '$remainingbalance', '$onhand', '$contactno', '$uploadFile', '$remarks', '$currentDate', 'IN QUEUE', 'ACTIVE', 'PENDING')";
+    $query = "INSERT INTO queueinfo (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, datereceived, attachname, remarks, date, status, stat, cashonhandstatus) 
+    VALUES ('$branch_id', '$queueno', '$type', '$clientname', '$loanamount', '$datereleased', '$maturitydate', '$remainingbalance', '$onhand', '$daterec', '$uploadFile', '$remarks', '$currentDate', 'IN QUEUE', 'ACTIVE', 'PENDING')";
     mysqli_query($conn, $query);
      echo json_encode(array('success' => true, 'message' => 'File uploaded successfully!'));
     exit;

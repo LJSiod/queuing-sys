@@ -98,7 +98,7 @@ $currentdate = date('Y-m-d');
                                 <th>Client Name</th>
                                 <th>Loan Amount</th>
                                 <th>Total Balance</th>
-                                <th>Active Number</th>
+                                <th>Date Letter Received</th>
                                 <th>Date</th>
                             </tr>
                         </thead>

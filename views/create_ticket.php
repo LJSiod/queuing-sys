@@ -68,7 +68,7 @@ $branch_id = $_SESSION['branch_id'];
         </div>
         <form id="queueform" action="" method="post" enctype="multipart/form-data">
             <div class="row">
-            <div class="col-3">
+            <div class="col">
                 <label class="small" for="type">Type</label>
                 <select class="form-control form-control-sm" id="type" name="type">
                     <option>DL</option>
@@ -76,11 +76,15 @@ $branch_id = $_SESSION['branch_id'];
                     <option>BS</option>
                 </select>
             </div>
-            <div class="col-6">
+            <div class="col"> 
+                <label class="small" for="daterec">Date Letter Received</label>
+                <input type="date" class="form-control form-control-sm" id="daterec" name="daterec" rows="1" required></input>
+            </div>
+            <div class="col">
                 <label class="small" for="clientname">Client Name</label>
                 <input type="text" class="form-control form-control-sm" id="clientname" name="clientname" rows="1" required></input>
             </div>
-            <div class="col-3">
+            <div class="col">
                 <label class="small" for="loanamount">Loan Amount</label>
                 <input type="number" class="form-control form-control-sm" id="loanamount" name="loanamount" rows="1" required></input>
             </div>
@@ -104,19 +108,15 @@ $branch_id = $_SESSION['branch_id'];
                 </div>
             </div>
             <div class="row">
-            <div class="col">
-                <label class="small" for="contactno">Branch Active Contact No.</label>
-                <input type="number" class="form-control form-control-sm" id="contactno" name="contactno" rows="1" required></input>
-            </div>
-            <div class="col">
-                <label class="small" for="accinterest">Accrued Interest</label>
+            <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
+                <label class="small" for="accinterest">Accrued Interest</label> 
                 <input type="text" class="form-control form-control-sm" id="accinterest" name="accinterest" rows="1" readonly></input>
             </div>
-            <div class="col">
+            <!-- <div class="col">
                 <label class="small" for="accpenalty">Accrued Penalty</label>
                 <input type="text" class="form-control form-control-sm" id="accpenalty" name="accpenalty" rows="1" readonly></input>
-            </div>
-            <div class="col">
+            </div> -->
+            <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
                 <label class="small" for="totalbalance">Total Balance</label>
                 <input type="text" class="form-control form-control-sm" id="totalbalance" name="totalbalance" rows="1" readonly></input>
             </div>            
@@ -153,6 +153,7 @@ $branch_id = $_SESSION['branch_id'];
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
      $(document).ready(function(){
 
@@ -258,26 +259,34 @@ $branch_id = $_SESSION['branch_id'];
 
       //END NEW DRAG AND DROP
 
-      $('#loanamount, #maturitydate').change(function(){
+      $('#loanamount, #maturitydate').on('input', function(){
           var loanamount = parseFloat($('#loanamount').val());
           var maturitydate = $('#maturitydate').val();
-          var today = new Date();
-          var diffTime = Math.abs(today - new Date(maturitydate));
-          var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
-          var diffMonths = diffMonths - 1;
-          var accinterest = (loanamount * 0.06) * diffMonths;
-          var accpenalty = (loanamount * 0.02) * diffMonths;
+          var today = moment();
+          var maturitydate = moment($('#maturitydate').val());
+          var diffMonths = maturitydate.diff(today, 'months');
+          var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
+          var nextDate = moment(maturitydate).add(1, 'month').startOf('month');
+          var penaltyCount = 0;
+          while (nextDate < today) {
+              if (nextDate.date() == 15 || nextDate.date() === moment(nextDate).endOf('month').date()) {
+                  penaltyCount++;
+              }
+              nextDate = nextDate.add(1, 'day');
+          }
+          console.log(penaltyCount);
+          var accpenalty = (loanamount * 0.01) * penaltyCount;
           $('#accinterest').val(accinterest.toLocaleString('en-US', {minimumFractionDigits: 2}));
           $('#accpenalty').val(accpenalty.toLocaleString('en-US', {minimumFractionDigits: 2}));
           if (isNaN(accinterest)) {
-            $('#accinterest').val("0.00");  
+              $('#accinterest').val("0.00");  
           }
           if (isNaN(accpenalty)) {
-            $('#accpenalty').val("0.00");  
+              $('#accpenalty').val("0.00");  
           }
       });
 
-      $('#remainingbalance, #maturitydate').change(function(){
+      $('#remainingbalance, #maturitydate').on('input', function(){
           var remainingbalance = parseFloat($('#remainingbalance').val().replace(/,/g, ''));
           var accinterest = parseFloat($('#accinterest').val().replace(/,/g, ''));
           var accpenalty = parseFloat($('#accpenalty').val().replace(/,/g, ''));

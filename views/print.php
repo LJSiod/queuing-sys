@@ -11,7 +11,7 @@ if (!isset($_SESSION['branch_id'])) {
 $branch_id = $_SESSION['branch_id'];
 $id = $_SESSION['user_id'];
 $id = $_GET['id'];
-$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.activenumber, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.accinterest, qi.remainingbalance, qi.remarks, qi.note, qi.attachname, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $id";
+$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.datereceived, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.remarks, qi.note, qi.attachname, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $id";
 
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
@@ -120,18 +120,18 @@ $row = mysqli_fetch_assoc($result);
                     <span><b>On-hand Cash:</b> <?= number_format($row['cashonhand'], 2, '.', ',') ?></span>
                 </div>
                 <div class="col">
-                    <span><b>Contact No:</b> <?= $row['activenumber'] ?></span>
+                    <span><b>Date Letter Received:</b> <?= date('F j, Y', strtotime($row['datereceived'])) ?></span>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col text-danger font-weight-bold">
+                <div class="col-md-4 text-danger font-weight-bold"> <!-- ibalik sa col kung madeploy ang penalty -->
                     <span><b>Accrued Interest:</b> </span><span class="text-dark" id="accinterest"></span>
                 </div>
-                <div class="col text-danger font-weight-bold">
+                <!-- <div class="col text-danger font-weight-bold">
                     <span><b>Accrued Penalty:</b> </span><span class="text-dark" id="accpenalty"></span>
-                </div>
-                <div class="col text-danger font-weight-bold">
+                </div> -->
+                <div class="col-md-4 text-danger font-weight-bold"> <!-- ibalik sa col kung madeploy ang penalty -->
                     <span><b>Total Balance:</b> </span><span class="text-dark" id="totalbalance"></span>
                 </div>
             </div>
@@ -149,6 +149,7 @@ $row = mysqli_fetch_assoc($result);
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     $(document).ready(function(){
         var loanamount = $('#loanamount').val();
@@ -156,12 +157,20 @@ $row = mysqli_fetch_assoc($result);
         var remainingbalance = $('#remainingbalance').val();
         var remainingbalanceformatted = remainingbalance.replace(/,/g, '');
         var maturitydate = $('#maturitydate').val();
-        var today = new Date();
-        var diffTime = Math.abs(today - new Date(maturitydate));
-        var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
-        var diffMonths = diffMonths - 1;
-        var accinterest = (loanamount * 0.06) * diffMonths;
-        var accpenalty = (loanamount * 0.02) * diffMonths;
+        var today = moment();
+        var maturitydate = moment(maturitydate);
+        var diffMonths = maturitydate.diff(today, 'months');
+        var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
+        var nextDate = moment(maturitydate).add(1, 'month').startOf('month');
+          var penaltyCount = 0;
+          while (nextDate < today) {
+              if (nextDate.date() == 15 || nextDate.date() === moment(nextDate).endOf('month').date()) {
+                  penaltyCount++;
+              }
+              nextDate = nextDate.add(1, 'day');
+          }
+          console.log(penaltyCount);
+          var accpenalty = (loanamount * 0.01) * penaltyCount;
         var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
         var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
         var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);
@@ -175,8 +184,8 @@ $row = mysqli_fetch_assoc($result);
             $('#accinterest').text("0.00");
         }
         $('#accpenalty').text(accpenaltyformatted);
-        if (accinterest == "NaN") {
-            $('#accinterest').text("0.00"); 
+        if (accpenalty == "NaN") {
+            $('#accpenalty').text("0.00"); 
         }
 
         const fileThumbnail = document.querySelector('#fileThumbnail');

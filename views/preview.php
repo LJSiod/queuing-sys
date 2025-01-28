@@ -11,7 +11,7 @@ if (!isset($_SESSION['branch_id'])) {
 
 $branch_id = $_SESSION['branch_id'];
 $previewid = $_GET['id'];
-$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.activenumber, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.accinterest, qi.remainingbalance, qi.remarks, qi.note, qi.attachname, qi.servedby, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $previewid";
+$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.datereceived, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.remarks, qi.note, qi.attachname, qi.servedby, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $previewid";
 // $query = "SELECT * FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE ql = $previewid";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
@@ -22,12 +22,12 @@ if (mysqli_num_rows($result) > 0) {
     $branchname = $row['branchname'];
     $branchid = $row['branchid'];
     $clientname = $row['clientname'];
+    $datereceived = date('F j, Y', strtotime($row['datereceived']));
     $datereleased = date('F j, Y', strtotime($row['datereleased']));
     $maturitydate = date('F j, Y', strtotime($row['maturitydate']));
     $loanamount = number_format($row['loanamount'], 2, '.', ',');
     $totalbalance = number_format($row['totalbalance'], 2, '.', ',');
     $onhand = number_format($row['cashonhand'], 2, '.', ',');
-    $activenumber = $row['activenumber'];
     $remarks = $row['remarks'];
     $note = $row['note'];
     $ledger = $row['attachname'];
@@ -99,7 +99,11 @@ if (mysqli_num_rows($result) > 0) {
                 <label class="small" for="type">Type</label>
                 <input type="text" class="form-control form-control-sm" id="type" name="type" value="<?php echo $type; ?>" rows="1" readonly></input>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
+                    <label class="small" for="daterec">Date Letter Received</label>
+                    <input type="text" class="form-control form-control-sm" id="daterec" value="<?php echo $datereceived; ?>" name="daterec" rows="1" readonly></input>
+                </div>
+            <div class="col-md-3">
                 <label class="small" for="clientname">Client Name</label>
                 <input type="text" class="form-control form-control-sm" id="clientname" value="<?php echo $clientname; ?>" name="clientname" rows="1" readonly></input>
             </div>
@@ -135,19 +139,15 @@ if (mysqli_num_rows($result) > 0) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-md">
-                    <label class="small" for="contactno">Branch Active Contact No.</label>
-                    <input type="text" class="form-control form-control-sm" id="contactno" value="<?php echo $activenumber; ?>" name="contactno" rows="1" readonly></input>
-                </div>
-                <div class="col-md">
+                <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
                     <label class="small font-weight-bold text-danger" for="accinterest">Accrued Interest</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="accinterest" name="accinterest" rows="1" readonly></input>
                 </div>
-                <div class="col-md">
+                <!-- <div class="col-md">
                     <label class="small font-weight-bold text-danger" for="accpenalty">Accrued Penalty</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="accpenalty" name="accpenalty" rows="1" readonly></input>
-                </div>
-                <div class="col-md">
+                </div> -->
+                <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
                     <label class="small font-weight-bold text-danger" for="totalbalance">Total Balance</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="totalbalance" name="totalbalance" rows="1" readonly></input>
                 </div>            
@@ -230,6 +230,8 @@ if (mysqli_num_rows($result) > 0) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     
     <script>
             var imageModal = document.getElementById('modalImage');
@@ -308,12 +310,20 @@ if (mysqli_num_rows($result) > 0) {
             var remainingbalance = $('#remainingbalance').val();
             var remainingbalanceformatted = remainingbalance.replace(/,/g, '');
             var maturitydate = $('#maturitydate').val();
-            var today = new Date();
-            var diffTime = Math.abs(today - new Date(maturitydate));
-            var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
-            var diffMonths = diffMonths - 1;
-            var accinterest = (loanamount * 0.06) * diffMonths;
-            var accpenalty = (loanamount * 0.02) * diffMonths;
+            var today = moment();
+            var maturitydate = moment(maturitydate);
+            var diffMonths = maturitydate.diff(today, 'months');
+            var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
+            var nextDate = moment(maturitydate).add(1, 'month').startOf('month');
+            var penaltyCount = 0;
+            while (nextDate < today) {
+                if (nextDate.date() == 15 || nextDate.date() === moment(nextDate).endOf('month').date()) {
+                    penaltyCount++;
+                }
+                nextDate = nextDate.add(1, 'day');
+            }
+            console.log(penaltyCount);
+            var accpenalty = (loanamount * 0.01) * penaltyCount;
             var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
             var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
             var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);
