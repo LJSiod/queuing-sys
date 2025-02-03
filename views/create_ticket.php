@@ -108,15 +108,15 @@ $branch_id = $_SESSION['branch_id'];
                 </div>
             </div>
             <div class="row">
-            <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
+            <div class="col">
                 <label class="small" for="accinterest">Accrued Interest</label> 
                 <input type="text" class="form-control form-control-sm" id="accinterest" name="accinterest" rows="1" readonly></input>
             </div>
-            <!-- <div class="col">
+            <div class="col">
                 <label class="small" for="accpenalty">Accrued Penalty</label>
                 <input type="text" class="form-control form-control-sm" id="accpenalty" name="accpenalty" rows="1" readonly></input>
-            </div> -->
-            <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
+            </div>
+            <div class="col">
                 <label class="small" for="totalbalance">Total Balance</label>
                 <input type="text" class="form-control form-control-sm" id="totalbalance" name="totalbalance" rows="1" readonly></input>
             </div>            
@@ -259,30 +259,30 @@ $branch_id = $_SESSION['branch_id'];
 
       //END NEW DRAG AND DROP
 
-      $('#loanamount, #maturitydate').on('input', function(){
+      $('#loanamount, #maturitydate').on('input', function() {
           var loanamount = parseFloat($('#loanamount').val());
-          var maturitydate = $('#maturitydate').val();
           var today = moment();
           var maturitydate = moment($('#maturitydate').val());
           var diffMonths = maturitydate.diff(today, 'months');
           var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
-          var nextDate = moment(maturitydate).add(1, 'month').startOf('month');
           var penaltyCount = 0;
-          while (nextDate < today) {
-              if (nextDate.date() == 15 || nextDate.date() === moment(nextDate).endOf('month').date()) {
+          var currentDate = maturitydate.clone().add(1, 'days');
+
+          while (currentDate <= today) {
+              if (currentDate.date() === 15 || currentDate.isSame(currentDate.clone().endOf('month'), 'day')) {
                   penaltyCount++;
               }
-              nextDate = nextDate.add(1, 'day');
+              currentDate.add(1, 'days');
           }
           console.log(penaltyCount);
           var accpenalty = (loanamount * 0.01) * penaltyCount;
-          $('#accinterest').val(accinterest.toLocaleString('en-US', {minimumFractionDigits: 2}));
-          $('#accpenalty').val(accpenalty.toLocaleString('en-US', {minimumFractionDigits: 2}));
+          $('#accinterest').val(accinterest.toLocaleString('en-US', { minimumFractionDigits: 2 }));
+          $('#accpenalty').val(accpenalty.toLocaleString('en-US', { minimumFractionDigits: 2 }));
           if (isNaN(accinterest)) {
-              $('#accinterest').val("0.00");  
+              $('#accinterest').val("0.00");
           }
           if (isNaN(accpenalty)) {
-              $('#accpenalty').val("0.00");  
+              $('#accpenalty').val("0.00");
           }
       });
 
@@ -297,6 +297,32 @@ $branch_id = $_SESSION['branch_id'];
           }
       });
 
+        //         let totalCount = 0;
+
+  //         let currentDate = new Date(maturitydate);
+  //         let end = new Date(today);
+
+  //         while (currentDate <= end) {
+  //         let day = currentDate.getDate();
+  //         let month = currentDate.getMonth() + 1; // Months are 0-based in JS
+  //         let year = currentDate.getFullYear();
+
+  //         // Get the last day of the month
+  //         let lastDay = new Date(year, month, 0).getDate();
+
+  //         // Count if it's the 15th or the last day of the month
+  //         if (day === 15 || day === lastDay) {
+  //             totalCount++;
+  //         }
+          
+  //         // Move to the next day
+  //         currentDate.setDate(currentDate.getDate() + 1);
+  //  }
+          // totalCount --;
+          // if (totalCount < 0) {
+          //     totalCount = 0;
+          // } 
+
         $('#queueform').submit(function(e) {
           if ($('#file').val() == '') {
           swal({
@@ -309,7 +335,7 @@ $branch_id = $_SESSION['branch_id'];
         }
           e.preventDefault();
           var formData = new FormData(this);
-          var branchId = <?php echo $branch_id; ?>;
+          var branchId = <?= $branch_id; ?>;
           $.ajax({
             type: 'POST',
             url: '../upload.php',

@@ -10,8 +10,8 @@ if (!isset($_SESSION['branch_id'])) {
 
 $sort = $_POST['sortby'] ?? 'branchname';
 $currentdate = date('Y-m-d');
-$query = "
-    SELECT 
+$query = 
+"SELECT 
         b.id AS branchid, 
         b.branchname,
         SUM(IF(qi.date = '$currentdate' AND qi.cashonhandstatus = 'RECEIVED', qi.cashonhand, 0)) AS totaltoday,

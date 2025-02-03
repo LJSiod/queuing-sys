@@ -72,7 +72,15 @@ $overalltotal = $_SESSION['overalltotal'];
         <li class="nav-item">
           <a class="nav-link text-dark" href="noterecords.php"><i class="fa fa-clipboard text-success" aria-hidden="true"></i> <strong>Notes</strong></a>
         </li>
+
         <?php if ($role == 'ADMINISTRATOR') { ?>
+        <li class="nav-item dropdown1">
+          <a class="nav-link text-dark" href="summary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
+        </li>
+        <?php } ?>
+
+
+        <!-- <?php if ($role == 'ADMINISTRATOR') { ?>
         <li class="nav-item dropdown1">
           <a class="nav-link text-dark dropdown-toggle" id="reportsdrop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
           <div class="dropdownreport">
@@ -80,7 +88,13 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="dropdown-item small font-weight-bold" href="detailed.php"><i class="fa fa-list" aria-hidden="true"></i>  Detailed</a>
         </div>
         </li>
-        <?php } ?>
+        <?php } else { ?>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="summary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
+        </li>
+        <?php } ?> -->
+
+
       </ul>
       <div class="d-flex align-items-center">
         <h6 class="mr-2 small"><b><?php echo date('l, F j, Y'); ?></b></h6>
@@ -142,7 +156,6 @@ $overalltotal = $_SESSION['overalltotal'];
             <input type="text" class="form-control form-control-sm" id="confirmusername" name="confirmusername">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
           </div>
           </form>
@@ -159,7 +172,6 @@ $overalltotal = $_SESSION['overalltotal'];
               <input type="password" class="form-control form-control-sm" id="confirmpassword" name="confirmpassword">
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
             </div>
           </form>

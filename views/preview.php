@@ -89,65 +89,65 @@ if (mysqli_num_rows($result) > 0) {
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <div class="d-flex justify-content-between">
-                <h4>Queue No: <?php echo $queueno; ?></h4>
-                <h4><?php echo $branchname; ?> BRANCH</h4>
+                <h4>Queue No: <?= $queueno; ?></h4>
+                <h4><?= $branchname; ?> BRANCH</h4>
             </div>
         <form id="noteform" action="" method="post">
-            <input type="hidden" name="id" value="<?php echo $ql; ?>">
+            <input type="hidden" name="id" value="<?= $ql; ?>">
             <div class="row">
             <div class="col-md-3">
                 <label class="small" for="type">Type</label>
-                <input type="text" class="form-control form-control-sm" id="type" name="type" value="<?php echo $type; ?>" rows="1" readonly></input>
+                <input type="text" class="form-control form-control-sm" id="type" name="type" value="<?= $type; ?>" rows="1" readonly></input>
             </div>
             <div class="col-md-3">
                     <label class="small" for="daterec">Date Letter Received</label>
-                    <input type="text" class="form-control form-control-sm" id="daterec" value="<?php echo $datereceived; ?>" name="daterec" rows="1" readonly></input>
+                    <input type="text" class="form-control form-control-sm" id="daterec" value="<?= $datereceived; ?>" name="daterec" rows="1" readonly></input>
                 </div>
             <div class="col-md-3">
                 <label class="small" for="clientname">Client Name</label>
-                <input type="text" class="form-control form-control-sm" id="clientname" value="<?php echo $clientname; ?>" name="clientname" rows="1" readonly></input>
+                <input type="text" class="form-control form-control-sm" id="clientname" value="<?= $clientname; ?>" name="clientname" rows="1" readonly></input>
             </div>
             <div class="col-md-3">
                 <label class="small" for="loanamount">Loan Amount</label>
-                <input type="text" class="form-control form-control-sm" id="loanamount" value="<?php echo $loanamount; ?>" name="loanamount" rows="1" readonly></input>
+                <input type="text" class="form-control form-control-sm" id="loanamount" value="<?= $loanamount; ?>" name="loanamount" rows="1" readonly></input>
             </div>
             </div>
             <div class="row">
                 <div class="col-md">
                     <label class="small" for="datereleased">Date Released</label>
-                    <input type="text" class="form-control form-control-sm" id="datereleased" value="<?php echo $datereleased; ?>" name="datereleased" readonly>
+                    <input type="text" class="form-control form-control-sm" id="datereleased" value="<?= $datereleased; ?>" name="datereleased" readonly>
                 </div>
                 <div class="col-md">
                     <label class="small" for="maturitydate">Maturity Date</label>
-                    <input type="text" class="form-control form-control-sm" id="maturitydate" value="<?php echo $maturitydate; ?>" name="maturitydate" readonly>
+                    <input type="text" class="form-control form-control-sm" id="maturitydate" value="<?= $maturitydate; ?>" name="maturitydate" readonly>
                 </div>
                 <div class="col-md">
                     <label class="small text-primary font-weight-bold" for="remainingbalance">Overall Remaining Balance</label>
-                    <input type="text" class="form-control form-control-sm font-weight-bold" id="remainingbalance" value="<?php echo $totalbalance; ?>" name="remainingbalance" readonly>
+                    <input type="text" class="form-control form-control-sm font-weight-bold" id="remainingbalance" value="<?= $totalbalance; ?>" name="remainingbalance" readonly>
                 </div>
                 <div class="col-md">
                     <label class="small" for="onhand">Client's On-Hand Cash</label>
                     <?php if ($branch_id != 8) { ?>
                         <?php if ($status == "IN QUEUE") { ?>
-                        <textarea class="form-control form-control-sm" id="onhand" name="onhand" rows="1"><?php echo $onhand; ?></textarea>
+                        <textarea class="form-control form-control-sm" id="onhand" name="onhand" rows="1"><?= $onhand; ?></textarea>
                         <?php } else { ?>
-                        <input type="text" class="form-control form-control-sm" id="onhand" value="<?php echo $onhand; ?>" name="onhand" rows="1" readonly></input>
+                        <input type="text" class="form-control form-control-sm" id="onhand" value="<?= $onhand; ?>" name="onhand" rows="1" readonly></input>
                         <?php } ?>
                     <?php } else { ?>
-                        <input type="text" class="form-control form-control-sm" id="onhand" value="<?php echo $onhand; ?>" name="onhand" rows="1"></input>
+                        <input type="text" class="form-control form-control-sm" id="onhand" value="<?= $onhand; ?>" name="onhand" rows="1"></input>
                     <?php } ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
+                <div class="col-md">
                     <label class="small font-weight-bold text-danger" for="accinterest">Accrued Interest</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="accinterest" name="accinterest" rows="1" readonly></input>
                 </div>
-                <!-- <div class="col-md">
+                <div class="col-md">
                     <label class="small font-weight-bold text-danger" for="accpenalty">Accrued Penalty</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="accpenalty" name="accpenalty" rows="1" readonly></input>
-                </div> -->
-                <div class="col-md-3"> <!-- ibalik sa col kung madeploy ang penalty -->
+                </div>
+                <div class="col-md">
                     <label class="small font-weight-bold text-danger" for="totalbalance">Total Balance</label>
                     <input type="text" class="form-control form-control-sm font-weight-bold text-danger" id="totalbalance" name="totalbalance" rows="1" readonly></input>
                 </div>            
@@ -156,28 +156,28 @@ if (mysqli_num_rows($result) > 0) {
             <div class="row">
                 <div class="col-md">
                     <label class="small" for="remarks">Remarks</label>
-                    <textarea class="form-control form-control-sm overflow-auto" id="remarks" name="remarks" rows="3" readonly><?php echo $remarks; ?></textarea>
+                    <textarea class="form-control form-control-sm overflow-auto" id="remarks" name="remarks" rows="3" readonly><?= $remarks; ?></textarea>
                 </div>
                 <div class="col-md">
                     <?php if ($branch_id != 8) { ?>
                     <label class="small" for="note">Note</label>
-                    <textarea class="form-control form-control-sm" id="note" name="note" rows="3" readonly><?php echo $note; ?></textarea>
+                    <textarea class="form-control form-control-sm" id="note" name="note" rows="3" readonly><?= $note; ?></textarea>
                     <?php } else { ?>
                     <label class="small" for="note">Note<span class="text-danger small">  *Change value to update</span></label>
-                    <textarea class="form-control form-control-sm" id="note" name="note" rows="3"><?php echo $note; ?></textarea>
+                    <textarea class="form-control form-control-sm" id="note" name="note" rows="3"><?= $note; ?></textarea>
                     <?php } ?>
                 </div>
             </div>
                 <div class="col-md">
                     <div class="form-group">
                     <label class="small form-control-label" for="ledger">Ledger Card <span class="text-danger small">  *Click image to preview</span></label>
-                        <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?php echo $ledger; ?>" alt="File Thumbnail" onclick="modalLedgerImage('fileThumbnail')">
+                        <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?= $ledger; ?>" alt="File Thumbnail" onclick="modalLedgerImage('fileThumbnail')">
                     </div>
                 </div>
             </div>
             <?php if ($branch_id == 8) { ?>
             <div class="text-right">
-                <a href="print.php?id=<?php echo $id; ?>" class="btn btn-sm btn-warning mt-1 hide">Print Preview</a>
+                <a href="print.php?id=<?= $id; ?>" class="btn btn-sm btn-warning mt-1 hide">Print Preview</a>
                 <?php if ($row['servedby'] == NULL) { ?> 
                 <button class="btn btn-sm btn-success mt-1" id="serve">Serve</button>
                 <?php } else { ?>
@@ -188,7 +188,7 @@ if (mysqli_num_rows($result) > 0) {
             </div>
             <?php } else { ?>
             <div class="text-right">
-                <a href="print.php?id=<?php echo $id; ?>" class="btn btn-sm btn-warning mt-1 hide">Print Preview</a>
+                <a href="print.php?id=<?= $id; ?>" class="btn btn-sm btn-warning mt-1 hide">Print Preview</a>
                 <button type="button" class="btn btn-sm btn-danger mt-1" onclick="window.history.back();">Close</button>
             </div>
             <?php } ?>
@@ -314,13 +314,14 @@ if (mysqli_num_rows($result) > 0) {
             var maturitydate = moment(maturitydate);
             var diffMonths = maturitydate.diff(today, 'months');
             var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
-            var nextDate = moment(maturitydate).add(1, 'month').startOf('month');
             var penaltyCount = 0;
-            while (nextDate < today) {
-                if (nextDate.date() == 15 || nextDate.date() === moment(nextDate).endOf('month').date()) {
+            var currentDate = maturitydate.clone().add(1, 'days');
+
+            while (currentDate <= today) {
+                if (currentDate.date() === 15 || currentDate.isSame(currentDate.clone().endOf('month'), 'day')) {
                     penaltyCount++;
                 }
-                nextDate = nextDate.add(1, 'day');
+                currentDate.add(1, 'days');
             }
             console.log(penaltyCount);
             var accpenalty = (loanamount * 0.01) * penaltyCount;

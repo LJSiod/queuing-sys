@@ -96,45 +96,23 @@ if (!isset($_SESSION['branch_id'])) {
 <body>
     <div class="br-pagebody">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <div class="br-section-wrapper">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="font-weight-bold" id="viewtype">Summary</h5>
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="form-group form-inline mr-2" id="selectdiv">
-                                <div class="form-check">
-                                    <label class="form-check-label small font-weight-bold mr-1" for="selectall">Select All</label>
-                                    <input class="form-check-input" type="checkbox" id="selectall" checked>
-                                </div>
-                            </div>
-                            <div class="form-group form-inline mr-2" id="startdiv">
-                                <label class="small font-weight-bold mr-1" for="startDate">Start Date:</label>
-                                <input type="date" class="form-control form-control-sm" id="startdate" disabled>
-                            </div>
-                            <div class="form-group form-inline mr-2" id="enddiv">
-                                <label class="small font-weight-bold mr-1" for="endDate">End Date:</label>
-                                <input type="date" class="form-control form-control-sm" id="enddate" disabled>
-                            </div>
-                            <!-- <div class="form-group form-inline">
-                                <span class="small font-weight-bold mr-1">View Mode:</span>
-                                <select class="form-control form-control-sm" id="view">
-                                    <option>Summary</option>
-                                    <option>Detailed</option>
-                                </select>
-                            </div> -->
-                        </div>
-                    </div>
+                        <h5 class="font-weight-bold">Summary</h5>
                     <table class="table table-hover table-sm" id="queue-table2"> 
+                        <?php if ($branchid == 8) {include '../load/loadsummary.php';} else {include '../load/dailyhistorybranch.php';} ?>
                     </table>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <?php if ($branchid == 8) { ?>
+            <div class="col-sm-4">
                 <div class="br-section-wrapper" id="max">
                     <h5 class="font-weight-bold">Daily History</h5>
                     <table class="table table-hover table-sm" id="history"> 
                         <?php include '../load/dailyhistory.php' ?>
                     </table>
                 </div>
+                
                 <div class="br-section-wrapper">
                     <div class="d-flex justify-content-between">
                         <h5 class="font-weight-bold">Totals</h5>
@@ -145,6 +123,7 @@ if (!isset($_SESSION['branch_id'])) {
                     </table>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -161,52 +140,16 @@ if (!isset($_SESSION['branch_id'])) {
             $('.removedrop').remove();
         });
 
-        var url = '../load/loadsummary.php';
-        var filter = $('#selectdiv, #startdiv, #enddiv');
+        $('#sortby').on('change', function() {
+                var value = $(this).val();
+                loadoverall(value);
+            });
 
-        $('#view').on('change', function() {
-            var view = $(this).val();
-            if (view == 'Summary') {
-                url = '../load/loadsummary.php';
-                filter.hide();
-                $('#viewtype').html('Summary');
-            } else {
-                url = '../load/loaddetailed.php';
-                filter.show();
-                $('#viewtype').html('Detailed');
-            }
-
-            loadoverall();
-        });
-
-        $('#selectall').on('click', function() {
-            if ($(this).is(':checked')) {
-                $('#startdate').prop('disabled', true);
-                $('#startdate').val(null);
-                $('#enddate').prop('disabled', true);
-                $('#enddate').val(null);
-                loadoverall();
-            } else {
-                $('#startdate').prop('disabled', false);
-                $('#startdate').val('2024-12-10');
-                $('#enddate').prop('disabled', false);
-                $('#enddate').val('<?php echo $currentdate; ?>');
-            }
-        });
-
-        $('#startdate, #enddate').on('change', function() {
-            var startdate = $('#startdate').val();
-            var enddate = $('#enddate').val();
-            var betweenquery = "BETWEEN '" + startdate + "' AND '" + enddate + "'";
-            loadoverall(betweenquery);
-        });
-
-            function loadoverall(betweenquery, sortby) {
+            function loadoverall(sortby) {
                 $.ajax({
-                    url: url,
+                    url: '../load/<?php if ($branchid == 8) {echo 'loadsummary';} else {echo 'dailyhistorybranch';} ?>.php',
                     method: 'POST',
                     data: {
-                        betweenquery: betweenquery,
                         sortby: sortby
                     },
                     success: function(response) {
@@ -215,26 +158,34 @@ if (!isset($_SESSION['branch_id'])) {
                 });
             }
 
-        $(document).on('click', '#queue-table2 thead th', function(e) {
-            e.preventDefault();
-            $('#actiondropdown').remove();
-
-            var thvalue = $(this).attr('id');
-            var startdate = $('#startdate').val();
-            var enddate = $('#enddate').val();
-            var betweenquery = (startdate && enddate) ? "BETWEEN '" + startdate + "' AND '" + enddate + "'" : null;
-            loadoverall(betweenquery, thvalue);
-        });
-
         $(document).ready(function() {
-            filter.hide();
-            loadoverall();
+            //loadoverall();
             loadtotals();
             loadhistory();
             setInterval(() => {
+                //loadoverall();
                 loadtotals();
                 loadhistory();
             }, 5000);
+
+            // $('#view').on('change', function() {
+            //     var value = $(this).val();
+            //     $('#title').html(value);
+            //     loadoverall(value);
+            // });
+
+            // function loadoverall(view) {
+            //     $.ajax({
+            //         url: '../load/loaddetailed.php',
+            //         method: 'POST',
+            //         data: {
+            //             view: view
+            //         },
+            //         success: function(response) {gti
+            //             $('#queue-table2').html(response);
+            //         }
+            //     });
+            // }
 
         $('#queue-table2').on('contextmenu', 'tbody tr', function(e) {
             e.preventDefault();
@@ -265,6 +216,16 @@ if (!isset($_SESSION['branch_id'])) {
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
             
         });
+
+            // function loadoverall() {
+            //     $.ajax({
+            //         url: 'loadoverall.php',
+            //         method: 'GET',
+            //         success: function(data) {
+            //             $('#queue-table2').html(data);
+            //         }
+            //     });
+            // }
 
             function loadtotals() {
                 $.ajax({

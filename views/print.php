@@ -125,20 +125,20 @@ $row = mysqli_fetch_assoc($result);
             </div>
 
             <div class="row">
-                <div class="col-md-4 text-danger font-weight-bold"> <!-- ibalik sa col kung madeploy ang penalty -->
+                <div class="col text-danger font-weight-bold">
                     <span><b>Accrued Interest:</b> </span><span class="text-dark" id="accinterest"></span>
                 </div>
-                <!-- <div class="col text-danger font-weight-bold">
+                <div class="col text-danger font-weight-bold">
                     <span><b>Accrued Penalty:</b> </span><span class="text-dark" id="accpenalty"></span>
-                </div> -->
-                <div class="col-md-4 text-danger font-weight-bold"> <!-- ibalik sa col kung madeploy ang penalty -->
+                </div>
+                <div class="col text-danger font-weight-bold">
                     <span><b>Total Balance:</b> </span><span class="text-dark" id="totalbalance"></span>
                 </div>
             </div>
 
             <span><b>Remarks:</b> <?= $row['remarks'] ?></span>
             <hr>
-            <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?php echo $row['attachname']; ?>" alt="File Thumbnail">
+            <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?= $row['attachname'] ?>" alt="File Thumbnail">
             <div class="text-right">
                 <button class="btn btn-sm btn-primary d-print-none" onclick="window.print();">Print</button>
                 <button type="button" class="btn btn-sm btn-danger d-print-none" onclick="window.history.back();">Close</button>
@@ -161,16 +161,16 @@ $row = mysqli_fetch_assoc($result);
         var maturitydate = moment(maturitydate);
         var diffMonths = maturitydate.diff(today, 'months');
         var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
-        var nextDate = moment(maturitydate).add(1, 'month').startOf('month');
-          var penaltyCount = 0;
-          while (nextDate < today) {
-              if (nextDate.date() == 15 || nextDate.date() === moment(nextDate).endOf('month').date()) {
-                  penaltyCount++;
-              }
-              nextDate = nextDate.add(1, 'day');
-          }
-          console.log(penaltyCount);
-          var accpenalty = (loanamount * 0.01) * penaltyCount;
+        var penaltyCount = 0;
+        var currentDate = maturitydate.clone().add(1, 'days');
+        while (currentDate <= today) {
+            if (currentDate.date() === 15 || currentDate.isSame(currentDate.clone().endOf('month'), 'day')) {
+                penaltyCount++;
+            }
+            currentDate.add(1, 'days');
+        }
+        console.log(penaltyCount);
+        var accpenalty = (loanamount * 0.01) * penaltyCount;
         var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
         var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
         var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);

@@ -3,7 +3,7 @@ session_start();
 include 'config/db.php'; 
 include 'logger.php';
 date_default_timezone_set('Asia/Manila');
-$_SESSION['version'] = '2.1.2';
+$_SESSION['version'] = '2.1.3';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
