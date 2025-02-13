@@ -1,7 +1,7 @@
 <?php
 session_start();
-include '../config/db.php';
-include '../includes/header.php';
+include 'config/db.php';
+include 'includes/header.php';
 date_default_timezone_set('Asia/Manila');
 
 if (!isset($_SESSION['branch_id'])) {
@@ -22,8 +22,8 @@ $currentdate = date('Y-m-d');
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Fira+Sans">
-    <link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">
-    <link href="../assets/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/> 
+    <link href="assets/css/styles.css" rel="stylesheet">
     <title>Queueing System</title>
     <style>
         .br-pagebody {
@@ -52,10 +52,23 @@ $currentdate = date('Y-m-d');
             top: -25px;
         }
 
-        #recordtable tr:hover {
-            background-color:rgb(234, 232, 232);
+        .hover {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
         }
 
+        .hover:hover {
+            text-shadow: 0px 0px 10px rgba(0, 225, 255, 0.78);
+            user-select: none;
+        }
+
+        .hover:active {
+            text-shadow: 0px 0px 20px rgb(0, 55, 255);
+        }
+
+        .hover:not(:hover) {
+            color: black;
+        }
     </style>
     
 </head>
@@ -66,11 +79,11 @@ $currentdate = date('Y-m-d');
                 <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-4">
                 <div style="display: flex; align-items: center;">
                     <div>
-                        <h5 class="font-weight-bold" style="margin-bottom: -5rem;">Records</h5>
+                        <h5 class="font-weight-bold" style="margin-bottom: -0.5rem;">Records</h5>
                     </div>
                 </div>
                 </div>
-                <table id="records" class="table table-sm" style="width: 100%;">
+                <table id="records" class="table table-hover table-sm mt-3" style="width: 100%;">
                     <thead class="sticky-top top">
                         <tr title="Click to sort">
                             <th>Queue no.</th>
@@ -87,6 +100,7 @@ $currentdate = date('Y-m-d');
                         </tr>
                     </thead>
                     <tbody class="small" id="recordtable">
+                        
                     </tbody>
                 </table>
             </div>
@@ -99,72 +113,41 @@ $currentdate = date('Y-m-d');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/sc-2.4.3/datatables.min.js" integrity="sha384-1zOgQnerHMsipDKtinJHWvxGKD9pY4KrEMQ4zNgZ946DseuYh0asCewEBafsiuEt" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
         
     $(document).ready(function() {
-    var table = $('#records').DataTable({
-      ajax: {
-        url: '../load/loadrecords.php',
-        type: 'GET',
-        dataSrc: 'data'
-      },
-      layout: {
-        topStart: false,
-        bottomEnd: false,
-      },
-      deferRender: true,
-      scroller: true,
-      scrollY: "70vh",
-      scrollX: true,
-      scrollCollapse: true,
-      order: [
-        [10, 'desc'],
-        [0, 'desc']
-      ],
-      columns: [
-        { data: 'queueno' },
-        { data: 'branchname' },
-        { data: 'type' },
-        { data: 'clientname' },
-        { data: 'loanamount' },
-        { data: 'totalbalance' },
-        { data: 'cashonhand' },
-        { data: 'cashonhandstatus' },
-        { data: 'datereceived' },
-        { data: 'status' },
-        { data: 'date' },
-      ],
-      language: {
-        searchPlaceholder: 'Search',
-        search: '',
-        loadingRecords: 'Loading...'
-      },
-      initComplete: function(settings, json) {
-        $('.dt-layout-row').css({
-          'font-size': '15px',
-          'font-weight': 'bold'
-        });
-      }
+    $('#records').DataTable({
+        ajax: {
+            url: 'loadtest.php',
+            type: 'GET',
+            dataSrc: 'data'
+        },
+        pageLength: 17,
+        order: [[10, 'desc']],
+        columns: [
+            { data: 'queueno' },
+            { data: 'branchname' },
+            { data: 'type' },
+            { data: 'clientname' },
+            { data: 'loanamount' },
+            { data: 'totalbalance' },
+            { data: 'cashonhand' },
+            { data: 'cashonhandstatus' },
+            { data: 'datereceived' },
+            { data: 'status' },
+            { data: 'date' },
+        ]
     });
-    
-    if ($(window).width() >= 768) {
-      setInterval(function() {
-        table.ajax.reload(null, false);
-      }, 30000);
-    }
 
-
-    $(document).on('contextmenu', function(e) {
-        e.preventDefault();
-    });
     $(document).on('contextmenu', '#records tbody tr', function(e) {
             e.preventDefault();
             $('#actiondropdown').remove();
 
-            var rowData = table.row($(this)).data();
-            var id = rowData.id; 
-            console.log(rowData.id);
+            var rowData = $(this).children('td').map(function() {
+                return $(this).text();
+            }).get();
+            var id = rowData[0]; 
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
                         + '</div>').appendTo('body');

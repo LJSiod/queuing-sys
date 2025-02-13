@@ -73,6 +73,9 @@ $(document).ready(function() {
               }).then((value) => {
                 if (value) {
                   var note = $("#note-textarea").val();
+                  if (!note) {
+                    var note = "Receive Payment!";
+                  }
                   $.ajax({
                     url: '../actions.php',
                     method: 'POST',

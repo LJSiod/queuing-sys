@@ -11,11 +11,8 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
-$sort = $_POST['sortby'] ?? 'qi.queueno DESC';
-$filterdate = $_POST['filterdate'] ?? '';
-$queryfilter = $filterdate ? "AND qi.date = '$filterdate'" : '';
-$query = "
-    SELECT 
+$query = 
+"SELECT 
     qi.id, 
     qi.queueno, 
     qi.branchid, 
@@ -28,24 +25,29 @@ $query = "
     b.branchname 
     FROM queueinfo qi 
     LEFT JOIN branch b ON qi.branchid = b.id 
-    WHERE note IS NOT NULL AND (qi.branchid = '$branch_id' OR '$branch_id' = 8) $queryfilter 
-    ORDER BY $sort";
+    WHERE note IS NOT NULL AND (qi.branchid = '$branch_id' OR '$branch_id' = 8)
+    ORDER BY qi.id DESC";
 $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)): ?>
-        <tr>
-            <td class="d-none"><?php echo $row['id']; ?></td>
-            <td><p class="label">Queue no.: </p><?php echo $row['queueno']; ?></td>
-            <td><p class="label">Branch: </p><?php echo $row['branchname']; ?></td>
-            <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
-            <td><p class="label">Remarks: </p><?php echo $row['remarks']; ?></td>
-            <td><p class="label">Note: </p><?php echo $row['note']; ?></td>
-            <td class="<?php echo ($row['cashonhandstatus'] === 'RECEIVED') ? 'text-success' : (($row['cashonhandstatus'] === 'DECLINED') ? 'text-danger' : ''); ?>"><p class="label">Status: </p><?php echo $row['cashonhandstatus']; ?></td>
-            <td><p class="label">Date: </p><?php echo date('Y-m-d', strtotime($row['date'])); ?></td>
-        </tr>
-    <?php endwhile;
+    $data = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data[] = array(
+            'id' => '<span class="label">ID: </span>' . $row['id'],
+            'queueno' => '<span class="label">Queue No: </span>' . $row['queueno'],
+            'branchname' => '<span class="label">Branch: </span>' . $row['branchname'],
+            'clientname' => '<span class="label">Client Name: </span>' . strtoupper($row['clientname']),
+            'remarks' => '<span class="label">Remarks: </span>' . $row['remarks'],
+            'note' => '<span class="label">Note: </span>' . $row['note'],
+            'cashonhandstatus' => '<span class="label">Status: </span>' . 
+                ($row['cashonhandstatus'] == 'RECEIVED' ? '<span class="text-success">RECEIVED</span>' : 
+                ($row['cashonhandstatus'] == 'PENDING' ? '<span class="text-warning">PENDING</span>' : '<span class="text-danger">DECLINED</span>')),
+            'status' => $row['status'],
+            'date' =>'<span class="label">Date: </span>' . date('Y-m-d', strtotime($row['date'])),
+        );
+    }
+    echo json_encode(array('data' => $data));
 } else {
-    echo '<tr style="pointer-events: none;"><td colspan="7" class="text-left">No records found.</td></tr>';
+    echo json_encode(array('data' => array()));
 }
 ?>

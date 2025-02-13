@@ -61,7 +61,7 @@ if (!isset($_SESSION['branch_id'])) {
           margin-bottom: 10px;
           border: 1px solid #e5e5e5;
         }
-        
+
         .dragover {
             background-color: #ccc;
             cursor: move;
@@ -115,13 +115,13 @@ if (!isset($_SESSION['branch_id'])) {
                                 <label class="small font-weight-bold mr-1" for="endDate">End Date:</label>
                                 <input type="date" class="form-control form-control-sm" id="enddate" disabled>
                             </div>
-                            <!-- <div class="form-group form-inline">
+                            <div class="form-group form-inline">
                                 <span class="small font-weight-bold mr-1">View Mode:</span>
                                 <select class="form-control form-control-sm" id="view">
                                     <option>Summary</option>
                                     <option>Detailed</option>
                                 </select>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <table class="table table-hover table-sm" id="queue-table2"> 
@@ -129,19 +129,10 @@ if (!isset($_SESSION['branch_id'])) {
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="br-section-wrapper" id="max">
+                <div class="br-section-wrapper">
                     <h5 class="font-weight-bold">Daily History</h5>
                     <table class="table table-hover table-sm" id="history"> 
                         <?php include '../load/dailyhistory.php' ?>
-                    </table>
-                </div>
-                <div class="br-section-wrapper">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="font-weight-bold">Totals</h5>
-                        <span class="small text-primary"><i><u>Overall from December 10, 2024</u></i></span>
-                    </div>
-                    <table class="table table-sm" id="totals"> 
-                        <?php include '../load/loadtotals.php' ?>
                     </table>
                 </div>
             </div>
@@ -163,13 +154,15 @@ if (!isset($_SESSION['branch_id'])) {
 
         var url = '../load/loadsummary.php';
         var filter = $('#selectdiv, #startdiv, #enddiv');
+        var view = $('#view').val();
 
         $('#view').on('change', function() {
-            var view = $(this).val();
+            view = $(this).val();
             if (view == 'Summary') {
                 url = '../load/loadsummary.php';
                 filter.hide();
                 $('#viewtype').html('Summary');
+                
             } else {
                 url = '../load/loaddetailed.php';
                 filter.show();
@@ -229,10 +222,8 @@ if (!isset($_SESSION['branch_id'])) {
         $(document).ready(function() {
             filter.hide();
             loadoverall();
-            loadtotals();
             loadhistory();
             setInterval(() => {
-                loadtotals();
                 loadhistory();
             }, 5000);
 
@@ -248,7 +239,9 @@ if (!isset($_SESSION['branch_id'])) {
                         + (paid != 0 ? '<a class="dropdown-item small" href="overalllist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar text-info" aria-hidden="true"></i> Preview Overall</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
                         + (paid != 0 ? '<a class="dropdown-item small" href="dailylist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar-check-o text-info" aria-hidden="true"></i> Preview Daily</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
                         + '</div>').appendTo('body');
+            if (view == 'Summary') {
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
+            }
 
         });
 
@@ -266,16 +259,6 @@ if (!isset($_SESSION['branch_id'])) {
             
         });
 
-            function loadtotals() {
-                $.ajax({
-                    url: '../load/loadtotals.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#totals').html(data);
-                    }
-                });
-            }
-
             function loadhistory() {
                 $.ajax({
                     url: '../load/dailyhistory.php',
@@ -290,8 +273,3 @@ if (!isset($_SESSION['branch_id'])) {
     </script>
     </body>
 </html>
-
-
-
-
-

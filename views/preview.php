@@ -46,6 +46,7 @@ if (mysqli_num_rows($result) > 0) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Nunito+Sans">
+    <link rel="stylesheet" href="https://unpkg.com/viewerjs@1.11.7/dist/viewer.css">
     <link href="../assets/css/styles.css" rel="stylesheet">
     <style>
 
@@ -169,9 +170,14 @@ if (mysqli_num_rows($result) > 0) {
                 </div>
             </div>
                 <div class="col-md">
-                    <div class="form-group">
+                    <div class="form-group" id="images">
                     <label class="small form-control-label" for="ledger">Ledger Card <span class="text-danger small">  *Click image to preview</span></label>
-                        <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?= $ledger; ?>" alt="File Thumbnail" onclick="modalLedgerImage('fileThumbnail')">
+                        <?php if (strpos($row['attachname'], '.pdf') !== false) { ?>
+                          <div class="pdf-image" data-src="../<?php echo $row['attachname']; ?>"></div>
+                        <?php } else { ?>
+                          <img class="form-control form-control-sm fileThumbnail mx-auto d-block" src="../<?php echo $row['attachname']; ?>" alt="<?php echo $row['attachname']; ?>">
+                        <?php } ?>
+                        <!-- <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?= $ledger; ?>" alt="File Thumbnail" onclick="modalLedgerImage('fileThumbnail')"> -->
                     </div>
                 </div>
             </div>
@@ -231,78 +237,40 @@ if (mysqli_num_rows($result) > 0) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
-    
+    <script src="https://unpkg.com/viewerjs@1.11.7/dist/viewer.min.js"></script>
     <script>
-            var imageModal = document.getElementById('modalImage');
-            imageModal.addEventListener("wheel", function(e) {
-                if (e.target.id === 'modalImageSrc') {
-                    var zoomLevel = e.wheelDeltaY > 0 ? 1.1 : 1/1.1;
-                    var image = document.getElementById('modalImageSrc');
-                    var currentWidth = image.width;
-                    image.width = currentWidth * zoomLevel;
-                    e.preventDefault();
-                }
-            }, false);
-        
-            var dragging = false;
-            var startX = 0;
-            var startY = 0;
-            var x = 0;
-            var y = 0;
-            
-            const modalImageSrc = document.getElementById('modalImageSrc');
- 
-            modalImageSrc.addEventListener("mousedown", function(e) {
-                e.preventDefault();
-                if (e.target === this) {
-                    dragging = true;
-                    startX = e.clientX;
-                    startY = e.clientY;
-                    x = imageModal.scrollLeft;
-                    y = imageModal.scrollTop;
-                    imageModal.style.cursor = "grabbing";
-                }
+            const gallery = new Viewer(document.getElementById('images'), {
+              viewed() {
+                const image = gallery.image;
+                image.style.border = '2px solid black'; 
+                image.style.borderRadius = '5px';
+              }
             });
-            
-            modalImageSrc.addEventListener("mouseover", function(e) {
-                imageModal.style.cursor = "grab";
-            });
-
-            modalImageSrc.addEventListener("mousemove", function(e) {
-                if (dragging) {
-                    e.preventDefault();
-                    var dx = e.clientX - startX;
-                    var dy = e.clientY - startY;
-                    imageModal.scrollLeft = x - dx;
-                    imageModal.scrollTop = y - dy;
-                }
-            });
-            
-            modalImageSrc.addEventListener("mouseup", function() {
-                dragging = false;
-                imageModal.style.cursor = "grab";
-            });
-
-        function rotateImage(degrees) {
-                const img = document.getElementById('modalImageSrc');
-                const currentRotation = img.style.transform.replace(/[^\d.]/g, '') || 0;
-                const newRotation = (parseFloat(currentRotation) + degrees) % 360;
-                img.style.transform = `rotate(${newRotation}deg)`;
-            }
-        
-            $('#modalImage').on('hidden.bs.modal', function () {
-                const img = document.getElementById('modalImageSrc');
-                img.style.transform = 'rotate(0deg)';
-            });
-
-        function modalLedgerImage(imageId) {
-            var fileLink = document.getElementById(imageId).src;
-            document.getElementById('modalImageSrc').src = fileLink;
-            document.getElementById('downloadImageLink').href = fileLink;
-            document.getElementById('downloadImageLink').download = fileLink.split('/').pop();
-            $('#modalImage').modal('show'); 
-            }
+              const pdfImages = document.querySelectorAll('#images .pdf-image');
+              pdfImages.forEach(pdfImage => {
+                const pdfLink = pdfImage.getAttribute('data-src');
+                const loadingTask = pdfjsLib.getDocument(pdfLink);
+                loadingTask.promise.then(pdf => {
+                  pdf.getPage(1).then(page => {
+                    const viewport = page.getViewport({ scale: 1.0 });
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                
+                    page.render({
+                      canvasContext: context,
+                      viewport: viewport
+                    }).promise.then(() => {
+                      const img = document.createElement('img');
+                      img.src = canvas.toDataURL('image/png');
+                      img.className = 'form-control form-control-sm fileThumbnail mx-auto d-block';
+                      document.getElementById('images').appendChild(img);
+                      gallery.update();
+                    });
+                  });
+                });
+              });
 
     $(document).ready(function(){
             var loanamount = $('#loanamount').val();
@@ -386,30 +354,6 @@ if (mysqli_num_rows($result) > 0) {
                 }
             });
         });
-
-
-
-        const fileThumbnail = document.querySelector('#fileThumbnail');
-        if (fileThumbnail.src.endsWith('.pdf')) {
-            const pdfLink = fileThumbnail.src;
-            const loadingTask = pdfjsLib.getDocument(pdfLink);
-            loadingTask.promise.then(function(pdf) {
-                pdf.getPage(1).then(function(page) {
-                    const viewport = page.getViewport({ scale: 1.0 });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    page.render({
-                        canvasContext: context,
-                        viewport: viewport
-                    }).promise.then(function() {
-                        fileThumbnail.src = canvas.toDataURL('image/png');
-                    });
-                });
-            });
-        }
     
         });
     </script>

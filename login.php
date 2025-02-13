@@ -3,7 +3,7 @@ session_start();
 include 'config/db.php'; 
 include 'logger.php';
 date_default_timezone_set('Asia/Manila');
-$_SESSION['version'] = '2.1.3';
+$_SESSION['version'] = '2.2.0';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login|Queueing System</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="image\neocash.ico">
+    <link rel="icon" type="image/x-icon" href="assets/image/neocash.ico">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <style media="screen">

@@ -259,7 +259,8 @@ $branch_id = $_SESSION['branch_id'];
 
       //END NEW DRAG AND DROP
 
-      $('#loanamount, #maturitydate').on('input', function() {
+      $('#loanamount, #maturitydate').on('change', function() {
+        setTimeout(function() {
           var loanamount = parseFloat($('#loanamount').val());
           var today = moment();
           var maturitydate = moment($('#maturitydate').val());
@@ -284,9 +285,11 @@ $branch_id = $_SESSION['branch_id'];
           if (isNaN(accpenalty)) {
               $('#accpenalty').val("0.00");
           }
+      }, 1500);
       });
 
-      $('#remainingbalance, #maturitydate').on('input', function(){
+      $('#remainingbalance, #maturitydate').on('change', function(){
+          setTimeout(function(){ 
           var remainingbalance = parseFloat($('#remainingbalance').val().replace(/,/g, ''));
           var accinterest = parseFloat($('#accinterest').val().replace(/,/g, ''));
           var accpenalty = parseFloat($('#accpenalty').val().replace(/,/g, ''));
@@ -295,33 +298,8 @@ $branch_id = $_SESSION['branch_id'];
           if (isNaN(totalbalance)) {
             $('#totalbalance').val("0.00");
           }
+      }, 1500);
       });
-
-        //         let totalCount = 0;
-
-  //         let currentDate = new Date(maturitydate);
-  //         let end = new Date(today);
-
-  //         while (currentDate <= end) {
-  //         let day = currentDate.getDate();
-  //         let month = currentDate.getMonth() + 1; // Months are 0-based in JS
-  //         let year = currentDate.getFullYear();
-
-  //         // Get the last day of the month
-  //         let lastDay = new Date(year, month, 0).getDate();
-
-  //         // Count if it's the 15th or the last day of the month
-  //         if (day === 15 || day === lastDay) {
-  //             totalCount++;
-  //         }
-          
-  //         // Move to the next day
-  //         currentDate.setDate(currentDate.getDate() + 1);
-  //  }
-          // totalCount --;
-          // if (totalCount < 0) {
-          //     totalCount = 0;
-          // } 
 
         $('#queueform').submit(function(e) {
           if ($('#file').val() == '') {

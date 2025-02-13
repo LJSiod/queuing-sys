@@ -73,40 +73,29 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="nav-link text-dark" href="noterecords.php"><i class="fa fa-clipboard text-success" aria-hidden="true"></i> <strong>Notes</strong></a>
         </li>
 
+        
         <?php if ($role == 'ADMINISTRATOR') { ?>
-        <li class="nav-item dropdown1">
-          <a class="nav-link text-dark" href="summary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
-        </li>
-        <?php } ?>
-
-
-        <!-- <?php if ($role == 'ADMINISTRATOR') { ?>
-        <li class="nav-item dropdown1">
-          <a class="nav-link text-dark dropdown-toggle" id="reportsdrop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
-          <div class="dropdownreport">
-          <a class="dropdown-item small font-weight-bold" href="summary.php"><i class="fa fa-file-text-o" aria-hidden="true"></i>  Summary</a>
-          <a class="dropdown-item small font-weight-bold" href="detailed.php"><i class="fa fa-list" aria-hidden="true"></i>  Detailed</a>
-        </div>
-        </li>
-        <?php } else { ?>
         <li class="nav-item">
           <a class="nav-link text-dark" href="summary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
         </li>
-        <?php } ?> -->
-
-
+        <?php } else { ?>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="branchsummary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
+        </li>
+        <?php } ?>
       </ul>
       <div class="d-flex align-items-center">
         <h6 class="mr-2 small"><b><?php echo date('l, F j, Y'); ?></b></h6>
         <h6 class="mr-2 small" id="time"></h6>
       </div>
       <h6 class="mr-2 small">Current User: <b><?php echo htmlspecialchars($name); ?></b></h6>
+      <div class="dropdown">
         <img src="../assets/image/profile.png" style="width: 40px; height: 40px;" name="profile" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="z-index: 1000;">
+        <div class="dropdown-menu dropdown-menu-right profile" aria-labelledby="dropdownMenuButton"  style="z-index: 1000;">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <img src="<?php if ($name == 'Master Dev') { echo "../assets/image/anon.png"; } else { echo "../assets/image/Neologo.png"; } ?>" class="rounded-circle mt-3" alt="User Image" style="width: 70px; height: 70px;">
+            <img src="<?php if ($name == 'Master Dev') { echo "../assets/image/mcdo.png"; } else { echo "../assets/image/Neologo.png"; } ?>" class="rounded-circle mt-3" alt="User Image" style="width: 70px; height: 70px;">
           </div>
-          <h6 class="dropdown-item font-weight-bold text-center"><?php echo htmlspecialchars($name); ?></h6>
+          <h6 class="dropdown-item font-weight-bold text-center"><?= $name; ?></h6>
           <?php if ($branchid == 8) { ?>
           <div id="totalrunning">
             <p class="small text-center">Total Running Collection</p>
@@ -124,6 +113,7 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="dropdown-item text-danger small" href="#" id="logoutButton"><i class="fa fa-sign-out" aria-hidden="true"></i> <b>Logout</b></a>
         </div>
         </div>
+      </div>
     </div>
   </nav>
 
@@ -185,6 +175,7 @@ $overalltotal = $_SESSION['overalltotal'];
   <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
   
   
   <script>
@@ -208,6 +199,14 @@ $(document).ready(function() {
     function resetIdleTime() {
         idleTime = 0;
     }
+});
+
+$('.dropdown').on('show.bs.dropdown', function () {
+    $('.profile').slideDown(200);
+});
+
+$('.dropdown').on('hide.bs.dropdown', function () {
+    $('.profile').slideUp(200);
 });
 
     function loadoveralltotal() {
@@ -282,7 +281,7 @@ $(document).ready(function() {
 
     const timeElement = document.getElementById('time');
     const updateTimer = () => {
-        timeElement.textContent = `${new Date().toLocaleTimeString()}`;
+        timeElement.textContent = moment().format('h:mm:ss A');
         timeElement.style.fontWeight = 'bold';
         setTimeout(updateTimer, 1000);
     };
