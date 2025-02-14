@@ -18,7 +18,7 @@ if (!isset($_SESSION['branch_id'])) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Nunito+Sans">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/> 
+    <link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">    
     <link href="../assets/css/styles.css" rel="stylesheet">
     <style>
 
@@ -100,7 +100,7 @@ if (!isset($_SESSION['branch_id'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/sc-2.4.3/datatables.min.js" integrity="sha384-1zOgQnerHMsipDKtinJHWvxGKD9pY4KrEMQ4zNgZ946DseuYh0asCewEBafsiuEt" crossorigin="anonymous"></script>
     <script>
 
         $(document).ready(function() {
@@ -110,7 +110,10 @@ if (!isset($_SESSION['branch_id'])) {
                     type: 'GET',
                     dataSrc: 'data'
                 },
-                pageLength: 15,
+                layout: {
+                  topStart: false,
+                  bottomEnd: false,
+                },
                 order: [[0, 'desc']],
                 rowCallback: function(row, data, index) {
                     if (data.date === '<?php echo date('Y-m-d'); ?>') {
@@ -131,25 +134,18 @@ if (!isset($_SESSION['branch_id'])) {
                 language: {
                     searchPlaceholder: 'Search',
                     search: '',
-                    lengthMenu: '_MENU_ entries',
-                    info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-                    infoEmpty: 'No entries to show',
-                    infoFiltered: '(filtered from _MAX_ total entries)',
-                    loadingRecords: 'Loading...',
-                    paginate: {
-                      first: 'First page',
-                      previous: 'Prev',
-                      next: 'Next',
-                      last: 'Last page'
-                    },
-                  },
-                  initComplete: function(settings, json) {
-                    $('.dataTables_length, .dataTables_info, .dataTables_paginate').css({
-                      'font-size': '15px',
-                      'font-weight': 'bold'
-                    });
-                  }
-                });
+                    loadingRecords: 'Loading...'
+                },
+                deferRender: true,
+                scroller: true,
+                scrollY: "60vh",
+                initComplete: function(settings, json) {
+                  $('.dt-layout-row').css({
+                    'font-size': '15px',
+                    'font-weight': 'bold'
+                  });
+                }
+            });
 
             $.ajax({
                 url: '../load/loadtotals.php',

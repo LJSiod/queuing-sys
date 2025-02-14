@@ -83,6 +83,11 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="nav-link text-dark" href="branchsummary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
         </li>
         <?php } ?>
+        <?php if ($name == 'LJ Dev') { ?>
+        <li class="nav-item">
+          <a class="nav-link text-dark" id="wala" href="#"><i class="fa fa-user text-primary" aria-hidden="true"></i> <strong>User Management</strong></a>
+        </li>
+        <?php } ?>
       </ul>
       <div class="d-flex align-items-center">
         <h6 class="mr-2 small"><b><?php echo date('l, F j, Y'); ?></b></h6>
@@ -93,21 +98,13 @@ $overalltotal = $_SESSION['overalltotal'];
         <img src="../assets/image/profile.png" style="width: 40px; height: 40px;" name="profile" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <div class="dropdown-menu dropdown-menu-right profile" aria-labelledby="dropdownMenuButton"  style="z-index: 1000;">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <img src="<?php if ($name == 'Master Dev') { echo "../assets/image/mcdo.png"; } else { echo "../assets/image/Neologo.png"; } ?>" class="rounded-circle mt-3" alt="User Image" style="width: 70px; height: 70px;">
+            <img src="<?php if ($name == 'LJ Dev') { echo "../assets/image/mcdo.png"; } else { echo "../assets/image/Neologo.png"; } ?>" class="rounded-circle mt-3" alt="User Image" style="width: 70px; height: 70px;">
           </div>
           <h6 class="dropdown-item font-weight-bold text-center"><?= $name; ?></h6>
-          <?php if ($branchid == 8) { ?>
           <div id="totalrunning">
             <p class="small text-center">Total Running Collection</p>
             <p class="text-center"><strong><u><span id="profiletotal"></u></span></strong></p>
           </div>
-          <?php } else { ?>
-          <style>
-            #totalrunning {
-              display: none;
-            }
-          </style>
-          <?php } ?>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item text-dark small" href="#" id="editprofile" data-toggle="modal" data-target="#editprofileModal"><i class="fa fa-edit" aria-hidden="true"></i> <b>Edit Profile</b></a>
           <a class="dropdown-item text-danger small" href="#" id="logoutButton"><i class="fa fa-sign-out" aria-hidden="true"></i> <b>Logout</b></a>
@@ -171,43 +168,50 @@ $overalltotal = $_SESSION['overalltotal'];
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.24/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
   
-  
   <script>
 
-$(document).ready(function() {
-    loadoveralltotal();
-    setInterval(function() { loadoveralltotal(); }, 10000);
-    let idleTime = 0;
-    const idleInterval = setInterval(timerIncrement, 60000); 
+  $(document).ready(function() {
+      loadoveralltotal();
+      setInterval(function() { loadoveralltotal(); }, 10000);
+      let idleTime = 0;
+      const idleInterval = setInterval(timerIncrement, 60000); 
 
-    $(this).mousemove(resetIdleTime);
-    $(this).keypress(resetIdleTime);
+      $(this).mousemove(resetIdleTime);
+      $(this).keypress(resetIdleTime);
 
-    function timerIncrement() {
-        idleTime++;
-        if (idleTime >= 10) { 
-            window.location.href = '../views/dashboard.php';
-        }
-    }
+      function timerIncrement() {
+          idleTime++;
+          if (idleTime >= 10) { 
+              window.location.href = '../views/dashboard.php';
+          }
+      }
 
-    function resetIdleTime() {
-        idleTime = 0;
-    }
-});
+      function resetIdleTime() {
+          idleTime = 0;
+      }
+  });
 
-$('.dropdown').on('show.bs.dropdown', function () {
-    $('.profile').slideDown(200);
-});
+  $('#wala').on('click', function() {
+        Swal.fire({
+          title: "Feature Under Development",
+          icon: "info",
+          timer: 1500
+        }); 
+  })
 
-$('.dropdown').on('hide.bs.dropdown', function () {
+  $('.dropdown').on('show.bs.dropdown', function () {
+      $('.profile').slideDown(200);
+  });
+
+  $('.dropdown').on('hide.bs.dropdown', function () {
     $('.profile').slideUp(200);
-});
+  });
 
     function loadoveralltotal() {
       $.ajax({
@@ -226,17 +230,19 @@ $('.dropdown').on('hide.bs.dropdown', function () {
     $('#editprofileform').submit(function(event) {
       event.preventDefault(); 
             if ($('#username').val() !== $('#confirmusername').val()) {
-                swal("Username does not match!", "Please enter the same username in both fields.", "error");
+                Swal.fire("Username does not match!", "Please enter the same username in both fields.", "error");
             } else {
-                swal({
+                Swal.fire({
                     title: "Save Changes?",
                     text: "Are you sure you want to save changes to your profile?",
                     icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, save it!'
                 })
-                .then((willSave) => {
-                    if (willSave) {
+                .then((result) => {
+                    if (result.isConfirmed) {
                         this.submit();
                     }
                 });
@@ -246,17 +252,19 @@ $('.dropdown').on('hide.bs.dropdown', function () {
     $('#editpasswordform').submit(function(event) {
       event.preventDefault(); 
             if ($('#password').val() !== $('#confirmpassword').val()) {
-                swal("Password does not match!", "Please enter the same password in both fields.", "error");
+                Swal.fire("Password does not match!", "Please enter the same password in both fields.", "error");
             } else {
-                swal({
+                Swal.fire({
                     title: "Save Changes?",
                     text: "Are you sure you want to save changes to your password?",
                     icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, save it!'
                 })
-                .then((willSave) => {
-                    if (willSave) {
+                .then((result) => {
+                    if (result.isConfirmed) {
                         this.submit();
                     }
                 });
@@ -265,15 +273,17 @@ $('.dropdown').on('hide.bs.dropdown', function () {
 
     document.getElementById('logoutButton').addEventListener('click', function(event) {
       event.preventDefault();
-      swal({
+      Swal.fire({
         title: "Are you sure?",
         text: "Once logged out, you will need to log in again.",
         icon: "warning",
-        buttons: true,
-        dangerMode: true,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, logout!'
       })
-      .then((willLogout) => {
-        if (willLogout) {
+      .then((result) => {
+        if (result.isConfirmed) {
           window.location.href = '../logout.php';
         }
       });

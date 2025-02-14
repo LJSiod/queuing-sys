@@ -99,9 +99,6 @@ $currentdate = date('Y-m-d');
             topStart: false,
             bottomEnd: false,
           },
-          deferRender: true,
-          scroller: true,
-          scrollY: "70vh",
           order: [
             [6, 'desc'],
             [0, 'desc']
@@ -120,6 +117,9 @@ $currentdate = date('Y-m-d');
             search: '',
             loadingRecords: 'Loading...',
           },
+          deferRender: true,
+          scroller: true,
+          scrollY: "70vh",
           initComplete: function(settings, json) {
             $('.dt-layout-row').css({
               'font-size': '15px',
@@ -146,8 +146,8 @@ $currentdate = date('Y-m-d');
             $('#actiondropdown').remove();
 
             var rowData = table.row($(this)).data();
-            var id = rowData.id; 
-            console.log(rowData.id);
+            var id = rowData.idpreview; 
+            console.log(rowData.idpreview);
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
                         + '</div>').appendTo('body');

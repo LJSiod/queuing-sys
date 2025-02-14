@@ -113,11 +113,6 @@ $currentdate = date('Y-m-d');
         topStart: false,
         bottomEnd: false,
       },
-      deferRender: true,
-      scroller: true,
-      scrollY: "70vh",
-      scrollX: true,
-      scrollCollapse: true,
       order: [
         [10, 'desc'],
         [0, 'desc']
@@ -140,6 +135,9 @@ $currentdate = date('Y-m-d');
         search: '',
         loadingRecords: 'Loading...'
       },
+      deferRender: true,
+      scroller: true,
+      scrollY: "70vh",
       initComplete: function(settings, json) {
         $('.dt-layout-row').css({
           'font-size': '15px',

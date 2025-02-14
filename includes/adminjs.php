@@ -54,78 +54,80 @@ $(document).ready(function() {
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 
             $('#receive').on('click', function() {
-              swal({
+              Swal.fire({
                 title: "Accomplished: Received",
                 text: "Input Note",
                 icon: "info",
-                content: {
-                  element: "textarea",
-                  attributes: {
-                    placeholder: "Enter Note",
-                    rows: 5,
-                    id: "note-textarea"
-                  },
+                input: 'textarea',
+                inputPlaceholder: 'Enter Note',
+                inputAttributes: {
+                  rows: 5,
+                  id: "note-textarea"
                 },
-                buttons: {
-                  cancel: "Cancel",
-                  confirm: "Confirm"
-                }
-              }).then((value) => {
-                if (value) {
-                  var note = $("#note-textarea").val();
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+                showLoaderOnConfirm: true,
+                preConfirm: (note) => {
                   if (!note) {
                     var note = "Receive Payment!";
                   }
-                  $.ajax({
+                  return $.ajax({
                     url: '../actions.php',
                     method: 'POST',
-                    data: {id: id, note: note, action: 'receive'},
-                    success: function() {
-                      swal({
-                        title: "Received",
-                        text: "Payment Received",
-                        icon: "success",
-                        buttons: false,
-                        timer: 1500
-                      }).then(function() {
-                        location.reload();
-                      });
+                    data: {id: id, note: note, action: 'receive'}
+                  }).then(response => {
+                    if (!response) {
+                      throw new Error(response);
                     }
+                    return response;
+                  }).catch(error => {
+                    Swal.showValidationMessage(
+                      `Request failed: ${error}`
+                    );
+                  });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire({
+                    title: "Received",
+                    text: "Payment Received",
+                    icon: "success",
+                    buttons: false,
+                    timer: 1500
+                  }).then(function() {
+                    location.reload();
                   });
                 }
               });
             });
 
             $('#decline').on('click', function() {
-              swal({
+              Swal.fire({
                 title: "Accomplished: Declined",
                 text: "Input Note",
                 icon: "info",
-                content: {
-                  element: "textarea",
-                  attributes: {
-                    placeholder: "Enter Note",
-                    rows: 5,
-                    id: "note-textarea1"
-                  },
+                input: 'textarea',
+                inputPlaceholder: 'Enter Note',
+                inputAttributes: {
+                  rows: 5,
+                  id: "note-textarea1"
                 },
-                buttons: {
-                  cancel: "Cancel",
-                  confirm: "Confirm"
-                }
-              }).then((value) => {
-                if (value) {
+                showCancelButton: true,
+                confirmButtonText: 'Confirm'
+              }).then((result) => {
+                if (result.isConfirmed) {
                   var note = $("#note-textarea1").val();
                   $.ajax({
                     url: '../actions.php',
                     method: 'POST',
                     data: {id: id, note: note, action: 'decline'},
                     success: function() {
-                      swal({
+                      Swal.fire({
                         title: "Declined",
                         text: "Payment Declined",
                         icon: "success",
-                        buttons: false,
+                        showConfirmButton: false,
                         timer: 1500
                       }).then(function() {
                         location.reload();
@@ -142,12 +144,12 @@ $(document).ready(function() {
                     method: 'POST',
                     data: {id: id, action: 'return'},
                     success: function(response) {
-                        swal({
+                        Swal.fire({
                             title: 'Success',
                             text: 'Returned to Queue!',
                             icon: 'success',
                             timer: 1500,
-                            buttons: false
+                            showConfirmButton: false
                         });
                         loadTickets(); 
                         loadQ1();
@@ -186,12 +188,12 @@ $(document).ready(function() {
                     method: 'POST',
                     data: {id: id, action: 'serve'},
                     success: function(response) {
-                        swal({
+                        Swal.fire({
                             title: 'Success',
                             text: 'Serving Client!',
                             icon: 'success',
                             timer: 1500,
-                            buttons: false
+                            showConfirmButton: false
                         });
                         loadTickets(); 
                         loadQ1();

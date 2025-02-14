@@ -8,6 +8,8 @@ if (!isset($_SESSION['branch_id'])) {
     exit();
 }
 
+$branchid = $_SESSION['branch_id'];
+
 $currentdate = date('Y-m-d');
 $querysum1 = "SELECT SUM(cashonhand) AS total1 FROM queueinfo WHERE servedby = 1 AND status = 'DONE' AND cashonhandstatus = 'RECEIVED' AND date = '$currentdate'";
 $resultsum1 = mysqli_query($conn, $querysum1);
@@ -33,9 +35,15 @@ $rowsum4 = mysqli_fetch_assoc($resultsum4);
 $total4 = $rowsum4['total4'];
 $total4 = number_format($total4, 2);
 
-$overalltotal = $rowsum1['total1'] + $rowsum2['total2'] + $rowsum3['total3'] + $rowsum4['total4'];
+if ($branchid == 8) {
+    $overalltotal = "SELECT SUM(cashonhand) AS total FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' AND date = '$currentdate'";
+} else {
+    $overalltotal = "SELECT SUM(cashonhand) AS total FROM queueinfo WHERE cashonhandstatus = 'RECEIVED' AND date = '$currentdate' AND branchid = '$branchid'";
+}
+$resultoveralltotal = mysqli_query($conn, $overalltotal);
+$rowoveralltotal = mysqli_fetch_assoc($resultoveralltotal);
+$overalltotal = $rowoveralltotal['total'];
 $overalltotal = number_format($overalltotal, 2);
-
 
 header("Content-Type: application/json");
 echo json_encode([

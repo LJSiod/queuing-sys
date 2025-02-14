@@ -18,6 +18,7 @@ if (!isset($_SESSION['branch_id'])) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Nunito+Sans">
+    <link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">
     <link href="../assets/css/styles.css" rel="stylesheet">
     <style>
 
@@ -132,7 +133,16 @@ if (!isset($_SESSION['branch_id'])) {
                 <div class="br-section-wrapper">
                     <h5 class="font-weight-bold">Daily History</h5>
                     <table class="table table-hover table-sm" id="history"> 
-                        <?php include '../load/dailyhistory.php' ?>
+                            <thead>
+                                <tr>
+                                    <th class="font-weight-bold small">Date</th>
+                                    <th class="font-weight-bold text-right small">Amount Collected</th>
+                                    <th class="font-weight-bold text-right small">No. of Accounts Settled</th>
+                                </tr>
+                            </thead>
+                            <tbody class="small">
+
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -142,6 +152,7 @@ if (!isset($_SESSION['branch_id'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/sc-2.4.3/datatables.min.js" integrity="sha384-1zOgQnerHMsipDKtinJHWvxGKD9pY4KrEMQ4zNgZ946DseuYh0asCewEBafsiuEt" crossorigin="anonymous"></script>
     <script>
 
         $(document).on('contextmenu', function(e) {
@@ -222,9 +233,7 @@ if (!isset($_SESSION['branch_id'])) {
         $(document).ready(function() {
             filter.hide();
             loadoverall();
-            loadhistory();
             setInterval(() => {
-                loadhistory();
             }, 5000);
 
         $('#queue-table2').on('contextmenu', 'tbody tr', function(e) {
@@ -248,27 +257,51 @@ if (!isset($_SESSION['branch_id'])) {
         $('#history').on('contextmenu', 'tr', function(e) {
             e.preventDefault();
             $('.removedrop').remove();
-            var rowData = $(this).children('td').map(function() {
-                return $(this).text();
-            }).get();
-            var date = rowData[0];
+            var rowData = table.row($(this)).data();
+            var date = rowData.date;
             var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="history.php?&date=' + date + '" id="list"><i class="fa fa-list text-info" aria-hidden="true"></i> Preview List</a>'
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
             
         });
-
-            function loadhistory() {
-                $.ajax({
+            var table = $('#history').DataTable({
+                ajax: {
                     url: '../load/dailyhistory.php',
-                    method: 'GET',
-                    success: function(data) {
-                        $('#history').html(data);
+                    type: 'GET',
+                    dataSrc: 'data'
+                },
+                layout: {
+                    topStart: false,
+                    topEnd: false,
+                    bottomEnd: false,
+                },
+                order: [
+                    [0, 'desc']
+                ],
+                rowCallback: function(row, data, index) {
+                    if (data.dateformatted === 'Today') {
+                        $(row).css('background-color', '#98fb98');
                     }
-                });
+                },
+                columns: [
+                    { data: 'dateformatted' },
+                    { data: 'totalperday' },
+                    { data: 'paidperday' },
+                ],
+                language: {
+                    loadingRecords: 'Loading...',
+                },
+                deferRender: true,
+                scroller: true,
+                scrollY: '70vh',
+                initComplete: function(settings, json) {
+            $('.dt-layout-row').css({
+              'font-size': '15px',
+              'font-weight': 'bold'
+            });
             }
-
+            });
         })
     </script>
     </body>

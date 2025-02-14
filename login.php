@@ -184,10 +184,8 @@ button:hover{
         <h3>Login</h3>
         <label for="username">Username</label>
         <input type="text" placeholder="Username" name="username" id="username" required>
-
         <label for="password">Password</label>
         <input type="password" placeholder="Password" name="password" id="password" required>
-
         <button>Log In</button>
         <div class="d-flex justify-content-between">
             <span class="small">Version <?php echo $_SESSION['version']; ?></span>
@@ -205,6 +203,17 @@ button:hover{
                     button: "OK",
                 });
             <?php endif; ?>
+
+            function togglePassword() {
+                var x = document.getElementById("password");
+                if (x.type === "password") {
+                    x.type = "text";
+                    document.getElementById("eye").className = "fa fa-eye-slash";
+                } else {
+                    x.type = "password";
+                    document.getElementById("eye").className = "fa fa-eye";
+                }
+            }
         </script>
 </body>
 </html>

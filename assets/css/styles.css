@@ -109,6 +109,10 @@ button:hover {
 	background-repeat: no-repeat;
 }
 
+.tag {
+	color: #e6e6e6;
+}
+
 /* Responsive table */
 @media (max-width: 768px) {
 	.table {

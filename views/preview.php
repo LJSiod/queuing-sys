@@ -321,11 +321,11 @@ if (mysqli_num_rows($result) > 0) {
                 type: 'POST',
                 data: {action: 'note', note: note, cashonhand: fcashonhand, id: id},
                 success: function(response) {
-                    swal({
+                    Swal.fire({
                         title: "Success",
                         text: "Note updated successfully.",
                         icon: "success",
-                        buttons: false,
+                        showConfirmButton: false,
                         timer: 1500
                     }).then(function() {
                         window.location.href = 'dashboard.php';
@@ -342,11 +342,11 @@ if (mysqli_num_rows($result) > 0) {
                 type: 'POST',
                 data: {id: id, action: 'serve'},
                 success: function(response) {
-                    swal({
+                    Swal.fire({
                         title: "Success",
                         text: "Serving Client!",
                         icon: "success",
-                        buttons: false,
+                        showConfirmButton: false,
                         timer: 1500
                     }).then(function() {
                         window.location.href = 'dashboard.php';

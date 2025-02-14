@@ -303,11 +303,11 @@ $branch_id = $_SESSION['branch_id'];
 
         $('#queueform').submit(function(e) {
           if ($('#file').val() == '') {
-          swal({
+          Swal.fire({
             title: "Error",
             text: "Please select a file to upload",
             icon: "error",
-            button: "OK",
+            confirmButtonText: 'OK',
           });
           return false;
         }
@@ -321,31 +321,31 @@ $branch_id = $_SESSION['branch_id'];
             processData: false,
             contentType: false,
             beforeSend: function() {
-              swal({
+              Swal.fire({
                 title: "Uploading...",
                 text: "Please wait while the file is being uploaded.",
                 icon: "info",
-                buttons: false
+                showConfirmButton: false
               });
             },
 
             success: function(response) {
-              swal({
+              Swal.fire({
                 title: "Success!",
                 text: "Queue added successfully!",
                 icon: "success",
-                buttons: false,
+                showConfirmButton: false,
                 timer: 1500
               }).then(function() {
                 window.location.href = "dashboard.php";
               });
             },
             error: function(xhr, status, error) {
-              swal({
+              Swal.fire({
                 title: "Error!",
                 text: "Something went wrong!",
                 icon: "error",
-                buttons: false,
+                showConfirmButton: false,
                 timer: 1500
               }).then(function() {
                 $('#queueform')[0].reset();

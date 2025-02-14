@@ -42,14 +42,14 @@ $currentdate = date('Y-m-d');
 
         .queue {
             max-width: 100%;
-            height: 450px;
-            max-height: 530px;
+            height: 55vh;
+            max-height: 55vh;
             overflow: auto;
         }
 
         .counter {
-            height: 295px;
-            max-height: 295px;
+            height: 30vh;
+            max-height: 30vh;
             overflow: auto;
         }
 
@@ -109,7 +109,7 @@ $currentdate = date('Y-m-d');
             </div>
         </div>
     </div>
-
+    <span class="small font-weight-bold tag ml-2">Dev: Lord Jay Siodora</span>
     <!-- Preview Modal -->
     <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -125,7 +125,6 @@ $currentdate = date('Y-m-d');
                 </div>
             </div>
         </div>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

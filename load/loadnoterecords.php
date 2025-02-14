@@ -33,6 +33,7 @@ if (mysqli_num_rows($result) > 0) {
     $data = array();
     while ($row = mysqli_fetch_assoc($result)) {
         $data[] = array(
+            'idpreview' => $row['id'],
             'id' => '<span class="label">ID: </span>' . $row['id'],
             'queueno' => '<span class="label">Queue No: </span>' . $row['queueno'],
             'branchname' => '<span class="label">Branch: </span>' . $row['branchname'],
