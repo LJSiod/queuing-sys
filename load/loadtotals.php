@@ -34,5 +34,5 @@ $rowdaily = mysqli_fetch_assoc($resultdaily);
 
 <span class="small font-weight-bold">Amount Collected Overall:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($row['total'], 2); ?></span><br>
 <span class="small font-weight-bold">Amount Collected Daily:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($rowdaily['total'], 2); ?></span><br>
-<span class="small font-weight-bold">Total Accounts Overall:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($row['paid'], 0) . '/' . number_format($row['totalaccounts'], 0); ?></span><br>
-<span class="small font-weight-bold">Total Accounts Daily:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($rowdaily['paid'], 0) . '/' . number_format($rowdaily['totalaccounts'], 0); ?></span>
+<span class="small font-weight-bold">Total Accounts Overall:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($row['totalaccounts'], 0); ?></span><br>
+<span class="small font-weight-bold">Total Accounts Daily:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($rowdaily['totalaccounts'], 0); ?></span>

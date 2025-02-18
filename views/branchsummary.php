@@ -69,7 +69,7 @@ if (!isset($_SESSION['branch_id'])) {
                       </tr>
                       <tr style="pointer-events: none;" class="text-center">
                         <th id="bsdaily" colspan="4">Amount Collected</th>
-                        <th id="dldaily" colspan="4">No. of Accounts Settled/Total Accounts</th>
+                        <th id="dldaily" colspan="4">Total Number of Accounts Settled</th>
                       </tr>
                       <tr title="Click to Sort">
                         <th id="ac_bs">Billing Statement</th>
@@ -155,8 +155,6 @@ if (!isset($_SESSION['branch_id'])) {
                 }
             })
 
-            
-        
             setInterval(function() {
                 table.ajax.reload(null, false); 
             }, 15000); 

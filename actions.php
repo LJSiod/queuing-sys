@@ -27,6 +27,14 @@ switch ($action) {
         $query = "UPDATE queueinfo SET cashonhandstatus = 'RECEIVED', status = 'DONE', note = '$note' WHERE id = $id";
         $log = $id . " Received by: " . $_SESSION['fullname'] . ", Note: '" . $note . "'";
         break;
+    case 'updatereceived':
+        $query = "UPDATE queueinfo SET cashonhandstatus = 'RECEIVED' WHERE id = $id";
+        $log = $id . " Status Updated to RECEIVED by: " . $_SESSION['fullname'];
+        break;
+    case 'updatedeclined':
+        $query = "UPDATE queueinfo SET cashonhandstatus = 'DECLINED' WHERE id = $id";
+        $log = $id . " Status Updated to DECLINED by: " . $_SESSION['fullname'];
+        break;
     case 'return':
         $query = "UPDATE queueinfo SET status = 'IN QUEUE', servedby = '$userid' WHERE id = $id";
         $log = $id . " Returned by: " . $_SESSION['fullname'];

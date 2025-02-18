@@ -200,8 +200,9 @@ $overalltotal = $_SESSION['overalltotal'];
   $('#wala').on('click', function() {
         Swal.fire({
           title: "Feature Under Development",
-          icon: "info",
-          timer: 1500
+          icon: 'info',
+          timer: 1500,
+          showConfirmButton: false,
         }); 
   })
 

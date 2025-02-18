@@ -484,3 +484,56 @@
 2025-02-14 13:20:39 - User logged in: LJ Dev
 2025-02-14 14:46:31 - User logged in: Kim Sabalo
 2025-02-14 14:58:58 - User logged in: LJ Dev
+2025-02-14 15:17:14 - User logged in: LJ Dev
+2025-02-14 15:18:39 - User logged in: BANSALAN
+2025-02-14 15:19:14 - User logged in: LJ Dev
+2025-02-15 07:57:51 - User logged in: LJ Dev
+2025-02-15 10:05:50 - User logged in: LJ Dev
+2025-02-15 10:15:30 - User logged in: BANSALAN
+2025-02-15 11:02:41 - User logged in: LJ Dev
+2025-02-15 13:23:57 - User logged in: KIDAPAWAN
+2025-02-15 13:27:38 - User logged in: LJ Dev
+2025-02-15 14:39:05 - User logged in: BANSALAN
+2025-02-15 14:39:35 - User logged in: LJ Dev
+2025-02-15 14:55:54 - User logged in: BANSALAN
+2025-02-15 14:57:03 - User logged in: LJ Dev
+2025-02-15 15:59:29 - 10733 Status Updated to RECEIVED by: LJ Dev
+2025-02-15 15:59:29 - 10734 Status Updated to RECEIVED by: LJ Dev
+2025-02-15 15:59:54 - 10736 Status Updated to RECEIVED by: LJ Dev
+2025-02-15 16:01:03 - 10736 Status Updated to RECEIVED by: LJ Dev
+2025-02-17 10:17:00 - User logged in: LJ Dev
+2025-02-17 13:05:55 - User logged in: Kim Sabalo
+2025-02-17 13:43:22 - User logged in: LJ Dev
+2025-02-17 14:21:06 - User logged in: Kim Sabalo
+2025-02-17 14:35:53 - 10861 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:47:17 - 10865 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:47:17 - 10865 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:47:17 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:47:24 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:47:24 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:48:30 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:48:33 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:48:33 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:48:43 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:49:31 - 10865 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:52:57 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:54:35 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:54:41 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:55:59 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:58:06 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:58:33 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:58:37 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:58:39 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:58:41 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 14:58:44 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 14:58:46 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 15:01:08 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 15:01:11 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 15:01:13 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 15:03:16 - 10799 Status Updated to DECLINED by: Kim Sabalo
+2025-02-17 15:03:19 - 10799 Status Updated to RECEIVED by: Kim Sabalo
+2025-02-17 16:12:50 - User logged in: BANSALAN
+2025-02-17 16:45:46 - User logged in: Kim Sabalo
+2025-02-18 08:29:33 - User logged in: LJ Dev
+2025-02-18 08:29:33 - User logged in: LJ Dev
+2025-02-18 08:29:35 - User logged in: LJ Dev

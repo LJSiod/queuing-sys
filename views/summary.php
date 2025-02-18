@@ -8,7 +8,7 @@ if (!isset($_SESSION['branch_id'])) {
     header("Location: ../login.php");
     exit();
 }
-
+$currentdate = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,10 +97,45 @@ if (!isset($_SESSION['branch_id'])) {
 <body>
     <div class="br-pagebody">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-6">
                 <div class="br-section-wrapper">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="font-weight-bold" id="viewtype">Summary</h5>
+                    <h5 class="font-weight-bold">Daily History</h5>
+                    <table class="table table-hover table-sm" id="history"> 
+                            <thead>
+                                <tr class="text-center">
+                                    <th rowspan="2" style="width: 13%;">Date</th>
+                                    <th colspan="4">Total Accounts</th>
+                                    <th colspan="4">Total Amount Collected</th>
+                                </tr>
+                                <tr>
+                                    <th class="font-weight-bold text-right small">Billing Statement</th>
+                                    <th class="font-weight-bold text-right small">Demand Letter</th>
+                                    <th class="font-weight-bold text-right small">Preliminary Notice</th>
+                                    <th class="font-weight-bold text-right small">Total</th>
+                                    <th class="font-weight-bold text-right small">Billing Statement</th>
+                                    <th class="font-weight-bold text-right small">Demand Letter</th>
+                                    <th class="font-weight-bold text-right small">Preliminary Notice</th>
+                                    <th class="font-weight-bold text-right small">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="small">
+
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="br-section-wrapper">
+                    <div class="d-flex">
+                        <h5 class="font-weight-bold" id="viewtype">Per Branch Summary</h5>
+                        <div class="form-group form-inline ml-auto">
+                            <span class="small font-weight-bold mr-1">View Mode:</span>
+                            <select class="form-control form-control-sm" id="view">
+                                <option>Summary</option>
+                                <option>Detailed</option>
+                            </select>
+                        </div>
+                    </div>
                         <div class="d-flex align-items-center mb-2">
                             <div class="form-group form-inline mr-2" id="selectdiv">
                                 <div class="form-check">
@@ -116,33 +151,8 @@ if (!isset($_SESSION['branch_id'])) {
                                 <label class="small font-weight-bold mr-1" for="endDate">End Date:</label>
                                 <input type="date" class="form-control form-control-sm" id="enddate" disabled>
                             </div>
-                            <div class="form-group form-inline">
-                                <span class="small font-weight-bold mr-1">View Mode:</span>
-                                <select class="form-control form-control-sm" id="view">
-                                    <option>Summary</option>
-                                    <option>Detailed</option>
-                                </select>
-                            </div>
                         </div>
-                    </div>
                     <table class="table table-hover table-sm" id="queue-table2"> 
-                    </table>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="br-section-wrapper">
-                    <h5 class="font-weight-bold">Daily History</h5>
-                    <table class="table table-hover table-sm" id="history"> 
-                            <thead>
-                                <tr>
-                                    <th class="font-weight-bold small">Date</th>
-                                    <th class="font-weight-bold text-right small">Amount Collected</th>
-                                    <th class="font-weight-bold text-right small">No. of Accounts Settled</th>
-                                </tr>
-                            </thead>
-                            <tbody class="small">
-
-                            </tbody>
                     </table>
                 </div>
             </div>
@@ -172,12 +182,12 @@ if (!isset($_SESSION['branch_id'])) {
             if (view == 'Summary') {
                 url = '../load/loadsummary.php';
                 filter.hide();
-                $('#viewtype').html('Summary');
+                $('#viewtype').html('Per Branch Summary');
                 
             } else {
                 url = '../load/loaddetailed.php';
                 filter.show();
-                $('#viewtype').html('Detailed');
+                $('#viewtype').html('Per Branch Detailed');
             }
 
             loadoverall();
@@ -244,12 +254,15 @@ if (!isset($_SESSION['branch_id'])) {
             }).get();
             var branchid = rowData[0];
             var paid = rowData[2];
+            console.log(view);
             var menu = $('<div class="dropdown-menu small removedrop" id="queuedropdown" style="display:block; position:absolute; z-index:1000;">'
                         + (paid != 0 ? '<a class="dropdown-item small" href="overalllist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar text-info" aria-hidden="true"></i> Preview Overall</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
                         + (paid != 0 ? '<a class="dropdown-item small" href="dailylist.php?branch=' + branchid + '" id="list"><i class="fa fa-calendar-check-o text-info" aria-hidden="true"></i> Preview Daily</a>' : '<span class="dropdown-item small text-muted">No Collection</span>')
                         + '</div>').appendTo('body');
             if (view == 'Summary') {
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
+            } else {
+                menu.css({display: 'none'});
             }
 
         });
@@ -277,7 +290,7 @@ if (!isset($_SESSION['branch_id'])) {
                     bottomEnd: false,
                 },
                 order: [
-                    [0, 'desc']
+                    [0]
                 ],
                 rowCallback: function(row, data, index) {
                     if (data.dateformatted === 'Today') {
@@ -286,15 +299,21 @@ if (!isset($_SESSION['branch_id'])) {
                 },
                 columns: [
                     { data: 'dateformatted' },
-                    { data: 'totalperday' },
-                    { data: 'paidperday' },
+                    { data: 'tas_bs' },
+                    { data: 'tas_dl' },
+                    { data: 'tas_pn' },
+                    { data: 'totaltas' },
+                    { data: 'ac_bs' },
+                    { data: 'ac_dl' },
+                    { data: 'ac_pn' },
+                    { data: 'totalac' },
                 ],
                 language: {
                     loadingRecords: 'Loading...',
                 },
                 deferRender: true,
                 scroller: true,
-                scrollY: '70vh',
+                scrollY: '65vh',
                 initComplete: function(settings, json) {
             $('.dt-layout-row').css({
               'font-size': '15px',

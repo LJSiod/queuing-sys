@@ -67,7 +67,7 @@ $currentdate = date('Y-m-d');
                             <th>No.</th>
                             <th>Branch</th>
                             <th>Client Name</th>
-                            <th>Remarks</th>
+                            <th style="width: 30%;">Remarks</th>
                             <th>Note</th>
                             <th>Status</th>
                             <th style="width: 7%;">Date</th>
@@ -84,7 +84,7 @@ $currentdate = date('Y-m-d');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/js/font-awesome.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.24/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/sc-2.4.3/datatables.min.js" integrity="sha384-1zOgQnerHMsipDKtinJHWvxGKD9pY4KrEMQ4zNgZ946DseuYh0asCewEBafsiuEt" crossorigin="anonymous"></script>
     <script>
 
@@ -119,10 +119,10 @@ $currentdate = date('Y-m-d');
           },
           deferRender: true,
           scroller: true,
-          scrollY: "70vh",
+          scrollY: "67vh",
           initComplete: function(settings, json) {
             $('.dt-layout-row').css({
-              'font-size': '15px',
+              'font-size': '17px',
               'font-weight': 'bold'
             });
             $('#notes thead th').css({
@@ -150,14 +150,61 @@ $currentdate = date('Y-m-d');
             console.log(rowData.idpreview);
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
+                        + '<a class="dropdown-item small" href="#" id="receive"><i class="fa fa-check text-success" aria-hidden="true"></i> Mark as Received</a>'
+                        + '<a class="dropdown-item small" href="#" id="decline"><i class="fa fa-times text-danger" aria-hidden="true"></i> Mark as Declined</a>'
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 
-            $(document).on('click', function() {
-                menu.remove();
+        $('#receive').on('click', function() {
+                    $.ajax({
+                        url: '../actions.php',
+                        type: 'POST',
+                        data: {
+                            action: 'updatereceived',
+                            id: id
+                        },
+                        success: function(response) {
+                                Swal.fire({
+                                  title: 'Success!',
+                                  text: 'Marked as Received!',
+                                  icon: 'success',
+                                  showConfirmButton: false,
+                                  timer: 1500
+                                
+                                }); 
+                                table.ajax.reload(null, false);
+                                menu.remove();
+                            }
+                        })
+                    })
+                  
+                $('#decline').on('click', function() {
+                    $.ajax({
+                        url: '../actions.php',
+                        type: 'POST',
+                        data: {
+                            action: 'updatedeclined',
+                            id: id
+                        },
+                        success: function(response) {
+                                Swal.fire({
+                                  title: 'Success!',
+                                  text: 'Marked as Declined!',
+                                  icon: 'success',
+                                  showConfirmButton: false,
+                                  timer: 1500
+                                });
+                                table.ajax.reload(null, false);
+                                menu.remove();
+                            }
+                        })
+                    })
+                  
+                $(document).on('click', function() {
+                    menu.remove();
+                });
             });
         });
-    });
 
 </script>
 </body>
