@@ -51,14 +51,14 @@ $totaltas = 0;
       <th rowspan="3" class="hover" id="branchname">Branch</th>
     </tr>
     <tr style="pointer-events: none;" class="text-center">
-      <th class="hover" id="bsdaily" colspan="4">Amount Collected</th>
       <th class="hover" id="dldaily" colspan="4">Total Accounts Settled</th>
+      <th class="hover" id="bsdaily" colspan="4">Amount Collected</th>
     </tr>
     <tr title="Click to Sort">
       <th class="hover" id="ac_bs">Billing Statement</th>
       <th class="hover" id="ac_dl">Demand Letter</th>
       <th class="hover" id="ac_pn">Preliminary Notice</th>
-      <th class="hover" id="totalac">Total Amount</th>
+      <th class="hover" id="totalac">Total</th>
       <th class="hover" id="tas_bs">Billing Statement</th>
       <th class="hover" id="tas_dl">Demand Letter</th>
       <th class="hover" id="tas_pn">Preliminary Notice</th>
@@ -68,38 +68,38 @@ $totaltas = 0;
   <tbody> 
       <?php
       while ($row = mysqli_fetch_assoc($result)):
-        $ac_bs += $row['ac_bs'];
-        $ac_dl += $row['ac_dl'];
-        $ac_pn += $row['ac_pn'];
-        $totalac += $row['totalac'];
         $tas_bs += $row['tas_bs'];
         $tas_dl += $row['tas_dl'];
         $tas_pn += $row['tas_pn'];
         $totaltas += $row['totaltas'];
+        $ac_bs += $row['ac_bs'];
+        $ac_dl += $row['ac_dl'];
+        $ac_pn += $row['ac_pn'];
+        $totalac += $row['totalac'];
       ?>
           <tr class="small">
             <td class="d-none"><?php echo $row['branchid']; ?></td>
             <td class="strong <?php echo ($sort == 'branchname') ? 'text-primary' : ''; ?>"><?php echo $row['branchname']; ?></td>
-            <td class="text-right <?php echo ($sort == 'ac_bs') ? 'text-primary' : ''; ?>"><?php echo number_format($row['ac_bs'], 2); ?></td>
-            <td class="text-right <?php echo ($sort == 'ac_dl') ? 'text-primary' : ''; ?>"><?php echo number_format($row['ac_dl'], 2); ?></td>
-            <td class="text-right <?php echo ($sort == 'ac_pn') ? 'text-primary' : ''; ?>"><?php echo number_format($row['ac_pn'], 2); ?></td>
-            <td class="text-right font-weight-bold <?php echo ($sort == 'totalac') ? 'text-primary' : ''; ?>"><?php echo number_format($row['totalac'], 2); ?></td>
             <td class="text-right <?php echo ($sort == 'noa_bs') ? 'text-primary' : ''; ?>"><?php echo $row['tas_bs']; ?></td>
             <td class="text-right <?php echo ($sort == 'noa_dl') ? 'text-primary' : ''; ?>"><?php echo $row['tas_dl']; ?></td>
             <td class="text-right <?php echo ($sort == 'noa_pn') ? 'text-primary' : ''; ?>"><?php echo $row['tas_pn']; ?></td>
             <td class="text-right font-weight-bold <?php echo ($sort == 'totalnoa') ? 'text-primary' : ''; ?>"><?php echo $row['totaltas']; ?></td>
+            <td class="text-right <?php echo ($sort == 'ac_bs') ? 'text-primary' : ''; ?>"><?php echo number_format($row['ac_bs'], 2); ?></td>
+            <td class="text-right <?php echo ($sort == 'ac_dl') ? 'text-primary' : ''; ?>"><?php echo number_format($row['ac_dl'], 2); ?></td>
+            <td class="text-right <?php echo ($sort == 'ac_pn') ? 'text-primary' : ''; ?>"><?php echo number_format($row['ac_pn'], 2); ?></td>
+            <td class="text-right font-weight-bold <?php echo ($sort == 'totalac') ? 'text-primary' : ''; ?>"><?php echo number_format($row['totalac'], 2); ?></td>
           </tr>
       <?php endwhile; ?>
           <tr>
             <td class="small font-weight-bold">Total</td>
-            <td class="small text-right font-weight-bold"><?php echo number_format($ac_bs, 2); ?></td>
-            <td class="small text-right font-weight-bold"><?php echo number_format($ac_dl, 2); ?></td>
-            <td class="small text-right font-weight-bold"><?php echo number_format($ac_pn, 2); ?></td>
-            <td class="small text-right font-weight-bold"><?php echo number_format($totalac, 2); ?></td>
             <td class="small text-right font-weight-bold"><?php echo $tas_bs; ?></td>
             <td class="small text-right font-weight-bold"><?php echo $tas_dl; ?></td>
             <td class="small text-right font-weight-bold"><?php echo $tas_pn; ?></td>
             <td class="small text-right font-weight-bold"><?php echo number_format($totaltas, 0); ?></td>
+            <td class="small text-right font-weight-bold"><?php echo number_format($ac_bs, 2); ?></td>
+            <td class="small text-right font-weight-bold"><?php echo number_format($ac_dl, 2); ?></td>
+            <td class="small text-right font-weight-bold"><?php echo number_format($ac_pn, 2); ?></td>
+            <td class="small text-right font-weight-bold"><?php echo number_format($totalac, 2); ?></td>
           </tr>
   </tbody>
   

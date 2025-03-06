@@ -60,5 +60,4 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo json_encode(array('data' => array()));
 }
-?>
 

@@ -19,6 +19,7 @@ $overalltotal = $_SESSION['overalltotal'];
     
     .navbar {
       background-color:rgb(234, 255, 0); 
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     .navbar-brand {
@@ -50,6 +51,10 @@ $overalltotal = $_SESSION['overalltotal'];
       min-width: 120px;
       z-index: 1;
     }
+
+    .footer {
+      height: 35px;
+    }
     
   </style>
 </head>
@@ -57,7 +62,7 @@ $overalltotal = $_SESSION['overalltotal'];
   <nav class="navbar navbar-expand-lg sticky-top bg-light navbar-light d-print-none">
     <a class="navbar-brand small" href="dashboard.php">
     <img src="../assets/image/Neologo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    <strong>NEOCASH</strong></a>
+    <strong style="font-family: Century Gothic;">NEOCASH</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -83,9 +88,9 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="nav-link text-dark" href="branchsummary.php"><i class="fa fa-bar-chart text-warning" aria-hidden="true"></i> <strong>Reports</strong></a>
         </li>
         <?php } ?>
-        <?php if ($name == 'LJ Dev') { ?>
+        <?php if (stripos($name, 'DEV') !== false) { ?>
         <li class="nav-item">
-          <a class="nav-link text-dark" id="wala" href="#"><i class="fa fa-user text-primary" aria-hidden="true"></i> <strong>User Management</strong></a>
+          <a class="nav-link text-dark" href="branchmanage.php"><i class="fa fa-user text-primary" aria-hidden="true"></i> <strong>Branch Management</strong></a>
         </li>
         <?php } ?>
       </ul>
@@ -115,9 +120,9 @@ $overalltotal = $_SESSION['overalltotal'];
   </nav>
 
   
-<!-- <nav class="navbar fixed-bottom navbar-light bg-light">
-  <a class="navbar-brand strong mr-auto" href="#" style="font-size: 0.7rem; font-family: Fahkwang, sans-serif;">&copy; Queueing System, All Rights Reserved 2024</a>
-  <span class="text-muted" style="font-size: 0.7rem; font-family: Fahkwang, sans-serif;">Version <?php echo $_SESSION['version']; ?></span>
+<!-- <nav class="navbar fixed-bottom navbar-light bg-light footer">
+  <a class="navbar-brand strong mr-auto" href="#" style="font-size: 0.7rem; font-family: Fahkwang, sans-serif;">&copy; Queueing System, All Rights Reserved 2025</a>
+  <span class="text-muted" style="font-size: 0.7rem; font-family: Fahkwang, sans-serif;">Dev: LJ Siodora | Version <?php echo $_SESSION['version']; ?></span>
 </nav> -->
 
   <!-- Modal -->
@@ -196,15 +201,6 @@ $overalltotal = $_SESSION['overalltotal'];
           idleTime = 0;
       }
   });
-
-  $('#wala').on('click', function() {
-        Swal.fire({
-          title: "Feature Under Development",
-          icon: 'info',
-          timer: 1500,
-          showConfirmButton: false,
-        }); 
-  })
 
   $('.dropdown').on('show.bs.dropdown', function () {
       $('.profile').slideDown(200);

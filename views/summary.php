@@ -50,7 +50,7 @@ $currentdate = date('Y-m-d');
             margin-right: 0px;
             margin-bottom: 10px;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.21);
-            max-height: 90vh;
+            max-height: 88vh;
             overflow: auto;
         }
 
@@ -153,6 +153,7 @@ $currentdate = date('Y-m-d');
                             </div>
                         </div>
                     <table class="table table-hover table-sm" id="queue-table2"> 
+                        
                     </table>
                 </div>
             </div>

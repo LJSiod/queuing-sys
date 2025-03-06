@@ -57,7 +57,7 @@ $currentdate = date('Y-m-d');
 
 </head>
 <body>
-    <div class="container-fluid mt-3">
+    <div class="container-fluid">
         <div class="br-pagebody">
             <?php
             $counternumber = 1;
@@ -68,7 +68,7 @@ $currentdate = date('Y-m-d');
                     $colClass = 'col-md';
 
                     echo '<div class="' . $colClass . '" id="c' . $id . '">
-                        <div class="br-section-wrapper counter mt-3" id="counter' . $id . '">
+                        <div class="br-section-wrapper counter" id="counter' . $id . '">
                             <div class="sticky-top bg-white" style="z-index: 100;">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="font-weight-bold">Counter ' . $counternumber . '</h6>
@@ -109,7 +109,6 @@ $currentdate = date('Y-m-d');
             </div>
         </div>
     </div>
-    <span class="small font-weight-bold tag ml-2">Dev: Lord Jay Siodora</span>
     <!-- Preview Modal -->
     <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

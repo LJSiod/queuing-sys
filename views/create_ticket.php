@@ -20,6 +20,7 @@ $branch_id = $_SESSION['branch_id'];
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Nunito+Sans">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />   
     <link href="../assets/css/styles.css" rel="stylesheet">
     <style>
 
@@ -122,30 +123,36 @@ $branch_id = $_SESSION['branch_id'];
             </div>            
             </div>
             <div class="row">
-            <div class="col">
-                <label class="small" for="remarks">Remarks</label>
-                <textarea class="form-control form-control-sm" id="remarks" name="remarks" rows="12" required></textarea>
-            </div>
-            <div class="col">
-                <div class="form-group" id="drop-area">
-                <label class="small form-control-label" for="ledger">Drag and drop files here<span class="text-danger ml-1" style="font-size: 0.6rem">*PDF/Image files accepted</span></label>
+              <div class="col">
+                  <label class="small" for="remarks">Remarks</label>
+                  <textarea class="form-control form-control-sm" id="remarks" name="remarks" rows="9" required></textarea>
+              </div>
+              <div class="col">
+                  <div class="form-group" id="drop-area">
+                    <label class="small form-control-label" for="ledger">Front ledger <span class="text-danger ml-1" style="font-size: 0.6rem">*PDF/Image files accepted</span></label>
                     <img class="form-control form-control-sm fileThumbnail" id="thumbnail" src="../assets/image/drop.jpg" alt="File Thumbnail" ondrop="">
-                    <input type="file" id="file" name="file" style="display: none;">
-                    <div class="d-flex">
-                        or <span class="btn btn-sm btn-secondary ml-2 mt-2" style="font-size: 0.7rem" id="click-to-choose">Choose files</span>
-                        <span class="small mt-2 ml-2" id="file-name" name="filename">No file Chosen</span>
-                        </div>
-                    </div>
-                      <!-- <div class="drop-area" id="drop-area">
-                        <p>Drag and drop files here or <a href="#" id="click-to-choose">click to choose files</a></p>
-                        <input type="file" id="file" name="file" style="display: none;">
-                        <span id="file-name" name="filename" style="display: inline-block; width: 100%;"></span>
-                      </div> -->
-            </div>
+                      <input type="file" id="file" name="file" style="display: none;">
+                      <div class="d-flex">
+                          or <span class="btn btn-sm btn-secondary ml-2 mt-2" style="font-size: 0.7rem" id="click-to-choose">Choose files</span>
+                          <span class="small mt-2 ml-2" id="file-name" name="filename">No file Chosen</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-group" id="drop-area1">
+                    <label class="small form-control-label" for="ledger">Back ledger <span class="text-danger ml-1" style="font-size: 0.6rem">*PDF/Image files accepted</span></label>
+                    <img class="form-control form-control-sm fileThumbnail" id="thumbnail1" src="../assets/image/drop.jpg" alt="File Thumbnail" ondrop="">
+                      <input type="file" id="file1" name="file1" style="display: none;">
+                      <div class="d-flex">
+                          or <span class="btn btn-sm btn-secondary ml-2 mt-2" style="font-size: 0.7rem" id="click-to-choose1">Choose files</span>
+                          <span class="small mt-2 ml-2" id="file-name1" name="filename1">No file Chosen</span>
+                      </div>
+                  </div>
+              </div>
             </div>
             <div class="text-right">
                 <button type="submit" id="queuesubmit" class="btn btn-sm btn-primary mt-1">Add Queue</button>
-                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.location.href = 'dashboard.php';">Close</button>
+                <button id="closebtn" class="btn btn-sm btn-danger mt-1" onclick="window.history.back();">Close</button>
             </div>
         </form>
         </div>
@@ -154,6 +161,7 @@ $branch_id = $_SESSION['branch_id'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script>
      $(document).ready(function(){
 
@@ -163,14 +171,30 @@ $branch_id = $_SESSION['branch_id'];
         $('#file').click();
       });
 
+      $('#click-to-choose1').on('click', function(e) {
+        e.preventDefault();
+        $('#file1').click();
+      });
+
         document.getElementById('file').addEventListener('change', function() {
         document.getElementById('file-name').textContent = this.files[0].name;
+      });
+
+        document.getElementById('file1').addEventListener('change', function() {
+        document.getElementById('file-name1').textContent = this.files[0].name;
       });
 
         document.getElementById('thumbnail').addEventListener('load', function() {
         var file = document.getElementById('file').files[0];
         if (file) {
           document.getElementById('file-name').textContent = file.name;
+        }
+        });
+
+        document.getElementById('thumbnail1').addEventListener('load', function() {
+        var file = document.getElementById('file1').files[0];
+        if (file) {
+          document.getElementById('file-name1').textContent = file.name;
         }
         });
 
@@ -209,17 +233,52 @@ $branch_id = $_SESSION['branch_id'];
         }
       });
 
-      $('body, #addqueue').on('dragover', function(e) {
+      $('#file1').on('change', function() {
+        var file = this.files[0];
+        if (file) {
+          if (file.type.match('image.*')) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              $('#thumbnail1').attr('src', e.target.result).show();
+            };
+            reader.readAsDataURL(file);
+          } else if (file.type.match('application/pdf')) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              var loadingTask = pdfjsLib.getDocument({ data: e.target.result });
+              loadingTask.promise.then(function(pdf) {
+                pdf.getPage(1).then(function(page) {
+                  var scale = 1.0;
+                  var viewport = page.getViewport({ scale: scale });
+                  var canvas = document.createElement('canvas');
+                  var context = canvas.getContext('2d');
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                  }).promise.then(function() {
+                    $('#thumbnail1').attr('src', canvas.toDataURL('image/png')).show();
+                  });
+                });
+              });
+            };
+            reader.readAsArrayBuffer(file);
+          }
+        }
+      });
+
+      $('#drop-area, #drop-area1').on('dragover', function(e) {
         $(this).addClass('dragover');
         e.preventDefault();
       });
 
-      $('body, #addqueue').on('dragleave', function(e) {
+      $('#drop-area, #drop-area1').on('dragleave', function(e) {
         $(this).removeClass('dragover');
         e.preventDefault();
       });
 
-      $('body, #addqueue').on('drop', function(e) {
+      $('#drop-area').on('drop', function(e) {
         $(this).removeClass('dragover');
         e.preventDefault();
         var file = e.originalEvent.dataTransfer.files[0];
@@ -254,6 +313,44 @@ $branch_id = $_SESSION['branch_id'];
             reader.readAsArrayBuffer(file);
           }
           $('#file').prop('files', e.originalEvent.dataTransfer.files);
+        }
+      });
+
+      $('#drop-area1').on('drop', function(e) {
+        $(this).removeClass('dragover');
+        e.preventDefault();
+        var file = e.originalEvent.dataTransfer.files[0];
+        if (file) {
+          if (file.type.match('image.*')) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              $('#thumbnail1').attr('src', e.target.result).show();
+            };
+            reader.readAsDataURL(file);
+          } else if (file.type.match('application/pdf')) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              var loadingTask = pdfjsLib.getDocument({ data: e.target.result });
+              loadingTask.promise.then(function(pdf) {
+                pdf.getPage(1).then(function(page) {
+                  var scale = 1.0;
+                  var viewport = page.getViewport({ scale: scale });
+                  var canvas = document.createElement('canvas');
+                  var context = canvas.getContext('2d');
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                  }).promise.then(function() {
+                    $('#thumbnail1').attr('src', canvas.toDataURL('image/png')).show();
+                  });
+                });
+              });
+            };
+            reader.readAsArrayBuffer(file);
+          }
+          $('#file1').prop('files', e.originalEvent.dataTransfer.files);
         }
       });
 

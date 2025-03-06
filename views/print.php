@@ -11,7 +11,7 @@ if (!isset($_SESSION['branch_id'])) {
 $branch_id = $_SESSION['branch_id'];
 $id = $_SESSION['user_id'];
 $id = $_GET['id'];
-$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.datereceived, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.remarks, qi.note, qi.attachname, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $id";
+$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.datereceived, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.remarks, qi.note, qi.front, qi.back, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $id";
 
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
@@ -138,7 +138,10 @@ $row = mysqli_fetch_assoc($result);
 
             <span><b>Remarks:</b> <?= $row['remarks'] ?></span>
             <hr>
-            <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?= $row['attachname'] ?>" alt="File Thumbnail">
+            <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="front" src="../<?= $row['front'] ?>" alt="File Thumbnail">
+            <?php if ($row['back'] != null) { ?>
+            <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="back" src="../<?= $row['back'] ?>" alt="File Thumbnail">
+            <?php } ?>
             <div class="text-right">
                 <button class="btn btn-sm btn-primary d-print-none" onclick="window.print();">Print</button>
                 <button type="button" class="btn btn-sm btn-danger d-print-none" onclick="window.history.back();">Close</button>
@@ -188,27 +191,34 @@ $row = mysqli_fetch_assoc($result);
             $('#accpenalty').text("0.00"); 
         }
 
-        const fileThumbnail = document.querySelector('#fileThumbnail');
-        if (fileThumbnail.src.endsWith('.pdf')) {
-            const pdfLink = fileThumbnail.src;
-            const loadingTask = pdfjsLib.getDocument(pdfLink);
-            loadingTask.promise.then(function(pdf) {
-                pdf.getPage(1).then(function(page) {
-                    const viewport = page.getViewport({ scale: 1.0 });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    page.render({
-                        canvasContext: context,
-                        viewport: viewport
-                    }).promise.then(function() {
-                        fileThumbnail.src = canvas.toDataURL('image/png');
+        const handlePdfThumbnail = (thumbnail) => {
+            if (thumbnail.src.endsWith('.pdf')) {
+                const pdfLink = thumbnail.src;
+                const loadingTask = pdfjsLib.getDocument(pdfLink);
+                loadingTask.promise.then(function(pdf) {
+                    pdf.getPage(1).then(function(page) {
+                        const viewport = page.getViewport({ scale: 1.0 });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+    
+                        page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise.then(function() {
+                            thumbnail.src = canvas.toDataURL('image/png');
+                        });
                     });
                 });
-            });
-        }
+            }
+        };
+
+        const frontThumbnail = document.querySelector('#front');
+        const backThumbnail = document.querySelector('#back');
+        handlePdfThumbnail(frontThumbnail);
+        handlePdfThumbnail(backThumbnail);
+
         });
 </script>
 </body>

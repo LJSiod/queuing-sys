@@ -11,8 +11,7 @@ if (!isset($_SESSION['branch_id'])) {
 
 $branch_id = $_SESSION['branch_id'];
 $previewid = $_GET['id'];
-$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.datereceived, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.remarks, qi.note, qi.attachname, qi.servedby, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $previewid";
-// $query = "SELECT * FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE ql = $previewid";
+$query = "SELECT qi.id, qi.queueno, qi.branchid, qi.type, qi.clientname, qi.loanamount, qi.totalbalance, qi.cashonhand, qi.cashonhandstatus, qi.datereceived, qi.status, qi.date, qi.datereleased, qi.maturitydate, qi.remarks, qi.note, qi.front, qi.back, qi.servedby, b.branchname FROM queueinfo qi LEFT JOIN branch b ON qi.branchid = b.id WHERE qi.id = $previewid";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
@@ -51,7 +50,7 @@ if (mysqli_num_rows($result) > 0) {
     <style>
 
         .mt1 {
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .br-pagebody {
@@ -70,10 +69,10 @@ if (mysqli_num_rows($result) > 0) {
         }
 
         .fileThumbnail {
-          width: 100%;
-          height: 100%;
-          max-width: 70%;
-          max-height: 350px;
+          width: 480px;
+          height: 250px;
+          max-width: 480px;
+          max-height: 250px;
           margin-bottom: 10px;
           border: 1px solid #e5e5e5;
         }
@@ -88,6 +87,9 @@ if (mysqli_num_rows($result) > 0) {
 <body>
     <div class="mt1 d-print-none"></div>
     <div class="br-pagebody">
+        <div style="text-align:right;">
+            <span class="badge <?php if($row['cashonhandstatus'] == 'RECEIVED') echo 'badge-success'; elseif($row['cashonhandstatus'] == 'DECLINED') echo 'badge-danger'; elseif($row['cashonhandstatus'] == 'PENDING') echo 'badge-warning'; ?>" id="badge"><?= $row['cashonhandstatus']; ?></span>
+        </div>
         <div class="br-section-wrapper">
             <div class="d-flex justify-content-between">
                 <h4>Queue No: <?= $queueno; ?></h4>
@@ -171,13 +173,30 @@ if (mysqli_num_rows($result) > 0) {
             </div>
                 <div class="col-md">
                     <div class="form-group" id="images">
-                    <label class="small form-control-label" for="ledger">Ledger Card <span class="text-danger small">  *Click image to preview</span></label>
-                        <?php if (strpos($row['attachname'], '.pdf') !== false) { ?>
-                          <div class="pdf-image" data-src="../<?php echo $row['attachname']; ?>"></div>
-                        <?php } else { ?>
-                          <img class="form-control form-control-sm fileThumbnail mx-auto d-block" src="../<?php echo $row['attachname']; ?>" alt="<?php echo $row['attachname']; ?>">
-                        <?php } ?>
-                        <!-- <img class="form-control form-control-sm fileThumbnail mx-auto d-block" id="fileThumbnail" src="../<?= $ledger; ?>" alt="File Thumbnail" onclick="modalLedgerImage('fileThumbnail')"> -->
+                        <div class="row">
+                            <div class="col">
+                                <label class="small form-control-label" for="front">Front Ledger <span class="text-danger small">  *Click image to preview</span></label>
+                                <?php if (strpos($row['front'], '.pdf') !== false) { ?>
+                                  <div class="pdf-image" data-src="../<?php echo $row['front']; ?>"></div>
+                                <?php } else { ?>
+                                  <img class="form-control form-control-sm fileThumbnail mx-auto" src="../<?php echo $row['front']; ?>" alt="<?php echo $row['front']; ?>">
+                                <?php } ?>
+                            </div>
+                            <div class="col">
+                                <label class="small form-control-label" for="back">Back Ledger <span class="text-danger small">  *Click image to preview</span></label>
+                                <?php if (strpos($row['back'], '.pdf') !== false) { ?>
+                                  <div class="pdf-image" data-src="../<?php echo $row['back']; ?>"></div>
+                                <?php } else { ?>
+                                    <?php if ($row['back'] !== "") { ?>
+                                    <img class="form-control form-control-sm fileThumbnail mx-auto" src="../<?php echo $row['back']; ?>" alt="<?php echo $row['back']; ?>">
+                                    <?php } else { ?>
+                                    <div class="alert alert-warning text-center" role="alert">
+                                        No image available
+                                    </div>
+                                    <?php } ?>
+                                <?php } ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,8 +261,22 @@ if (mysqli_num_rows($result) > 0) {
             const gallery = new Viewer(document.getElementById('images'), {
               viewed() {
                 const image = gallery.image;
-                image.style.border = '2px solid black'; 
+                image.style.border = '1px solid black'; 
                 image.style.borderRadius = '5px';
+              },
+              transition: false,
+              toolbar: {
+                zoomIn: 4,
+                zoomOut: 4,
+                oneToOne: 0,
+                reset: 4,
+                prev: 4,
+                play: 0,
+                next: 4,
+                rotateLeft: 4,
+                rotateRight: 4,
+                flipHorizontal: 0,
+                flipVertical: 0,
               }
             });
               const pdfImages = document.querySelectorAll('#images .pdf-image');
@@ -264,77 +297,77 @@ if (mysqli_num_rows($result) > 0) {
                     }).promise.then(() => {
                       const img = document.createElement('img');
                       img.src = canvas.toDataURL('image/png');
-                      img.className = 'form-control form-control-sm fileThumbnail mx-auto d-block';
-                      document.getElementById('images').appendChild(img);
+                      img.className = 'form-control form-control-sm fileThumbnail mx-auto';
+                      pdfImage.parentElement.appendChild(img);
                       gallery.update();
                     });
                   });
                 });
               });
 
-    $(document).ready(function(){
-            var loanamount = $('#loanamount').val();
-            var loanamount = loanamount.replace(/,/g, '');
-            var remainingbalance = $('#remainingbalance').val();
-            var remainingbalanceformatted = remainingbalance.replace(/,/g, '');
-            var maturitydate = $('#maturitydate').val();
-            var today = moment();
-            var maturitydate = moment(maturitydate);
-            var diffMonths = maturitydate.diff(today, 'months');
-            var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
-            var penaltyCount = 0;
-            var currentDate = maturitydate.clone().add(1, 'days');
+            $(document).ready(function(){
+                var loanamount = $('#loanamount').val();
+                var loanamount = loanamount.replace(/,/g, '');
+                var remainingbalance = $('#remainingbalance').val();
+                var remainingbalanceformatted = remainingbalance.replace(/,/g, '');
+                var maturitydate = $('#maturitydate').val();
+                var today = moment();
+                var maturitydate = moment(maturitydate);
+                var diffMonths = maturitydate.diff(today, 'months');
+                var accinterest = (loanamount * 0.06) * Math.abs(diffMonths);
+                var penaltyCount = 0;
+                var currentDate = maturitydate.clone().add(1, 'days');
 
-            while (currentDate <= today) {
-                if (currentDate.date() === 15 || currentDate.isSame(currentDate.clone().endOf('month'), 'day')) {
-                    penaltyCount++;
+                while (currentDate <= today) {
+                    if (currentDate.date() === 15 || currentDate.isSame(currentDate.clone().endOf('month'), 'day')) {
+                        penaltyCount++;
+                    }
+                    currentDate.add(1, 'days');
                 }
-                currentDate.add(1, 'days');
-            }
-            console.log(penaltyCount);
-            var accpenalty = (loanamount * 0.01) * penaltyCount;
-            var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
-            var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
-            var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);
-            var totalbalanceformatted = parseFloat(totalbalance).toLocaleString('en-US',{minimumFractionDigits: 2});
-            $('#totalbalance').val(totalbalanceformatted);
-            if (totalbalance == "NaN") {
-                $('#totalbalance').val("0.00");
-            }
-            $('#accpenalty').val(accpenaltyformatted);
-            if (accpenalty == "NaN") {
-                $('#accpenalty').val("0.00");
-            }
-            $('#accinterest').val(accinterestformatted);
-            if (accinterest == "NaN") {
-                $('#accinterest').val("0.00"); 
-            }
+                console.log(penaltyCount);
+                var accpenalty = (loanamount * 0.01) * penaltyCount;
+                var accinterestformatted = parseFloat(accinterest).toLocaleString('en-US',{minimumFractionDigits: 2});
+                var accpenaltyformatted = parseFloat(accpenalty).toLocaleString('en-US',{minimumFractionDigits: 2});
+                var totalbalance = parseFloat(remainingbalanceformatted) + parseFloat(accpenalty) + parseFloat(accinterest);
+                var totalbalanceformatted = parseFloat(totalbalance).toLocaleString('en-US',{minimumFractionDigits: 2});
+                $('#totalbalance').val(totalbalanceformatted);
+                if (totalbalance == "NaN") {
+                    $('#totalbalance').val("0.00");
+                }
+                $('#accpenalty').val(accpenaltyformatted);
+                if (accpenalty == "NaN") {
+                    $('#accpenalty').val("0.00");
+                }
+                $('#accinterest').val(accinterestformatted);
+                if (accinterest == "NaN") {
+                    $('#accinterest').val("0.00"); 
+                }
 
-        $('#notesubmit').on('click', function() {
-            event.preventDefault();
-            var cashonhand = document.getElementById('onhand').value;
-            var fcashonhand = cashonhand.replace(/,/g, '');
-            var note = document.getElementById('note').value;
-            var id = <?php echo $previewid; ?>;
-            $.ajax({
-                url: '../actions.php',
-                type: 'POST',
-                data: {action: 'note', note: note, cashonhand: fcashonhand, id: id},
-                success: function(response) {
-                    Swal.fire({
-                        title: "Success",
-                        text: "Note updated successfully.",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(function() {
-                        window.location.href = 'dashboard.php';
-                    });
-                }
+            $('#notesubmit').on('click', function() {
+                event.preventDefault();
+                var cashonhand = document.getElementById('onhand').value;
+                var fcashonhand = cashonhand.replace(/,/g, '');
+                var note = document.getElementById('note').value;
+                var id = <?php echo $previewid; ?>;
+                $.ajax({
+                    url: '../actions.php',
+                    type: 'POST',
+                    data: {action: 'note', note: note, cashonhand: fcashonhand, id: id},
+                    success: function(response) {
+                        Swal.fire({
+                            title: "Success",
+                            text: "Note updated successfully.",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function() {
+                            window.location.href = 'dashboard.php';
+                        });
+                    }
+                });
             });
-        });
-
-        $('#serve').on('click', function() {
+        
+            $('#serve').on('click', function() {
             event.preventDefault();
             var id = <?php echo $previewid; ?>;
             $.ajax({

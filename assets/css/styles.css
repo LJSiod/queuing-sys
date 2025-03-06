@@ -3,14 +3,16 @@
 
 body {
 	font-family: Fira Sans, sans-serif;
-	background-color: hwb(0 90% 10%);
+	/* background-color: #e6e6e6; */
+	background-image: url("../image/BG.png");
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .container {
 	margin-top: 20px;
 }
 
-/* Header styling */
 h2 {
 	text-align: left;
 	font-size: 1.8rem;
@@ -75,7 +77,6 @@ button:hover {
 	border-color: #bd2130;
 }
 
-/* Modal styling */
 .modal-content .modal-body {
 	border-radius: 9px;
 	transition: 5s;

@@ -49,6 +49,7 @@ if (mysqli_num_rows($result) > 0) {
     // }
     while ($row = mysqli_fetch_assoc($result)) {
         $data[] = array(
+            'date' => $row['date'],
             'dateformatted' => $row['date'] == $currentdate ? 'Today' : date('M d, Y', strtotime($row['date'])),
             'totaltas' => $row['totaltas'],
             'tas_pn' => $row['tas_pn'],

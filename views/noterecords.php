@@ -42,8 +42,8 @@ $currentdate = date('Y-m-d');
         }
 
         .notediv {
-            height: 90vh;
-            max-height: 90vh;
+            height: 88vh;
+            max-height: 88vh;
             overflow: auto;
         }
 
@@ -119,7 +119,7 @@ $currentdate = date('Y-m-d');
           },
           deferRender: true,
           scroller: true,
-          scrollY: "67vh",
+          scrollY: "65vh",
           initComplete: function(settings, json) {
             $('.dt-layout-row').css({
               'font-size': '17px',
@@ -150,8 +150,8 @@ $currentdate = date('Y-m-d');
             console.log(rowData.idpreview);
             var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                         + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
-                        + '<a class="dropdown-item small" href="#" id="receive"><i class="fa fa-check text-success" aria-hidden="true"></i> Mark as Received</a>'
-                        + '<a class="dropdown-item small" href="#" id="decline"><i class="fa fa-times text-danger" aria-hidden="true"></i> Mark as Declined</a>'
+                        + (<?= $branch_id ?> == 8 ? '<a class="dropdown-item small" href="#" id="receive"><i class="fa fa-check text-success" aria-hidden="true"></i> Mark as Received</a>' : '')
+                        + (<?= $branch_id ?> == 8 ? '<a class="dropdown-item small" href="#" id="decline"><i class="fa fa-times text-danger" aria-hidden="true"></i> Mark as Declined</a>' : '')
                         + '</div>').appendTo('body');
             menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
 

@@ -9,14 +9,16 @@ if (!isset($_SESSION['branch_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $branchid = $_SESSION['branch_id'];
-$tmpName = $_FILES['file']['tmp_name'];
-$fileName = $_FILES['file']['name'];
-$fileType = $_FILES['file']['type'];
-$fileSize = $_FILES['file']['size'];
+$frontTmp = $_FILES['file']['tmp_name'];
+$frontName = $_FILES['file']['name'];
+$frontType = $_FILES['file']['type'];
+$frontSize = $_FILES['file']['size'];
+$backTmp = $_FILES['file1']['tmp_name'];
+$backName = $_FILES['file1']['name'];
+$backType = $_FILES['file1']['type'];
+$backSize = $_FILES['file1']['size'];
 $uploadDir = 'ledger/';
 $currentDate = date('Y-m-d');
-$uploadFile = $uploadDir . $branchid . "_" . $fileName;
-
 function getNextQueueNo($conn) {
         $currentDate = date('Y-m-d');
         $query = "SELECT queueno FROM queueinfo WHERE date = '$currentDate' ORDER BY id DESC LIMIT 1";
@@ -34,6 +36,13 @@ function getNextQueueNo($conn) {
     }
 
 $queueno = getNextQueueNo($conn);
+$frontFile = $uploadDir . $branchid . $queueno . "_" . $frontName;
+if ($backName == "") {
+    $backFile = null;
+} else {
+    $backFile = $uploadDir . $branchid . $queueno . "_" . $backName;
+
+}
 $branch_id = $_SESSION['branch_id'];
 $type = mysqli_real_escape_string($conn, $_POST['type']);
 $clientname = mysqli_real_escape_string($conn, $_POST['clientname']);
@@ -47,17 +56,29 @@ $accinterest = mysqli_real_escape_string($conn, $_POST['accinterest']);
 $totalbalance = mysqli_real_escape_string($conn, $_POST['totalbalance']);
 $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
 
-if (move_uploaded_file($tmpName, $uploadFile)) {
-    $query = "INSERT INTO queueinfo (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, datereceived, attachname, remarks, date, status, stat, cashonhandstatus) 
-    VALUES ('$branch_id', '$queueno', '$type', '$clientname', '$loanamount', '$datereleased', '$maturitydate', '$remainingbalance', '$onhand', '$daterec', '$uploadFile', '$remarks', '$currentDate', 'IN QUEUE', 'ACTIVE', 'PENDING')";
-    mysqli_query($conn, $query);
-     echo json_encode(array('success' => true, 'message' => 'File uploaded successfully!'));
-    exit;
+if (empty($backFile)) {
+    if (move_uploaded_file($frontTmp, $frontFile)) {
+        $query = "INSERT INTO queueinfo (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, datereceived, front, back, remarks, date, status, stat, cashonhandstatus) 
+        VALUES ('$branch_id', '$queueno', '$type', '$clientname', '$loanamount', '$datereleased', '$maturitydate', '$remainingbalance', '$onhand', '$daterec', '$frontFile', '$backFile', '$remarks', '$currentDate', 'IN QUEUE', 'ACTIVE', 'PENDING')";
+        mysqli_query($conn, $query);
+         echo json_encode(array('success' => true, 'message' => 'File uploaded successfully!'));
+        exit;
+    } else {
+        echo json_encode(array('success' => false, 'message' => 'There was an error uploading the file.'));
+        exit;
+    }
 } else {
-    echo json_encode(array('success' => false, 'message' => 'There was an error uploading the file.'));
-    exit;
+    if (move_uploaded_file($frontTmp, $frontFile) && move_uploaded_file($backTmp, $backFile)) {
+        $query = "INSERT INTO queueinfo (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, datereceived, front, back, remarks, date, status, stat, cashonhandstatus) 
+        VALUES ('$branch_id', '$queueno', '$type', '$clientname', '$loanamount', '$datereleased', '$maturitydate', '$remainingbalance', '$onhand', '$daterec', '$frontFile', '$backFile', '$remarks', '$currentDate', 'IN QUEUE', 'ACTIVE', 'PENDING')";
+        mysqli_query($conn, $query);
+         echo json_encode(array('success' => true, 'message' => 'File uploaded successfully!'));
+        exit;
+    } else {
+        echo json_encode(array('success' => false, 'message' => 'There was an error uploading the file.'));
+        exit;
+    }
 }
-
 
 mysqli_close($conn);
 }

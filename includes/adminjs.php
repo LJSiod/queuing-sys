@@ -67,9 +67,10 @@ $(document).ready(function() {
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
                 showLoaderOnConfirm: true,
+                reverseButtons: true,
                 preConfirm: (note) => {
                   if (!note) {
-                    var note = "Receive Payment!";
+                    var note = "Received";
                   }
                   return $.ajax({
                     url: '../actions.php',
@@ -114,25 +115,39 @@ $(document).ready(function() {
                   id: "note-textarea1"
                 },
                 showCancelButton: true,
-                confirmButtonText: 'Confirm'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  var note = $("#note-textarea1").val();
-                  $.ajax({
+                confirmButtonText: 'Confirm',
+                showLoaderOnConfirm: true,
+                reverseButtons: true,
+                preConfirm: (note) => {
+                  if (!note) {
+                    var note = "Declined";
+                  }
+                  return $.ajax({
                     url: '../actions.php',
                     method: 'POST',
-                    data: {id: id, note: note, action: 'decline'},
-                    success: function() {
-                      Swal.fire({
-                        title: "Declined",
-                        text: "Payment Declined",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 1500
-                      }).then(function() {
-                        location.reload();
-                      });
+                    data: {id: id, note: note, action: 'decline'}
+                  }).then(response => {
+                    if (!response) {
+                      throw new Error(response);
                     }
+                    return response;
+                  }).catch(error => {
+                    Swal.showValidationMessage(
+                      `Request failed: ${error}`
+                    );
+                  });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire({
+                    title: "Declined",
+                    text: "Payment Declined",
+                    icon: "success",
+                    buttons: false,
+                    timer: 1500
+                  }).then(function() {
+                    location.reload();
                   });
                 }
               });
