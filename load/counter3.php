@@ -4,7 +4,7 @@ include '../config/db.php';
 date_default_timezone_set('Asia/Manila');
 
 if (!isset($_SESSION['branch_id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -30,6 +30,6 @@ if (mysqli_num_rows($result) > 0) {
         </tbody>
     <?php endwhile;
 } else {
-    echo '<tr style="pointer-events: none;"><td colspan="9" class="text-center font-weight-bold"><h5>No Queues</h5></td></tr>';
+    echo '<tr style="pointer-events: none;"><td colspan="9" class="text-center font-weight-bold"><h5>Counter Available</h5></td></tr>';
 }
 

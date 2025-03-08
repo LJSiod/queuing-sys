@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Manila');
 include '../config/db.php';
 
 if (!isset($_SESSION['branch_id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 

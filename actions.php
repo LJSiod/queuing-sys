@@ -12,6 +12,7 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_POST['id'];
 $action = $_POST['action'];
 $note = $_POST['note'];
+$counter = $_POST['counter'];
 $cashonhand = $_POST['cashonhand'];
 $password = $_POST['password'];
 $username = $_POST['username'];
@@ -54,6 +55,10 @@ switch ($action) {
     case 'note':
         $query = "UPDATE queueinfo SET note = '$note', cashonhand = '$cashonhand' WHERE id = $id";
         $log = $_SESSION['fullname'] . " updated " . $id . "'s note to: '" . $note . "'" . ", Cash on Hand: '" . $cashonhand . "'";
+        break;
+    case 'assign':
+        $query = "UPDATE branch SET userid = '$counter' WHERE id = $id";
+        $log = "Branch ID: " . $id . " was assigned to Counter #: " . $counter . " by " . $_SESSION['fullname'];
         break;
     default:
         echo "Invalid action";

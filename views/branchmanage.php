@@ -81,13 +81,16 @@ if (mysqli_num_rows($result) > 0) {
                 <div class="modal-body">
                     <div>
                         <select class="form-control form-control-sm" name="counters" id="counters">
-                            <option>Kim Sabalo</option>
-                            <option>Mae Demetais</option>
-                            <option>Belle Delos Santos</option>
+                            <option value="1">Kim Sabalo</option>
+                            <option value="3">Mae Demetais</option>
+                            <option value="4">Belle Delos Santos</option>
                         </select>
                     </div>
                 </div>
-                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="assignsubmit">Assign</button>
+                </div>
             </div>
         </div>
     </div>
@@ -131,6 +134,29 @@ if (mysqli_num_rows($result) > 0) {
                 
                 $('#assign').on('click', function() {
                     $('#dropdownModal').modal('show');
+                });
+                
+                $('#assignsubmit').on('click', function() {
+                $.ajax({
+                        url: '../actions.php',
+                        type: 'POST',
+                        data: {
+                            action: 'assign',
+                            id: id,
+                            counter: $('#counters').val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Counter Assigned!',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(function() {
+                                location.reload();
+                            });
+                        }
+                    });
                 });
             });
         });

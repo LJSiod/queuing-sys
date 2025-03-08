@@ -5,7 +5,7 @@ include '../includes/header.php';
 date_default_timezone_set('Asia/Manila');
 
 if (!isset($_SESSION['branch_id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
