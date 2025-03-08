@@ -78,6 +78,8 @@ $overalltotal = $_SESSION['overalltotal'];
           <a class="nav-link text-dark" href="noterecords.php"><i class="fa fa-clipboard text-success" aria-hidden="true"></i> <strong>Notes</strong></a>
         </li>
 
+
+        
         
         <?php if ($role == 'ADMINISTRATOR') { ?>
         <li class="nav-item">
