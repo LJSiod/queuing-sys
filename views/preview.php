@@ -82,6 +82,17 @@ if (mysqli_num_rows($result) > 0) {
             cursor: move;
         }
 
+        @media (max-width: 768px) {
+            .fileThumbnail {
+              width: 350px;
+              height: 200px;
+              max-width: 350px;
+              max-height: 200px;
+              margin-bottom: 10px;
+              border: 1px solid #e5e5e5;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -174,7 +185,7 @@ if (mysqli_num_rows($result) > 0) {
                 <div class="col-md">
                     <div class="form-group" id="images">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-sm">
                                 <label class="small form-control-label" for="front">Front Ledger <span class="text-danger small">  *Click image to preview</span></label>
                                 <?php if (strpos($row['front'], '.pdf') !== false) { ?>
                                   <div class="pdf-image" data-src="../<?php echo $row['front']; ?>"></div>
@@ -182,7 +193,7 @@ if (mysqli_num_rows($result) > 0) {
                                   <img class="form-control form-control-sm fileThumbnail mx-auto" src="../<?php echo $row['front']; ?>" alt="<?php echo $row['front']; ?>">
                                 <?php } ?>
                             </div>
-                            <div class="col">
+                            <div class="col-sm">
                                 <label class="small form-control-label" for="back">Back Ledger <span class="text-danger small">  *Click image to preview</span></label>
                                 <?php if (strpos($row['back'], '.pdf') !== false) { ?>
                                   <div class="pdf-image" data-src="../<?php echo $row['back']; ?>"></div>
