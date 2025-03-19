@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include '../config/db.php';
 include '../includes/header.php';
@@ -25,12 +25,14 @@ if (mysqli_num_rows($result) > 0) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet"
+        integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">
     <link href="../assets/css/styles.css" rel="stylesheet">
     <style>
         .br-pagebody {
@@ -49,12 +51,13 @@ if (mysqli_num_rows($result) > 0) {
         }
     </style>
 </head>
+
 <body>
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Branch Management</h5>    
+                    <h5>Branch Management</h5>
                     <table class="small table table-sm table-hover" id="manage">
                         <thead>
                             <tr>
@@ -69,7 +72,8 @@ if (mysqli_num_rows($result) > 0) {
         </div>
     </div>
 
-    <div class="modal fade" id="dropdownModal" tabindex="-1" role="dialog" aria-labelledby="dropdownModalLabel" aria-hidden="true">
+    <div class="modal fade" id="dropdownModal" tabindex="-1" role="dialog" aria-labelledby="dropdownModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,9 +102,11 @@ if (mysqli_num_rows($result) > 0) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/sc-2.4.3/datatables.min.js" integrity="sha384-1zOgQnerHMsipDKtinJHWvxGKD9pY4KrEMQ4zNgZ946DseuYh0asCewEBafsiuEt" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/sc-2.4.3/datatables.min.js"
+        integrity="sha384-1zOgQnerHMsipDKtinJHWvxGKD9pY4KrEMQ4zNgZ946DseuYh0asCewEBafsiuEt"
+        crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var table = $('#manage').DataTable({
                 layout: {
                     topStart: false,
@@ -117,27 +123,27 @@ if (mysqli_num_rows($result) > 0) {
                 scrollY: '60vh',
             });
 
-            $(document).on('click', function() {
+            $(document).on('click', function () {
                 $('#actiondropdown').remove();
             });
 
-            $(document).on('contextmenu', '#manage tbody tr', function(e) {
+            $(document).on('contextmenu', '#manage tbody tr', function (e) {
                 e.preventDefault();
                 $('#actiondropdown').remove();
 
                 var rowData = table.row($(this)).data();
-                var id = rowData.id; 
+                var id = rowData.id;
                 var menu = $('<div class="dropdown-menu" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
-                            + '<a class="dropdown-item small" id="assign" href="#"><i class="fa fa-user text-info" aria-hidden="true"></i> Assign Branch Handler</a>'
-                            + '</div>').appendTo('body');
-                menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
-                
-                $('#assign').on('click', function() {
+                    + '<a class="dropdown-item small" id="assign" href="#"><i class="fa fa-user text-info" aria-hidden="true"></i> Assign Branch Handler</a>'
+                    + '</div>').appendTo('body');
+                menu.css({ top: e.pageY + 'px', left: e.pageX + 'px' });
+
+                $('#assign').on('click', function () {
                     $('#dropdownModal').modal('show');
                 });
-                
-                $('#assignsubmit').on('click', function() {
-                $.ajax({
+
+                $('#assignsubmit').on('click', function () {
+                    $.ajax({
                         url: '../actions.php',
                         type: 'POST',
                         data: {
@@ -145,14 +151,14 @@ if (mysqli_num_rows($result) > 0) {
                             id: id,
                             counter: $('#counters').val()
                         },
-                        success: function(response) {
+                        success: function (response) {
                             Swal.fire({
                                 title: 'Success!',
                                 text: 'Counter Assigned!',
                                 icon: 'success',
                                 timer: 1500,
                                 showConfirmButton: false
-                            }).then(function() {
+                            }).then(function () {
                                 location.reload();
                             });
                         }
@@ -162,4 +168,5 @@ if (mysqli_num_rows($result) > 0) {
         });
     </script>
 </body>
+
 </html>

@@ -13,6 +13,7 @@ $currentdate = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,17 +22,16 @@ $currentdate = date('Y-m-d');
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo+Mono|Nunito+Sans">
     <link href="../assets/css/styles.css" rel="stylesheet">
     <style>
-
         .mt1 {
             margin-top: 50px;
         }
 
         .today {
-            background-color:rgb(152, 251, 152);
+            background-color: rgb(152, 251, 152);
         }
 
         .highlight {
-            color:rgb(0, 54, 249); 
+            color: rgb(0, 54, 249);
         }
 
         #max {
@@ -59,14 +59,14 @@ $currentdate = date('Y-m-d');
         }
 
         .fileThumbnail {
-          width: 100%;
-          height: 100%;
-          max-width: 70%;
-          max-height: 350px;
-          margin-bottom: 10px;
-          border: 1px solid #e5e5e5;
+            width: 100%;
+            height: 100%;
+            max-width: 70%;
+            max-height: 350px;
+            margin-bottom: 10px;
+            border: 1px solid #e5e5e5;
         }
-        
+
         .dragover {
             background-color: #ccc;
             cursor: move;
@@ -95,9 +95,9 @@ $currentdate = date('Y-m-d');
                 text-align: left !important;
             }
         }
-
     </style>
 </head>
+
 <body>
     <div class="br-pagebody">
         <div class="br-section-wrapper">
@@ -106,7 +106,8 @@ $currentdate = date('Y-m-d');
                 <div style="display: flex; align-items: center;" class="mb-2">
                     <div class="form-group form-inline mr-2">
                         <div class="form-check">
-                            <label class="form-check-label small font-weight-bold mr-1" for="selectall">Select All</label>
+                            <label class="form-check-label small font-weight-bold mr-1" for="selectall">Select
+                                All</label>
                             <input class="form-check-input" type="checkbox" id="selectall" checked>
                         </div>
                     </div>
@@ -128,7 +129,7 @@ $currentdate = date('Y-m-d');
                     </select>
                 </div> -->
             </div>
-            <table class="table table-hover table-sm" id="queue-table2"> 
+            <table class="table table-hover table-sm" id="queue-table2">
                 <?php include '../load/loaddetailed.php' ?>
             </table>
         </div>
@@ -139,11 +140,11 @@ $currentdate = date('Y-m-d');
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
-        $(document).on('contextmenu', function(e) {
+        $(document).on('contextmenu', function (e) {
             e.preventDefault();
         });
 
-        $('#selectall').on('click', function() {
+        $('#selectall').on('click', function () {
             if ($(this).is(':checked')) {
                 $('#startdate').prop('disabled', true);
                 $('#startdate').val(null);
@@ -158,7 +159,7 @@ $currentdate = date('Y-m-d');
             }
         });
 
-        $('#startdate, #enddate').on('change', function() {
+        $('#startdate, #enddate').on('change', function () {
             var startdate = $('#startdate').val();
             var enddate = $('#enddate').val();
             var betweenquery = "BETWEEN '" + startdate + "' AND '" + enddate + "'";
@@ -170,7 +171,7 @@ $currentdate = date('Y-m-d');
             e.preventDefault();
         })
 
-        $(document).on('click', '#queue-table2 thead th', function(e) {
+        $(document).on('click', '#queue-table2 thead th', function (e) {
             e.preventDefault();
             $('#actiondropdown').remove();
 
@@ -186,23 +187,24 @@ $currentdate = date('Y-m-d');
                 url: '../load/loaddetailed.php',
                 method: 'POST',
                 data: {
-                    betweenquery: betweenquery, 
+                    betweenquery: betweenquery,
                     sortby: sortby
                 },
-                success: function(response) {
+                success: function (response) {
                     $('#queue-table2').html(response);
                 }
             });
         }
     </script>
-    </body>
+</body>
+
 </html>
 
 
 
 
 
-    <!-- $('#view').on('change', function() {
+<!-- $('#view').on('change', function() {
         var value = $(this).val();
         $('#title').html(value);
         loadoverall(value);

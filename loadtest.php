@@ -11,8 +11,8 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
-$query = 
-"SELECT 
+$query =
+    "SELECT 
         qi.id, 
         qi.queueno, 
         qi.branchid, 
@@ -31,7 +31,7 @@ $query =
         LEFT JOIN branch b ON qi.branchid = b.id 
     WHERE 
         qi.stat = 'ACTIVE' ORDER BY qi.id DESC"
-        ;
+;
 $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
@@ -57,4 +57,3 @@ if (mysqli_num_rows($result) > 0) {
     echo json_encode(array('data' => array()));
 }
 ?>
-

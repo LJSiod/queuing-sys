@@ -8,16 +8,17 @@ if (!isset($_SESSION['branch_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-$tmpName = $_FILES['file']['tmp_name'];
-$fileName = $_FILES['file']['name'];
-$fileType = $_FILES['file']['type'];
-$fileSize = $_FILES['file']['size'];
+    $tmpName = $_FILES['file']['tmp_name'];
+    $fileName = $_FILES['file']['name'];
+    $fileType = $_FILES['file']['type'];
+    $fileSize = $_FILES['file']['size'];
 
-$uploadDir = 'ledger/';
-$currentDate = date('Y-m-d');
-$uploadFile = $uploadDir . $fileName;
+    $uploadDir = 'ledger/';
+    $currentDate = date('Y-m-d');
+    $uploadFile = $uploadDir . $fileName;
 
-function getNextQueueNo($conn) {
+    function getNextQueueNo($conn)
+    {
         $currentDate = date('Y-m-d');
         $query = "SELECT queueno FROM queueinfo WHERE date = '$currentDate' ORDER BY id DESC LIMIT 1";
         $result = mysqli_query($conn, $query);
@@ -29,39 +30,36 @@ function getNextQueueNo($conn) {
         } else {
             $nextQueueNo = '001';
         }
-      
+
         return $nextQueueNo;
     }
 
-$id = $_POST['id'];
-$queueno = getNextQueueNo($conn);
-$branch_id = $_SESSION['branch_id'];
-$type = mysqli_real_escape_string($conn, $_POST['type']);
-$clientname = mysqli_real_escape_string($conn, $_POST['clientname']);
-$loanamount = mysqli_real_escape_string($conn, $_POST['loanamount']);
-$datereleased = mysqli_real_escape_string($conn, $_POST['datereleased']);
-$maturitydate = mysqli_real_escape_string($conn, $_POST['maturitydate']);
-$remainingbalance = mysqli_real_escape_string($conn, $_POST['remainingbalance']);
-$onhand = mysqli_real_escape_string($conn, $_POST['onhand']);
-$contactno = mysqli_real_escape_string($conn, $_POST['contactno']);
-$accinterest = mysqli_real_escape_string($conn, $_POST['accinterest']);
-$totalbalance = mysqli_real_escape_string($conn, $_POST['totalbalance']);
-$remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+    $id = $_POST['id'];
+    $queueno = getNextQueueNo($conn);
+    $branch_id = $_SESSION['branch_id'];
+    $type = mysqli_real_escape_string($conn, $_POST['type']);
+    $clientname = mysqli_real_escape_string($conn, $_POST['clientname']);
+    $loanamount = mysqli_real_escape_string($conn, $_POST['loanamount']);
+    $datereleased = mysqli_real_escape_string($conn, $_POST['datereleased']);
+    $maturitydate = mysqli_real_escape_string($conn, $_POST['maturitydate']);
+    $remainingbalance = mysqli_real_escape_string($conn, $_POST['remainingbalance']);
+    $onhand = mysqli_real_escape_string($conn, $_POST['onhand']);
+    $contactno = mysqli_real_escape_string($conn, $_POST['contactno']);
+    $accinterest = mysqli_real_escape_string($conn, $_POST['accinterest']);
+    $totalbalance = mysqli_real_escape_string($conn, $_POST['totalbalance']);
+    $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
 
-if (move_uploaded_file($tmpName, $uploadFile)) {
-    $query = "UPDATE queueinfo SET (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, activenumber, attachname, remarks, date, status, stat, cashonhandstatus) 
+    if (move_uploaded_file($tmpName, $uploadFile)) {
+        $query = "UPDATE queueinfo SET (branchid, queueno, type, clientname, loanamount, datereleased, maturitydate, totalbalance, cashonhand, activenumber, attachname, remarks, date, status, stat, cashonhandstatus) 
     VALUES ('$branch_id', '$queueno', '$type', '$clientname', '$loanamount', '$datereleased', '$maturitydate', '$remainingbalance', '$onhand', '$contactno', '$uploadFile', '$remarks', '$currentDate', 'IN QUEUE', 'ACTIVE', 'PENDING') WHERE id = '$id'";
-    mysqli_query($conn, $query);
-     echo json_encode(array('success' => true, 'message' => 'File uploaded successfully!'));
-    exit;
-} else {
-    echo json_encode(array('success' => false, 'message' => 'There was an error uploading the file.'));
-    exit;
-}
+        mysqli_query($conn, $query);
+        echo json_encode(array('success' => true, 'message' => 'File uploaded successfully!'));
+    } else {
+        echo json_encode(array('success' => false, 'message' => 'There was an error uploading the file.'));
+    }
 
-
-mysqli_close($conn);
+    mysqli_close($conn);
+    exit();
 }
 
 ?>
-

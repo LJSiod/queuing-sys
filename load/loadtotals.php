@@ -3,7 +3,7 @@ session_start();
 include '../config/db.php';
 date_default_timezone_set('Asia/Manila');
 
-if (!isset($_SESSION['branch_id'])) {    
+if (!isset($_SESSION['branch_id'])) {
     header("Location: ../login.php");
     exit();
 }
@@ -32,7 +32,11 @@ $resultdaily = mysqli_query($conn, $querydaily);
 $rowdaily = mysqli_fetch_assoc($resultdaily);
 ?>
 
-<span class="small font-weight-bold">Amount Collected Overall:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($row['total'], 2); ?></span><br>
-<span class="small font-weight-bold">Amount Collected Daily:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($rowdaily['total'], 2); ?></span><br>
-<span class="small font-weight-bold">Total Accounts Overall:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($row['totalaccounts'], 0); ?></span><br>
-<span class="small font-weight-bold">Total Accounts Daily:</span><span class="font-weight-bold small" style="float:right;"><?php echo number_format($rowdaily['totalaccounts'], 0); ?></span>
+<span class="small font-weight-bold">Amount Collected Overall:</span><span class="font-weight-bold small"
+    style="float:right;"><?php echo number_format($row['total'], 2); ?></span><br>
+<span class="small font-weight-bold">Amount Collected Daily:</span><span class="font-weight-bold small"
+    style="float:right;"><?php echo number_format($rowdaily['total'], 2); ?></span><br>
+<span class="small font-weight-bold">Total Accounts Overall:</span><span class="font-weight-bold small"
+    style="float:right;"><?php echo number_format($row['totalaccounts'], 0); ?></span><br>
+<span class="small font-weight-bold">Total Accounts Daily:</span><span class="font-weight-bold small"
+    style="float:right;"><?php echo number_format($rowdaily['totalaccounts'], 0); ?></span>

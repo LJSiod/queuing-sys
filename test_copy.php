@@ -16,6 +16,7 @@ $currentdate = date('Y-m-d');
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,7 @@ $currentdate = date('Y-m-d');
             margin-right: auto;
             max-width: 1500px;
         }
-        
+
         .br-section-wrapper {
             background-color: #fff;
             padding: 20px;
@@ -40,8 +41,9 @@ $currentdate = date('Y-m-d');
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.21);
         }
     </style>
-    
+
 </head>
+
 <body>
     <div class="container-fluid mt-3">
         <div class="br-pagebody">
@@ -57,18 +59,18 @@ $currentdate = date('Y-m-d');
         Dropzone.autoDiscover = false;
 
         var myDropzone = new Dropzone("form.dropzone", {
-          url: "/upload", // specify the URL for file upload
-          method: "post",
-          maxFiles: 4,
-          maxFilesize: 5, // MB
-          acceptedFiles: ".pdf, .jpg, .jpeg, .png, .gif",
-          uploadMultiple: false,
-          autoProcessQueue: false,
-          parallelUploads: 1,
-          addRemoveLinks: true,
-          dictDefaultMessage: "Drop files here or click to upload",
+            url: "/upload", // specify the URL for file upload
+            method: "post",
+            maxFiles: 4,
+            maxFilesize: 5, // MB
+            acceptedFiles: ".pdf, .jpg, .jpeg, .png, .gif",
+            uploadMultiple: false,
+            autoProcessQueue: false,
+            parallelUploads: 1,
+            addRemoveLinks: true,
+            dictDefaultMessage: "Drop files here or click to upload",
         });
     </script>
 </body>
-</html>
 
+</html>

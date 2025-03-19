@@ -19,6 +19,7 @@ $result = mysqli_query($conn, $query);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,15 +55,16 @@ $result = mysqli_query($conn, $query);
             margin-bottom: 0px;
         }
     </style>
-    
+
 </head>
+
 <body>
 
-<div class="br-pagebody">
-    <div class="br-section-wrapper list">
-        <div class="d-flex justify-content-between">
-            <h5 class="font-weight-bold"><?php echo date('F j, Y', strtotime($date)); ?></h5>
-        </div>
+    <div class="br-pagebody">
+        <div class="br-section-wrapper list">
+            <div class="d-flex justify-content-between">
+                <h5 class="font-weight-bold"><?php echo date('F j, Y', strtotime($date)); ?></h5>
+            </div>
             <table class="table table-hover table-sm display responsive nowrap small">
                 <thead>
                     <tr>
@@ -76,48 +78,59 @@ $result = mysqli_query($conn, $query);
                     <?php
                     $result = mysqli_query($conn, $query);
                     while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
+                        ?>
                         <tr>
                             <td class="d-none"><?php echo $row['id']; ?></td>
-                            <td><p class="label">Branch: </p><?php echo strtoupper($row['branchname']); ?></td>
-                            <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
-                            <td><p class="label">Type: </p><?php echo strtoupper($row['type']); ?></td>
-                            <td class="text-right"><p class="label">Amount: </p><?php echo number_format($row['cashonhand'], 2); ?></td>
+                            <td>
+                                <p class="label">Branch: </p><?php echo strtoupper($row['branchname']); ?>
+                            </td>
+                            <td>
+                                <p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?>
+                            </td>
+                            <td>
+                                <p class="label">Type: </p><?php echo strtoupper($row['type']); ?>
+                            </td>
+                            <td class="text-right">
+                                <p class="label">Amount: </p><?php echo number_format($row['cashonhand'], 2); ?>
+                            </td>
                         </tr>
                     <?php } ?>
                     <tr style="pointer-events: none;">
                         <td class="font-weight-bold" colspan="3">Total</td>
-                        <td class="text-right font-weight-bold" colspan="2"><?php echo number_format($rowtotal['total'], 2); ?></td>
+                        <td class="text-right font-weight-bold" colspan="2">
+                            <?php echo number_format($rowtotal['total'], 2); ?>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="d-flex mt-1 justify-content-end">
+            <button type="button" class="btn btn-sm btn-danger mt-1" onclick="window.history.back();">Close</button>
+        </div>
     </div>
-    <div class="d-flex mt-1 justify-content-end">
-        <button type="button" class="btn btn-sm btn-danger mt-1" onclick="window.history.back();">Close</button>
-    </div>
-</div>
-<script>
-    $(document).ready(function() {
-    $(document).on('click',function(e) {
-        $('.removedrop').remove();
-    });
-    $(document).on('contextmenu',function(e) {
-        e.preventDefault();
-    });
-    $(document).on('contextmenu', 'tr', function(e) {
-        e.preventDefault();
-        $('.removedrop').remove();
-        var rowData = $(this).children('td').map(function() {
-            return $(this).text();
-        }).get();
-        console.log(rowData);
-        var id = rowData[0];
-        var menu = $('<div class="dropdown-menu removedrop" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', function (e) {
+                $('.removedrop').remove();
+            });
+            $(document).on('contextmenu', function (e) {
+                e.preventDefault();
+            });
+            $(document).on('contextmenu', 'tr', function (e) {
+                e.preventDefault();
+                $('.removedrop').remove();
+                var rowData = $(this).children('td').map(function () {
+                    return $(this).text();
+                }).get();
+                console.log(rowData);
+                var id = rowData[0];
+                var menu = $('<div class="dropdown-menu removedrop" id="actiondropdown" style="display:block; position:absolute; z-index:1000;">'
                     + '<a class="dropdown-item small" href="preview.php?id=' + id + '" id="preview"><i class="fa fa-eye text-info" aria-hidden="true"></i> Preview</a>'
                     + '</div>').appendTo('body');
-        menu.css({top: e.pageY + 'px', left: e.pageX + 'px'});
-    });
-});
-</script>
+                menu.css({ top: e.pageY + 'px', left: e.pageX + 'px' });
+            });
+        });
+    </script>
 </body>
+
 </html>

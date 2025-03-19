@@ -41,8 +41,8 @@ if ($backName == "") {
     $backFile = null;
 } else {
     $backFile = $uploadDir . $branchid . $queueno . "_" . $backName;
-
 }
+
 $branch_id = $_SESSION['branch_id'];
 $type = mysqli_real_escape_string($conn, $_POST['type']);
 $clientname = mysqli_real_escape_string($conn, $_POST['clientname']);
@@ -84,5 +84,6 @@ mysqli_close($conn);
 }
 
 ?>
+
 
 

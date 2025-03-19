@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config/db.php'; 
+include 'config/db.php';
 include 'logger.php';
 date_default_timezone_set('Asia/Manila');
 $_SESSION['version'] = '3.1.2';
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $checkcounter = "SELECT DISTINCT b.userid, u.fullname FROM branch b LEFT JOIN users u ON b.userid = u.id WHERE b.userid IS NOT NULL";
         $result = mysqli_query($conn, $checkcounter);
         $counters = array();
-            while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $counters[] = array('userid' => $row['userid'], 'fullname' => $row['fullname']);
         }
         $_SESSION['counterid'] = $counters;
@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login|Queueing System</title>
@@ -50,131 +51,129 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <style media="screen">
-      *,
-*:before,
-*:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
-    background-color: #080710;
-}
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
 
-.background{
-    width: 430px;
-    height: 520px;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
-}
+        body {
+            background-color: #080710;
+        }
 
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+        }
 
-.shape:first-child{
-    background: linear-gradient(
-        #8C2230,
-        #7C7C7C
-    );
-    left: -80px;
-    top: -80px;
-}
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
 
-.shape:last-child{
-    background: linear-gradient(
-        to right,
-        #7C7C7C,
-        #8C2230
-    );
-    right: -30px;
-    bottom: -80px;
-}
+        .shape:first-child {
+            background: linear-gradient(#8C2230,
+                    #7C7C7C);
+            left: -80px;
+            top: -80px;
+        }
 
-form{
-    height: 520px;
-    width: 400px;
-    background-color: rgba(255,255,255,0.13);
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
-}
+        .shape:last-child {
+            background: linear-gradient(to right,
+                    #7C7C7C,
+                    #8C2230);
+            right: -30px;
+            bottom: -80px;
+        }
 
-form *{
-    font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
-}
+        form {
+            height: 520px;
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+        }
 
-form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
-    letter-spacing: 2px;
-}
+        form * {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
 
-label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-}
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
 
-input{
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
+        label {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
 
-::placeholder{
-    color: #e5e5e5;
-}
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+        }
 
-button{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        ::placeholder {
+            color: #e5e5e5;
+        }
 
-button:hover{
-    background-color: #FFFFF0;
-}
+        button {
+            margin-top: 50px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-.error {
-    color: #ff512f;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 10px;
-}
+        button:hover {
+            background-color: #FFFFF0;
+        }
+
+        .error {
+            color: #ff512f;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
+
 <body>
     <div class="background">
         <div class="shape"></div>
@@ -194,17 +193,18 @@ button:hover{
             <span class="small">&copy; 2025 Queueing System</span>
         </div>
     </form>
-    
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script>
-            <?php if (isset($error)): ?>
-                swal({
-                    title: "Error",
-                    text: "<?php echo $error; ?>",
-                    icon: "error",
-                    button: "OK",
-                });
-            <?php endif; ?>
-        </script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        <?php if (isset($error)): ?>
+            swal({
+                title: "Error",
+                text: "<?php echo $error; ?>",
+                icon: "error",
+                button: "OK",
+            });
+        <?php endif; ?>
+    </script>
 </body>
+
 </html>
