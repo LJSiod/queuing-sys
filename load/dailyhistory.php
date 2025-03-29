@@ -4,8 +4,8 @@ date_default_timezone_set('Asia/Manila');
 include '../config/db.php';
 
 if (!isset($_SESSION['branch_id'])) {
-    header("Location: ../login.php");
-    exit();
+  header("Location: ../login.php");
+  exit();
 }
 
 $currentdate = date('Y-m-d');
@@ -38,30 +38,30 @@ $result = mysqli_query($conn, $query);
 
 
 if (mysqli_num_rows($result) > 0) {
-    $data = array();
-    // while ($row = mysqli_fetch_assoc($result)) {
-    //     $data[] = array(
-    //         'date' => $row['date'],
-    //         'dateformatted' => $row['date'] == $currentdate ? 'Today' : date('M d, Y', strtotime($row['date'])),
-    //         'totalperday' => number_format($row['totalperday'], 2),
-    //         'paidperday' => $row['totalaccts']
-    //     );
-    // }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $data[] = array(
-            'date' => $row['date'],
-            'dateformatted' => $row['date'] == $currentdate ? 'Today' : date('M d, Y', strtotime($row['date'])),
-            'totaltas' => $row['totaltas'],
-            'tas_pn' => $row['tas_pn'],
-            'tas_dl' => $row['tas_dl'],
-            'tas_bs' => $row['tas_bs'],
-            'totalac' => number_format($row['totalac'], 2),
-            'ac_pn' => number_format($row['ac_pn'], 2),
-            'ac_dl' => number_format($row['ac_dl'], 2),
-            'ac_bs' => number_format($row['ac_bs'], 2),
-        );
-    }
-    echo json_encode(array('data' => $data));
+  $data = array();
+  // while ($row = mysqli_fetch_assoc($result)) {
+  //     $data[] = array(
+  //         'date' => $row['date'],
+  //         'dateformatted' => $row['date'] == $currentdate ? 'Today' : date('M d, Y', strtotime($row['date'])),
+  //         'totalperday' => number_format($row['totalperday'], 2),
+  //         'paidperday' => $row['totalaccts']
+  //     );
+  // }
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = array(
+      'date' => $row['date'],
+      'dateformatted' => $row['date'] == $currentdate ? 'Today' : date('M d, Y', strtotime($row['date'])),
+      'totaltas' => $row['totaltas'],
+      'tas_pn' => $row['tas_pn'],
+      'tas_dl' => $row['tas_dl'],
+      'tas_bs' => $row['tas_bs'],
+      'totalac' => number_format($row['totalac'], 2),
+      'ac_pn' => number_format($row['ac_pn'], 2),
+      'ac_dl' => number_format($row['ac_dl'], 2),
+      'ac_bs' => number_format($row['ac_bs'], 2),
+    );
+  }
+  echo json_encode(array('data' => $data));
 } else {
-    echo json_encode(array('data' => array()));
+  echo json_encode(array('data' => array()));
 }

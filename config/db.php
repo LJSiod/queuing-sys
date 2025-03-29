@@ -1,6 +1,6 @@
 <?php
 
-$servername = "192.168.0.73";
+$servername = "192.168.0.74";
 $username = "root";
 $password = "admin1234";
 $dbname = "queuedb";

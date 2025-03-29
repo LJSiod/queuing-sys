@@ -20,30 +20,46 @@ if ($role == 'ADMINISTRATOR') {
 
 $result = mysqli_query($conn, $query);
 if (mysqli_num_rows($result) > 0) {
-while ($row = mysqli_fetch_assoc($result)): ?>
-    <?php
-    $date = date('Y-m-d', strtotime($row['date']));
-    if ($date != $currentdate) {
-        $bg = 'text-danger';
-    } else {
-        $bg = '';
-    }
-    ?>
-    <tr style="cursor: pointer;" class="<?php echo $bg; ?>">
-        <td class="d-none"><?php echo $row['id']; ?></td>
-        <td class="d-none"><?php echo $id; ?></td>
-        <td class="d-none"><?php echo $row['branchid']; ?></td>
-        <td class="d-none"><?php echo $row['queueno']; ?></td>
-        <td><strong><p class="label">Queue no.: </p><?php echo $row['queueno']; ?></strong></td>
-        <td><strong><p class="label">Branch: </p><?php echo $row['branchname']; ?></strong></td>
-        <td><p class="label">Type: </p><?php echo $row['type']; ?></td>
-        <td><p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?></td>
-        <td><p class="label">Loan Amount: </p><?php echo number_format($row['loanamount'], 2, '.', ','); ?></td>
-        <td><p class="label">Total Balance: </p><?php echo number_format($row['totalbalance'], 2, '.', ','); ?></td>
-        <td><p class="label">Date Letter Received: </p><?php echo date('F j, Y', strtotime($row['datereceived'])); ?></td>
-        <td><p class="label">Date: </p><?php echo date('F j, Y', strtotime($row['date'])); ?></td>  
-    </tr>
-<?php endwhile;
-} else { 
-    echo '<tr style="pointer-events: none;"><td colspan="9" class="font-weight-bold">No Queues.</td></tr>'; 
+    while ($row = mysqli_fetch_assoc($result)): ?>
+        <?php
+        $date = date('Y-m-d', strtotime($row['date']));
+        if ($date != $currentdate) {
+            $bg = 'text-danger';
+        } else {
+            $bg = '';
+        }
+        ?>
+        <tr style="cursor: pointer;" class="<?php echo $bg; ?>">
+            <td class="d-none"><?php echo $row['id']; ?></td>
+            <td class="d-none"><?php echo $id; ?></td>
+            <td class="d-none"><?php echo $row['branchid']; ?></td>
+            <td class="d-none"><?php echo $row['queueno']; ?></td>
+            <td><strong>
+                    <p class="label">Queue no.: </p><?php echo $row['queueno']; ?>
+                </strong></td>
+            <td><strong>
+                    <p class="label">Branch: </p><?php echo $row['branchname']; ?>
+                </strong></td>
+            <td>
+                <p class="label">Type: </p><?php echo $row['type']; ?>
+            </td>
+            <td>
+                <p class="label">Client Name: </p><?php echo strtoupper($row['clientname']); ?>
+            </td>
+            <td>
+                <p class="label">Loan Amount: </p><?php echo number_format($row['loanamount'], 2, '.', ','); ?>
+            </td>
+            <td>
+                <p class="label">Total Balance: </p><?php echo number_format($row['totalbalance'], 2, '.', ','); ?>
+            </td>
+            <td>
+                <p class="label">Date Letter Received: </p><?php echo date('F j, Y', strtotime($row['datereceived'])); ?>
+            </td>
+            <td>
+                <p class="label">Date: </p><?php echo date('F j, Y', strtotime($row['date'])); ?>
+            </td>
+        </tr>
+    <?php endwhile;
+} else {
+    echo '<tr style="pointer-events: none;"><td colspan="9" class="font-weight-bold">No Queues.</td></tr>';
 } ?>

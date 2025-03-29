@@ -11,8 +11,8 @@ if (!isset($_SESSION['branch_id'])) {
 $id = $_SESSION['user_id'];
 $branch_id = $_SESSION['branch_id'];
 $currentdate = date('Y-m-d');
-$query = 
-"SELECT 
+$query =
+    "SELECT 
     qi.id, 
     qi.queueno, 
     qi.branchid, 
@@ -40,11 +40,11 @@ if (mysqli_num_rows($result) > 0) {
             'clientname' => '<span class="label">Client Name: </span>' . strtoupper($row['clientname']),
             'remarks' => '<span class="label">Remarks: </span>' . $row['remarks'],
             'note' => '<span class="label">Note: </span>' . $row['note'],
-            'cashonhandstatus' => '<span class="label">Status: </span>' . 
-                ($row['cashonhandstatus'] == 'RECEIVED' ? '<span class="text-success">RECEIVED</span>' : 
-                ($row['cashonhandstatus'] == 'PENDING' ? '<span class="text-warning">PENDING</span>' : '<span class="text-danger">DECLINED</span>')),
+            'cashonhandstatus' => '<span class="label">Status: </span>' .
+                ($row['cashonhandstatus'] == 'RECEIVED' ? '<span class="text-success">RECEIVED</span>' :
+                    ($row['cashonhandstatus'] == 'PENDING' ? '<span class="text-warning">PENDING</span>' : '<span class="text-danger">DECLINED</span>')),
             'status' => $row['status'],
-            'date' =>'<span class="label">Date: </span>' . date('Y-m-d', strtotime($row['date'])),
+            'date' => '<span class="label">Date: </span>' . date('Y-m-d', strtotime($row['date'])),
         );
     }
     echo json_encode(array('data' => $data));

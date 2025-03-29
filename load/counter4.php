@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) > 0) {
         <thead>
 
         </thead>
-        <tbody> 
+        <tbody>
             <tr>
                 <td class="d-none"><?php echo $row['id']; ?></td>
                 <td class="d-none"><?php echo $row['servedby']; ?></td>
